@@ -1,11 +1,14 @@
-# Very short description of the package
+# LaraLens
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/hi-folks/lara-lens.svg?style=flat-square)](https://packagist.org/packages/hi-folks/lara-lens)
-[![Build Status](https://img.shields.io/travis/hi-folks/lara-lens/master.svg?style=flat-square)](https://travis-ci.org/hi-folks/lara-lens)
-[![Quality Score](https://img.shields.io/scrutinizer/g/hi-folks/lara-lens.svg?style=flat-square)](https://scrutinizer-ci.com/g/hi-folks/lara-lens)
+![PHP Composer](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
+
 [![Total Downloads](https://img.shields.io/packagist/dt/hi-folks/lara-lens.svg?style=flat-square)](https://packagist.org/packages/hi-folks/lara-lens)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+## Why
+When I have a new Laravel Application deployed on the target server, usually I perform a list of commands in order to check the configuration, the connetion to database, inspect some tables, the response of the web server.
+I tried to list these commands in 1 command.
+This is useful also when the installation of your Laravel application is on premises and some one else take care about configuration. So in this scenario usually, as developer your first question is: "how is configured the application?".
 
 ## Installation
 
@@ -17,8 +20,8 @@ composer require hi-folks/lara-lens
 
 ## Usage
 
-``` php
-// Usage description here
+```bash
+php artisan laralens:diagnostic
 ```
 
 ### Testing
