@@ -1,6 +1,6 @@
 {
     "name": "hi-folks/lara-lens",
-    "version": "0.0.1-dev",
+
     "description": "Laravel Diagnostic command for configuration, db connection, http request",
     "keywords": [
         "hi-folks",
