@@ -5,6 +5,13 @@
 
 [![Total Downloads](https://img.shields.io/packagist/dt/hi-folks/lara-lens.svg?style=flat-square)](https://packagist.org/packages/hi-folks/lara-lens)
 
+## What
+LaraLens is a command to show you the up and running configuration of your  appliocation. It lists:
+* Some configuration used by application
+* The connection with Database
+* The status of a table in the database
+* The connection with the URL application via HTTP
+
 ## Why
 When I have a new Laravel Application deployed on the target server, usually I perform a list of commands in order to check the configuration, the connetion to database, inspect some tables, the response of the web server.
 I tried to list these commands in 1 command.
