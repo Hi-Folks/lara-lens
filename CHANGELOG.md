@@ -2,6 +2,10 @@
 
 All notable changes to `lara-lens` will be documented in this file
 
-## 1.0.0 - 201X-XX-XX
+## 0.1.0 - 2020-05-21
 
-- initial release
+* :tada: initial release
+* Add laralens:diagnostic artisan command (Laraval)
+* Check config parameter like app.url, app.locale, app.url and database.*
+* Check the http connection with app.url defined in base configuration
+* Check the connection with DB and counts the row for a specific table (users by default)
