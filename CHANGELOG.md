@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2 - 2020-05-22
+
+### Add
+
+* Add new argument as input (it is optional):
+    - overview: you can see configuration, http connection, db connection etc
+    - allconfigs: you can see verbose configuration from Laravel application. Try to use 'php artisan laralens:diagnostic allconfigs' in your laravel application. You will see the dump of all configuration parameters in json format
+
 ## 0.1.1 - 2020-05-22
 
 ### Add
