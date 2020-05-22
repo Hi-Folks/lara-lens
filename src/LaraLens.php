@@ -64,6 +64,28 @@ class LaraLens
         return $results;
     }
 
+    public function getRuntimeConfigs()
+    {
+        $results = new ResultLens();
+        $results->add(
+            "App::getLocale()",
+            App::getLocale()
+        );
+        $results->add(
+            "App::environment()",
+            App::environment()
+        );
+        $results->add(
+            "Generated url for / ",
+            url("/")
+        );
+        $results->add(
+            "Generated asset url for /test.js ",
+            asset("/test.js")
+        );
+
+        return $results;
+    }
     public function getConfigs()
     {
         $results = new ResultLens();
@@ -90,10 +112,6 @@ class LaraLens
                 config($value)
             );
         }
-        $results->add(
-            "App::getLocale()",
-            App::getLocale()
-        );
         return $results;
     }
 }

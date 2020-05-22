@@ -18,6 +18,10 @@ class LaraLensCommand extends Command
         $ll = new LaraLens();
         $output = $ll->getConfigs();
         $this->table(["Configs", "Values"], $output->toArray());
+        $output = $ll->getRuntimeConfigs();
+        $this->table(["Runtime Configs", "Values"], $output->toArray());
+
+
         $output = $ll->getConnections();
         $this->table(["Connections", "Values"], $output->toArray());
         $output = $ll->getDatabase("users");
