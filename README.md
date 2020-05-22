@@ -45,19 +45,18 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-### Security
+### Submit ideas or feature requests or issues
 
-If you discover any security related issues, please email roberto.butti@gmail.com instead of using the issue tracker.
+* Take a look if your request is already there [https://github.com/Hi-Folks/lara-lens/issues](https://github.com/Hi-Folks/lara-lens/issues)
+* If it is not present, you can create a new one [https://github.com/Hi-Folks/lara-lens/issues/new](https://github.com/Hi-Folks/lara-lens/issues/new)
+
 
 ## Credits
 
 - [Roberto Butti](https://github.com/hi-folks)
 - [All Contributors](../../contributors)
+- [Laravel Package Boilerplate](https://laravelpackageboilerplate.com)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).
