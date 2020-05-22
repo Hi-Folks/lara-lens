@@ -10,11 +10,11 @@ class LaraLensCommand extends Command
 {
     protected $signature = 'laralens:diagnostic';
 
-    protected $description = 'Show some application configuation.';
+    protected $description = 'Show some application configruation.';
 
     public function handle()
     {
-        $this->info("Start");
+        //$this->info("Start");
         $ll = new LaraLens();
         $output = $ll->getConfigs();
         $this->table(["Configs", "Values"], $output->toArray());
@@ -26,6 +26,8 @@ class LaraLensCommand extends Command
         $this->table(["Connections", "Values"], $output->toArray());
         $output = $ll->getDatabase("users");
         $this->table(["Database", "Values"], $output->toArray());
+
+        $this->call('migrate:status');
 
     }
 }

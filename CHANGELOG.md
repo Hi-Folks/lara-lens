@@ -1,15 +1,14 @@
 # Changelog
 
-All notable changes to `lara-lens` will be documented in this file
-
-## 0.1.1 - WIP
+## 0.1.1 - 2020-05-22
 
 ### Add
+
 * Add runtime config:
     * App::getLocale()
     * App::environment())
     * Generated url via asset() and url() helpers
-
+* Invoke migrate:status
 
 ## 0.1.0 - 2020-05-21
 
