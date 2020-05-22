@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class LaraLens
 {
-    // Build your next great package.
     public function getCredits()
     {
         $results = new ResultLens();
@@ -104,7 +103,6 @@ class LaraLens
             "database.connections." . config("database.default") . ".host",
             "database.connections." . config("database.default") . ".username",
             "database.connections." . config("database.default") . ".database"
-
         ];
         foreach ($configKeys as $key => $value) {
             $results->add(
