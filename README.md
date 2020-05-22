@@ -1,9 +1,12 @@
 # LaraLens
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/hi-folks/lara-lens.svg?style=flat-square)](https://packagist.org/packages/hi-folks/lara-lens)
-![PHP Composer](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
 
-[![Total Downloads](https://img.shields.io/packagist/dt/hi-folks/lara-lens.svg?style=flat-square)](https://packagist.org/packages/hi-folks/lara-lens)
+![CICD Github Actions](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/hi-folks/lara-lens)
+![GitHub Release Date](https://img.shields.io/github/release-date/hi-folks/lara-lens)
+![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hi-folks/lara-lens)
+
+
 
 ## What
 LaraLens is a command to show you the up and running configuration of your  appliocation. It lists:
