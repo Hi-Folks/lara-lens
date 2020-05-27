@@ -34,6 +34,21 @@ composer require hi-folks/lara-lens
 php artisan laralens:diagnostic
 ```
 
+New in 0.1.3, you can see Database diagnostic and you can define the table to check ,and the column used for the sorting:
+```sh
+php artisan laralens:diagnostic --table=migrations --column-sort=id
+```
+To take the last **created** user:
+```
+php artisan laralens:diagnostic --table=users --column-sort=created_at
+```
+To take the last **updated** user:
+```
+php artisan laralens:diagnostic --table=users --column-sort=updated_at
+```
+
+
+
 ### Testing
 
 ``` bash

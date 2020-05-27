@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.3 - 2020-05-27
+
+### Add
+
+* detect DB connection type
+* get tables for mysql
+* get tables for sqlite
+* count and retrieve last row from a table. Table and column name are as input parameters
+* test database diagnostics
+* update readme for documentation
+
+
 ## 0.1.2 - 2020-05-22
 
 ### Add
