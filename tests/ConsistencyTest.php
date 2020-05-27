@@ -32,6 +32,16 @@ class ConsistencyTest extends TestCase
         $this->assertIsArray($a->toArray());
         $this->assertEquals(4, count($a->toArray()));
     }
+    /** @test */
+    public function test_database_array()
+    {
+        $l = new LaraLens();
+        $a = $l->getDatabase();
+        $this->assertIsArray($a->toArray());
+        $this->assertGreaterThanOrEqual(5, count($a->toArray()));
+        $this->assertLessThanOrEqual(6, count($a->toArray()));
+
+    }
 
     /*
     public function test_connection_array()

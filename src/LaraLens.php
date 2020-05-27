@@ -2,8 +2,10 @@
 
 namespace HiFolks\LaraLens;
 use App;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Schema\Builder;
 
 
 class LaraLens
@@ -34,16 +36,71 @@ class LaraLens
         return $results;
     }
 
-    public function getDatabase($checkTable="users")
+
+    public function getTablesListMysql()
+    {
+        $tables = DB::select('SHOW TABLES');
+        $stringTables = "";
+        foreach ($tables as $table) {
+            foreach ($table as $key => $value) {
+                $stringTables = $stringTables . $value . ";";
+            }
+        }
+        return $stringTables;
+    }
+    public function getTablesListSqlite()
+    {
+        $tables = DB::table('sqlite_master')
+            ->select('name')
+            ->where('type', 'table')
+            ->orderBy('name')
+            ->pluck('name')->toArray();
+        $stringTables = implode(",", $tables);
+        return $stringTables;
+
+    }
+
+
+
+    public function getDatabase($checkTable="users", $columnSorting = "created_at")
     {
         $results = new ResultLens();
         $results->add(
-            "Config",
+            "Database type",
             config("database.default")
         );
-        $checkcount = DB::table($checkTable)
-            ->select(DB::raw('*'))
-            ->count();
+        $connectionType= DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        $results->add(
+            "Database connection type",
+            $connectionType
+        );
+        $stringTables="";
+        switch ($connectionType) {
+            case 'mysql':
+                $stringTables= $this->getTablesListMysql();
+                break;
+            case 'sqlite':
+                $stringTables = $this->getTablesListSqlite();
+                break;
+
+            default:
+                $stringTables = "<<skipped ". $connectionType.">>";
+                break;
+        }
+        $results->add(
+            "Tables",
+            $stringTables
+        );
+
+        $checkountMessage= "";
+        try {
+            $checkcount = DB::table($checkTable)
+                ->select(DB::raw('*'))
+                ->count();
+        } catch (\Exception $e){
+            $checkcount = 0;
+            $checkountMessage= " - error with ".$checkTable." table";
+        }
 
         $results->add(
             "Query Table",
@@ -51,14 +108,23 @@ class LaraLens
         );
         $results->add(
             "Number of rows",
-            $checkcount
+            $checkcount . $checkountMessage
         );
         if ($checkcount > 0) {
-            $latest = DB::table($checkTable)->latest()->first();
-            $results->add(
-                "LAST row in table",
-                json_encode($latest)
-            );
+            try {
+
+                $latest = DB::table($checkTable)->latest($columnSorting)->first();
+                $results->add(
+                    "LAST row in table",
+                    json_encode($latest)
+                );
+            } catch (QueryException $e) {
+                $results->add(
+                    "LAST row in table",
+                    "Failed query, table <".$checkTable."> column <".$columnSorting.">"
+                );
+            }
+
         }
         return $results;
     }
