@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4 - 2020-05-28
+
+### Fix
+
+* Catch HTTP connection exception
+
 ## 0.1.3 - 2020-05-27
 
 ### Add

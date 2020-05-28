@@ -24,15 +24,25 @@ class LaraLens
     {
         $results = new ResultLens();
         $url = config("app.url");
-        $response = Http::get($url);
         $results->add(
             "Connected to URL",
             $url
         );
-        $results->add(
-            "Connection HTTP Status",
-            $response->status()
-        );
+
+        try {
+            $response = Http::get($url);
+            $results->add(
+                "Connection HTTP Status",
+                $response->status()
+            );
+
+        } catch (\Exception $e){
+            $results->add(
+                "Connection HTTP Status",
+                "Connection Error: " . $e->getMessage()
+            );
+        }
+
         return $results;
     }
 
