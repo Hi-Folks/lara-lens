@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.5 - 2020-05-29
+
+### Improve
+
+* managing a better output
+* extracting long message from tables
+* settings width for columns tables
+
+
 ## 0.1.4 - 2020-05-28
 
 ### Fix
