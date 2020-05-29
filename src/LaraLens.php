@@ -182,7 +182,7 @@ class LaraLens
         ];
         foreach ($configKeys as $key => $value) {
             $results->add(
-                "Config key ".$value,
+                "".$value,
                 config($value)
             );
         }
