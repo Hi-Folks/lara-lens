@@ -1,13 +1,5 @@
 # LaraLens
 
-
-![CICD Github Actions](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/hi-folks/lara-lens)
-![GitHub Release Date](https://img.shields.io/github/release-date/hi-folks/lara-lens)
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hi-folks/lara-lens)
-
-
-
 ## What
 **LaraLens** is a _Laravel_ artisan command to show you the current configuration of your
 application. It is useful to show in your terminal the status of:
