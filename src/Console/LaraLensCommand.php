@@ -72,10 +72,14 @@ class LaraLensCommand extends Command
         }
         /*
          * table style:
-         * 'default' 'borderless' 'compact' 'symfony-style-guide' 'box' 'box-double'
+         * 'default'
+         * 'borderless'
+         * 'compact'
+         * 'symfony-style-guide'
+         * 'box'
+         * 'box-double'
          */
-
-        $this->table($headers, $rowsTable,"default");
+        $this->table($headers, $rowsTable,"box-double");
         foreach ($rowsLine as $key =>$line)
         {
             $this->info($line["label"].":");
