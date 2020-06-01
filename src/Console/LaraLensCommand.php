@@ -15,7 +15,7 @@ class LaraLensCommand extends Command
                             {op=overview : What you want to see, overview or allconfigs}
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
-                            {--skip-connection : skip the connection testing}
+                            {--show=*all : show (all|config|runtime|connection|database|migration)}
                             {--width-label='.self::DEFAULT_WIDTH.' : width of column for label}
                             {--width-value='.self::DEFAULT_WIDTH.' : width of column for value}
                             ';
@@ -25,6 +25,14 @@ class LaraLensCommand extends Command
     private const DEFAULT_WIDTH=36;
     protected $widthLabel=self::DEFAULT_WIDTH;
     protected $widthValue=self::DEFAULT_WIDTH;
+
+    public const OPTION_SHOW_NONE= 0b0000000;
+    public const OPTION_SHOW_CONFIGS= 0b0000001;
+    public const OPTION_SHOW_RUNTIMECONFIGS= 0b00000010;
+    public const OPTION_SHOW_CONNECTIONS= 0b00000100;
+    public const OPTION_SHOW_DATABASE= 0b00001000;
+    public const OPTION_SHOW_MIGRATION= 0b00010000;
+    public const OPTION_SHOW_ALL = 0b00011111;
 
     private function allConfigs()
     {
@@ -88,31 +96,57 @@ class LaraLensCommand extends Command
         }
     }
 
-    private function overview($checkTable = "users", $columnSorting = "created_at")
+    private function overview($checkTable = "users", $columnSorting = "created_at", $show= self::OPTION_SHOW_ALL)
     {
         $ll = new LaraLens();
-        $output = $ll->getConfigs();
-        $this->print_output(["Config key via config()", "Values"], $output->toArray());
-        $output = $ll->getRuntimeConfigs();
-        $this->print_output(["Runtime Configs", "Values"], $output->toArray());
-        $output = $ll->getConnections();
-        $this->print_output(["Connections", "Values"], $output->toArray());
-        $output = $ll->getDatabase($checkTable, $columnSorting);
-        $this->print_output(["Database", "Values"], $output->toArray());
-        $this->call('migrate:status');
+        if ($show & self::OPTION_SHOW_CONFIGS)
+        {
+            $output = $ll->getConfigs();
+            $this->print_output(["Config key via config()", "Values"], $output->toArray());
+        }
+        if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
+            $output = $ll->getRuntimeConfigs();
+            $this->print_output(["Runtime Configs", "Values"], $output->toArray());
+        }
+        if ($show & self::OPTION_SHOW_CONNECTIONS) {
+            $output = $ll->getConnections();
+            $this->print_output(["Connections", "Values"], $output->toArray());
+        }
+        if ($show & self::OPTION_SHOW_DATABASE) {
+            $output = $ll->getDatabase($checkTable, $columnSorting);
+            $this->print_output(["Database", "Values"], $output->toArray());
+        }
+        if ($show & self::OPTION_SHOW_MIGRATION) {
+            $this->call('migrate:status');
+        }
     }
+
+
 
     public function handle()
     {
         $op = $this->argument("op");
         $checkTable = $this->option("table");
         $columnSorting = $this->option("column-sort");
-        $skipConnection= $this->option("skip-connection");
+        $showOptions= $this->option("show");
+        if (is_array($showOptions)) {
+            if (count($showOptions) >0) {
+                $show = self::OPTION_SHOW_NONE;
+                $show = (in_array("all", $showOptions)) ? $show | self::OPTION_SHOW_ALL : $show ;
+                $show = (in_array("config", $showOptions)) ? $show | self::OPTION_SHOW_CONFIGS : $show ;
+                $show = (in_array("runtime", $showOptions)) ? $show | self::OPTION_SHOW_RUNTIMECONFIGS : $show ;
+                $show = (in_array("connection", $showOptions)) ? $show | self::OPTION_SHOW_CONNECTIONS : $show ;
+                $show = (in_array("database", $showOptions)) ? $show | self::OPTION_SHOW_DATABASE : $show ;
+                $show = (in_array("migration", $showOptions)) ? $show | self::OPTION_SHOW_MIGRATION : $show ;
+            } else {
+                $show = self::OPTION_SHOW_ALL;
+            }
+        }
         $this->widthLabel= $this->option("width-label");
         $this->widthValue= $this->option("width-value");
         switch ($op) {
             case 'overview':
-                $this->overview($checkTable, $columnSorting);
+                $this->overview($checkTable, $columnSorting, $show);
                 break;
             case 'allconfigs':
                 $this->allConfigs();

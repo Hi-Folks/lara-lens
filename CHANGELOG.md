@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 - 2020-06-01
+
+### Add
+
+* Add show option --show (all|config|runtime|connection|database|migration)
+
 ## 0.1.5 - 2020-05-29
 
 ### Improve

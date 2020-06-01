@@ -38,6 +38,7 @@ https://packagist.org/packages/hi-folks/lara-lens
 php artisan laralens:diagnostic
 ```
 
+### Usage: control database connection
 You can see Database Connection information, and you can choose the table to check, and the column used for the "order by" (default created_at):
 ```sh
 php artisan laralens:diagnostic --table=migrations --column-sort=id
@@ -50,6 +51,29 @@ To take the last **updated** user:
 ```
 php artisan laralens:diagnostic --table=users --column-sort=updated_at
 ```
+
+### Usage: control the output
+You can control the output via the _show_ option. You can define:
+
+* config
+* connection
+* database
+* runtime
+* migration
+* all
+The defalut for _--show_ option is _all_.
+
+
+```sh
+php artisan laralens:diagnostic --show=config --show=connection --show=database --show=runtime --show=migration
+```
+
+If you want to see only database information:
+
+```sh
+php artisan laralens:diagnostic --show=database
+```
+
 
 ### Testing
 
