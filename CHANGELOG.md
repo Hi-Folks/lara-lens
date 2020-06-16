@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.7 - 2020-06-16
+
+### Add
+
+Database connection:
+* connection name
+* getQueryGrammar
+* getDriverName
+* getDatabaseName
+* getTablePrefix
+* database server version
+
+Runtime configuration:
+* Laravel version
+* PHP version
+
 ## 0.1.6 - 2020-06-01
 
 ### Add

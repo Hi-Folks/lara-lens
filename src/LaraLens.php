@@ -75,17 +75,52 @@ class LaraLens
 
     public function getDatabase($checkTable="users", $columnSorting = "created_at")
     {
+
+        $dbconnection = DB::connection();
+
         $results = new ResultLens();
         $results->add(
-            "Database type",
+            "Database default",
             config("database.default")
         );
-        $grammar= DB::connection()->getQueryGrammar();
+        $connectionName= $dbconnection->getName();
+        $results->add(
+            "Connection name",
+            $connectionName
+        );
+        $grammar= $dbconnection->getQueryGrammar();
         $results->add(
             "Query Grammar",
             Str::afterLast(get_class($grammar), '\\')
         );
-        $connectionType= DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        $driverName= $dbconnection->getDriverName();
+        $results->add(
+            "Driver name",
+            $driverName
+        );
+        $databaseName= $dbconnection->getDatabaseName();
+        $results->add(
+            "Database name",
+            $databaseName
+        );
+        $tablePrefix= $dbconnection->getTablePrefix();
+        $results->add(
+            "Table prefix",
+            $tablePrefix
+        );
+
+
+
+        //$serverVersion= $dbconnection->getConfig('server_version');
+
+        $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        $results->add(
+            "Server version",
+            $serverVersion
+        );
+
+
+        $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
         $results->add(
             "Database connection type",
             $connectionType
@@ -148,6 +183,16 @@ class LaraLens
     public function getRuntimeConfigs()
     {
         $results = new ResultLens();
+
+        $results->add(
+            "Laravel Version",
+            App::VERSION()
+        );
+        $results->add(
+            "PHP Version",
+            phpversion()
+        );
+
         $results->add(
             "App::getLocale()",
             App::getLocale()
