@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Str;
 
 
 class LaraLens
@@ -78,6 +79,11 @@ class LaraLens
         $results->add(
             "Database type",
             config("database.default")
+        );
+        $grammar= DB::connection()->getQueryGrammar();
+        $results->add(
+            "Query Grammar",
+            Str::afterLast(get_class($grammar), '\\')
         );
         $connectionType= DB::connection()->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
         $results->add(
