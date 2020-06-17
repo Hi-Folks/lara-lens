@@ -12,7 +12,7 @@ use Symfony\Component\Console\Helper\TableStyle;
 class LaraLensCommand extends Command
 {
     protected $signature = 'laralens:diagnostic
-                            {op=overview : What you want to see, overview or allconfigs}
+                            {op=overview : What you want to see, overview or allconfigs (overview|allconfigs)}
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
                             {--show=*all : show (all|config|runtime|connection|database|migration)}
