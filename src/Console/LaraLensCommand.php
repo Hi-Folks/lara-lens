@@ -11,6 +11,10 @@ use Symfony\Component\Console\Helper\TableStyle;
 
 class LaraLensCommand extends Command
 {
+
+    private const TABLE_STYLES ='default|borderless|compact|symfony-style-guide|box|box-double';
+    private const DEFAULT_STYLE='box-double';
+    protected $styleTable=self::DEFAULT_STYLE;
     protected $signature = 'laralens:diagnostic
                             {op=overview : What you want to see, overview or allconfigs (overview|allconfigs)}
                             {--table=users : name of the table, default users}
@@ -18,6 +22,7 @@ class LaraLensCommand extends Command
                             {--show=*all : show (all|config|runtime|connection|database|migration)}
                             {--width-label='.self::DEFAULT_WIDTH.' : width of column for label}
                             {--width-value='.self::DEFAULT_WIDTH.' : width of column for value}
+                            {--style='.self::DEFAULT_STYLE.' : style of the output table ('.self::TABLE_STYLES.')}
                             ';
 
     protected $description = 'Show some application configurations.';
@@ -87,7 +92,7 @@ class LaraLensCommand extends Command
          * 'box'
          * 'box-double'
          */
-        $this->table($headers, $rowsTable,"box-double");
+        $this->table($headers, $rowsTable,$this->styleTable);
         foreach ($rowsLine as $key =>$line)
         {
             $this->info($line["label"].":");
@@ -127,6 +132,12 @@ class LaraLensCommand extends Command
     {
         $op = $this->argument("op");
         $checkTable = $this->option("table");
+        $styleTable = $this->option("style");
+        if (in_array($styleTable, explode("|", self::TABLE_STYLES))) {
+            $this->styleTable = $styleTable;
+        } else {
+            $this->styleTable = self::DEFAULT_STYLE;
+        }
         $columnSorting = $this->option("column-sort");
         $showOptions= $this->option("show");
         if (is_array($showOptions)) {
