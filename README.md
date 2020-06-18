@@ -74,6 +74,20 @@ If you want to see only database information:
 ```sh
 php artisan laralens:diagnostic --show=database
 ```
+### Usage: change the style of output table
+You can choose one of these styles via *--style=* option:
+
+* default
+* borderless
+* compact
+* symfony-style-guide
+* box
+* box-double
+
+For example:
+```sh
+php artisan laralens:diagnostic --style=borderless
+```
 
 
 ### Testing
