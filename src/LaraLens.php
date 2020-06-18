@@ -180,6 +180,17 @@ class LaraLens
         return $results;
     }
 
+    private function appCaller($results, $functions) {
+
+        foreach ($functions as $function) {
+            $results->add(
+                "App::".$function."()",
+                call_user_func("App::".$function)
+            );
+        }
+
+    }
+
     public function getRuntimeConfigs()
     {
         $results = new ResultLens();
@@ -193,14 +204,16 @@ class LaraLens
             phpversion()
         );
 
-        $results->add(
-            "App::getLocale()",
-            App::getLocale()
+        $this->appCaller($results,
+            [
+                "getLocale",
+                "environment",
+                "environmentPath",
+                "environmentFile",
+                "environmentFilePath"
+            ]
         );
-        $results->add(
-            "App::environment()",
-            App::environment()
-        );
+
         $results->add(
             "Generated url for / ",
             url("/")
@@ -212,6 +225,7 @@ class LaraLens
 
         return $results;
     }
+
     public function getConfigs()
     {
         $results = new ResultLens();

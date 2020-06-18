@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.8 - 2020-06-18
+
+## Add
+
+:nail_care: Style output table via --style option. You can choose one of these styles (box-double is the default used by LaraLens):
+* default
+* borderless
+* compact
+* symfony-style-guide
+* box
+* box-double
+
+:eyeglasses: Runtime config:
+* environmentPath
+* environmentFile
+* environmentFilePath
+
+## Change
+
+* Refactor for App::"function"()
+* update tests
+* update readme
+* update help (-h)
+
 ## 0.1.7 - 2020-06-16
 
 ### Add

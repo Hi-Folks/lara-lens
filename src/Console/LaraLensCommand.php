@@ -61,14 +61,6 @@ class LaraLensCommand extends Command
 
     private function print_output(array $headers, array $rows)
     {
-        /*
-            'default' => new TableStyle(),
-            'borderless' => $borderless,
-            'compact' => $compact,
-            'symfony-style-guide' => $styleGuide,
-            'box' => $box,
-            'box-double' => $boxDouble,
-        */
         $rowsTable = [];
         $rowsLine = [];
         foreach ($rows as $key => $row)
