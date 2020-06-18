@@ -1,8 +1,25 @@
 # Changelog
 
+## 0.1.9 - WIP
+
+### Add
+
+New runtime config about some paths:
+
+* "langPath" =>"Path to the language files",
+* "publicPath" =>" Path to the public / web directory",
+* "storagePath" => "Storage directory",
+* "resourcePath" =>"Resources directory",
+* "getCachedServicesPath" => "Path to the cached services.php",
+* "getCachedPackagesPath" => "Path to the cached packages.php",
+* "getCachedConfigPath" => "Path to the configuration cache",
+* "getCachedRoutesPath" => "Path to the routes cache",
+* "getCachedEventsPath" => "Path to the events cache file",
+* "getNamespace" => "Application namespace"
+
 ## 0.1.8 - 2020-06-18
 
-## Add
+### Add
 
 :nail_care: Style output table via --style option. You can choose one of these styles (box-double is the default used by LaraLens):
 * default
@@ -17,7 +34,7 @@
 * environmentFile
 * environmentFilePath
 
-## Change
+### Change
 
 * Refactor for App::"function"()
 * update tests

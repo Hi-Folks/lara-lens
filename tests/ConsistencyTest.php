@@ -30,7 +30,7 @@ class ConsistencyTest extends TestCase
         $l = new LaraLens();
         $a = $l->getRuntimeConfigs();
         $this->assertIsArray($a->toArray());
-        $this->assertEquals(9, count($a->toArray()));
+        $this->assertEquals(20, count($a->toArray()));
     }
     /** @test */
     public function test_database_array()

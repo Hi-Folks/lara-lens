@@ -182,10 +182,18 @@ class LaraLens
 
     private function appCaller($results, $functions) {
 
-        foreach ($functions as $function) {
+        $curDir = getcwd();
+        foreach ($functions as $function => $label) {
+            $value =call_user_func("App::".$function);
+            if (Str::length($curDir) > 3) {
+                if (Str::startsWith( $value,$curDir )) {
+                    $value = ".".Str::after($value, $curDir);
+                }
+            }
             $results->add(
-                "App::".$function."()",
-                call_user_func("App::".$function)
+                //"App::".$function."()",
+                $label,
+                $value
             );
         }
 
@@ -195,23 +203,36 @@ class LaraLens
     {
         $results = new ResultLens();
 
-        $results->add(
-            "Laravel Version",
-            App::VERSION()
-        );
+
         $results->add(
             "PHP Version",
             phpversion()
         );
+        $results->add(
+            "Current Directory",
+            getcwd()
+        );
 
         $this->appCaller($results,
             [
-                "getLocale",
-                "environment",
-                "environmentPath",
-                "environmentFile",
-                "environmentFilePath"
+                "getLocale"=>"Locale",
+                "environment"=>"Environment",
+                "environmentPath"=>"Environment file directory",
+                "environmentFile"=>"Environment file used",
+                "environmentFilePath" =>"Full path to the environment file",
+                "version"=> "Laravel Version",
+                "langPath" =>"Path to the language files",
+                "publicPath" =>" Path to the public / web directory",
+                "storagePath" => "Storage directory",
+                "resourcePath" =>"Resources directory",
+                "getCachedServicesPath" => "Path to the cached services.php",
+                "getCachedPackagesPath" => "Path to the cached packages.php",
+                "getCachedConfigPath" => "Path to the configuration cache",
+                "getCachedRoutesPath" => "Path to the routes cache",
+                "getCachedEventsPath" => "Path to the events cache file",
+                "getNamespace" => "Application namespace"
             ]
+
         );
 
         $results->add(
