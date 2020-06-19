@@ -215,22 +215,23 @@ class LaraLens
 
         $this->appCaller($results,
             [
+                "version"=> "Laravel Version",
                 "getLocale"=>"Locale",
+                "getNamespace" => "Application namespace",
                 "environment"=>"Environment",
                 "environmentPath"=>"Environment file directory",
                 "environmentFile"=>"Environment file used",
                 "environmentFilePath" =>"Full path to the environment file",
-                "version"=> "Laravel Version",
                 "langPath" =>"Path to the language files",
-                "publicPath" =>" Path to the public / web directory",
+                "publicPath" =>"Path to the public / web directory",
                 "storagePath" => "Storage directory",
                 "resourcePath" =>"Resources directory",
                 "getCachedServicesPath" => "Path to the cached services.php",
                 "getCachedPackagesPath" => "Path to the cached packages.php",
                 "getCachedConfigPath" => "Path to the configuration cache",
                 "getCachedRoutesPath" => "Path to the routes cache",
-                "getCachedEventsPath" => "Path to the events cache file",
-                "getNamespace" => "Application namespace"
+                "getCachedEventsPath" => "Path to the events cache file"
+
             ]
 
         );
