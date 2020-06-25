@@ -73,6 +73,7 @@ class LaraLens
 
 
 
+
     public function getDatabase($checkTable="users", $columnSorting = "created_at")
     {
 
@@ -196,6 +197,39 @@ class LaraLens
                 $value
             );
         }
+
+    }
+
+    public static function printBool(bool $b) {
+        return $b ? "Yes": "No";
+    }
+
+    public function checkFiles()
+    {
+        $results = new ResultLens();
+        $results->add(
+            "Check .env exists",
+            self::printBool(file_exists(App::environmentFilePath()))
+        );
+        $results->add(
+            "Check Languages directory",
+            self::printBool(is_dir(App::langPath()))
+        );
+
+        $langArray = scandir(App::langPath());
+        $languages = "";
+        if ($langArray) {
+            $languages = implode(", ",array_diff($langArray, array('..', '.')));
+        } else {
+            $languages = "No language found";
+        }
+        $results->add(
+            "List Languages directory",
+            $languages
+        );
+
+
+        return $results;
 
     }
 

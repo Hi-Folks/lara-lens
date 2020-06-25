@@ -105,6 +105,12 @@ class LaraLensCommand extends Command
             $output = $ll->getRuntimeConfigs();
             $this->print_output(["Runtime Configs", "Values"], $output->toArray());
         }
+        if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
+            $output = $ll->checkFiles();
+            $this->print_output(["Check files", "Values"], $output->toArray());
+        }
+
+
         if ($show & self::OPTION_SHOW_CONNECTIONS) {
             $output = $ll->getConnections();
             $this->print_output(["Connections", "Values"], $output->toArray());
