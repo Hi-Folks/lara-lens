@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.10 - 2020-06-25
+
+## Add
+New function for check files.
+- check .env file
+- check language storage
+- list languages available
+
 ## 0.1.9 - 2020-06-18
 
 ### Add
