@@ -3,10 +3,13 @@
 namespace HiFolks\LaraLens;
 use App;
 use Illuminate\Database\QueryException;
+
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Schema\Builder;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
+use Illuminate\Translation\Translator;
 
 
 class LaraLens
@@ -211,15 +214,21 @@ class LaraLens
             "Check .env exists",
             self::printBool(file_exists(App::environmentFilePath()))
         );
+
         $results->add(
             "Check Languages directory",
             self::printBool(is_dir(App::langPath()))
         );
-
         $langArray = scandir(App::langPath());
         $languages = "";
         if ($langArray) {
-            $languages = implode(", ",array_diff($langArray, array('..', '.')));
+            $s = app('translator');
+            $langNamespaces = $s->getLoader()->namespaces();
+
+            $languages = implode(", ",array_diff($langArray, array_merge(array('..', '.'), $langNamespaces)));
+            if (is_array($langNamespaces && sizeof($langNamespaces)>0)) {
+                $languages = $languages."; Namesapces:".implode("," , $langNamespaces);
+            }
         } else {
             $languages = "No language found";
         }
