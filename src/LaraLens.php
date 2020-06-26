@@ -222,13 +222,13 @@ class LaraLens
         $langArray = scandir(App::langPath());
         $languages = "";
         if ($langArray) {
-            $s = app('translator');
-            $langNamespaces = $s->getLoader()->namespaces();
+            //$s = app('translator');
+            //$langNamespaces = $s->getLoader()->namespaces();
 
-            $languages = implode(", ",array_diff($langArray, array_merge(array('..', '.'), $langNamespaces)));
-            if (is_array($langNamespaces && sizeof($langNamespaces)>0)) {
-                $languages = $languages."; Namesapces:".implode("," , $langNamespaces);
-            }
+            $languages = implode(",", array_diff($langArray, array('..', '.', 'vendor')));
+            //if (is_array($langNamespaces && sizeof($langNamespaces)>0)) {
+            //    $languages = $languages."; Namespaces:".implode("," , $langNamespaces);
+            //}
         } else {
             $languages = "No language found";
         }
