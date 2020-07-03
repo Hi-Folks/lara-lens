@@ -17,6 +17,9 @@ application. It is useful to show in your terminal the status of:
 * the tables in the database;
 * the connection via HTTP request.
 
+![LaraLens - diagnostic package for Laravel](https://dev-to-uploads.s3.amazonaws.com/i/h8r18mt4fhe0w1a6cke4.gif)
+
+
 ## Why
 When I have a new Laravel Application deployed on the target server, usually I perform a list of commands in order to check the configuration, the connection to database, inspect some tables, the response of the web server.
 I tried to show more information in just one command.

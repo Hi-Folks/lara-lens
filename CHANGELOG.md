@@ -1,8 +1,15 @@
 # Changelog
 
+## 0.1.11 - WIP
+
+### Add
+
+### Change
+- Cleaning list of languages (vendor)
+
 ## 0.1.10 - 2020-06-25
 
-## Add
+### Add
 New function for check files.
 - check .env file
 - check language storage
