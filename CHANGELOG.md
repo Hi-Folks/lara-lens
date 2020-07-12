@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.1.11 - WIP
+## 0.1.11 - 2020-07-12
 
 ### Add
 
 ### Change
-- Cleaning list of languages (vendor)
+- Improved list of languages;
+- Update readme
 
 ## 0.1.10 - 2020-06-25
 
