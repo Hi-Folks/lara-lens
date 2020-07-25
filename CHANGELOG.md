@@ -3,7 +3,7 @@
 ## 0.1.12 - 2020-07-25
 
 ### Add
-- When some check goes wrong, now it is displayed some hints.
+- When a check is not working properly, some hints are now displayed.
 - Add hints for database connection
 - Add hints for HTTP connections
 
