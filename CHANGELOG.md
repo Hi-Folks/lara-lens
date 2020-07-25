@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.12 - 2020-07-25
+
+### Add
+- When some check goes wrong, now it is displayed some hints.
+- Add hints for database connection
+- Add hints for HTTP connections
+
 ## 0.1.11 - 2020-07-12
 
 ### Add
