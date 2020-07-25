@@ -3,6 +3,7 @@
 namespace HiFolks\LaraLens\Console;
 
 use HiFolks\LaraLens\LaraLens;
+use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
 use HiFolks\LaraLens\LaraLensServiceProvider;
 use Illuminate\Support\Arr;
@@ -65,14 +66,17 @@ class LaraLensCommand extends Command
         $rowsLine = [];
         foreach ($rows as $key => $row)
         {
-            if (strlen($row["value"]) > $this->widthValue) {
+            $label = Arr::get($row, "label", "");
+            $value = Arr::get($row, "value", "");
+            $isLine = Arr::get($row, "isLine", false);
+            $isError = Arr::get($row, "isError", false);
+            if (strlen($value) > $this->widthValue || $isLine || $isError ) {
                 $rowsLine[] = $row;
             } else {
-                $label = Arr::get($row, "label", "");
-                $value = Arr::get($row, "value", "");
                 $row["label"] = $this->formatCell($label, $this->widthLabel);
                 $row["value"] = $this->formatCell($value, $this->widthValue);
-                $rowsTable[] = $row;
+                $rowsTable[] = [ $row["label"], $row["value"]   ];
+
             }
         }
         /*
@@ -87,8 +91,18 @@ class LaraLensCommand extends Command
         $this->table($headers, $rowsTable,$this->styleTable);
         foreach ($rowsLine as $key =>$line)
         {
-            $this->info($line["label"].":");
-            $this->line($line["value"]);
+            $label = Arr::get($line, "label", "");
+            $value = Arr::get($line, "value", "");
+            $isError = Arr::get($line, "isError", false);
+            if ($label != "") {
+                $this->info($label.":");
+            }
+            if ($isError) {
+                $this->error($value);
+            } else {
+                $this->line($value);
+            }
+            //$this->line($line["value"]);
             //$this->info($line);
         }
     }
@@ -118,9 +132,17 @@ class LaraLensCommand extends Command
         if ($show & self::OPTION_SHOW_DATABASE) {
             $output = $ll->getDatabase($checkTable, $columnSorting);
             $this->print_output(["Database", "Values"], $output->toArray());
+
         }
         if ($show & self::OPTION_SHOW_MIGRATION) {
-            $this->call('migrate:status');
+            try {
+                $this->call('migrate:status');
+            } catch (\Exception $e) {
+                $this->info("Check migrations: ");
+                $this->error($e->getMessage());
+
+            }
+
         }
     }
 
