@@ -29,7 +29,7 @@ class LaraLens
         $results = new ResultLens();
         $url = config("app.url");
         $results->add(
-            "Connected to URL",
+            "Connect to URL",
             $url
         );
 
@@ -41,12 +41,12 @@ class LaraLens
             );
 
         } catch (\Exception $e){
-            $results->add(
+            $results->addErrorAndHint(
                 "Connection HTTP Status",
-                "Connection Error: " . $e->getMessage()
+                "Connection Error: " . $e->getMessage(),
+                "Check this URL: " . $url . " in .env file APP_URL"
             );
         }
-
         return $results;
     }
 
@@ -80,9 +80,23 @@ class LaraLens
     public function getDatabase($checkTable="users", $columnSorting = "created_at")
     {
 
-        $dbconnection = DB::connection();
-
         $results = new ResultLens();
+
+        try {
+            $dbconnection = DB::connection();
+        } catch (\Exception $e) {
+            $results->addErrorAndHint(
+                "Error Database connection",
+                "- ".$e->getCode()." - ". $e->getMessage(),
+                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+            );
+            $results = $this->getConfigsDatabase($results);
+            $results = $this->getConfigsDatabaseFromEnv($results);
+            return $results;
+        }
+
+
+
         $results->add(
             "Database default",
             config("database.default")
@@ -117,11 +131,22 @@ class LaraLens
 
         //$serverVersion= $dbconnection->getConfig('server_version');
 
-        $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
-        $results->add(
-            "Server version",
-            $serverVersion
-        );
+        try {
+            $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+            $results->add(
+                "Server version",
+                $serverVersion
+            );
+        } catch (\PDOException $e) {
+            $results->addErrorAndHint(
+                "Error DB",
+                $e->getMessage(),
+                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+            );
+            $results = $this->getConfigsDatabase($results);
+            $results = $this->getConfigsDatabaseFromEnv($results);
+            return $results;
+        }
 
 
         $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
@@ -291,18 +316,34 @@ class LaraLens
         return $results;
     }
 
-    public function getConfigs()
-    {
-        $results = new ResultLens();
-        $results->add(
-            "Running diagnostic",
-            date('Y-m-d H:i:s')
-        );
+
+    public function getConfigsDatabaseFromEnv(ResultLens $results = null) {
+        if (is_null($results)) {
+            $results = new ResultLens();
+        }
         $configKeys=[
-            "app.timezone",
-            "app.locale",
-            "app.name",
-            "app.url",
+            "DB_HOST",
+            "DB_DATABASE",
+            "DB_USERNAME",
+            "DB_CONNECTION",
+            "DB_PORT"
+        ];
+        foreach ($configKeys as $key => $value) {
+            $results->add(
+                ".env ".$value,
+                env($value)
+            );
+        }
+        return $results;
+
+    }
+
+    public function getConfigsDatabase(ResultLens $results = null) {
+        if (is_null($results)) {
+            $results = new ResultLens();
+        }
+
+        $configKeys=[
             "database.default",
             "database.connections.".config("database.default").".driver",
             "database.connections." . config("database.default") . ".url",
@@ -316,6 +357,31 @@ class LaraLens
                 config($value)
             );
         }
+        return $results;
+
+    }
+    public function getConfigs()
+    {
+        $results = new ResultLens();
+        $results->add(
+            "Running diagnostic",
+            date('Y-m-d H:i:s')
+        );
+        $configKeys=[
+            "app.timezone",
+            "app.locale",
+            "app.name",
+            "app.url",
+        ];
+        foreach ($configKeys as $key => $value) {
+            $results->add(
+                "".$value,
+                config($value)
+            );
+        }
+        $results = $this->getConfigsDatabase($results);
+
+
         return $results;
     }
 }

@@ -20,12 +20,29 @@ class ResultLens
         $this->idx = -1;
 
     }
-    public function add($label, $value)
+
+    public function addError($label, $value) {
+        $this->add($label, $value, true, true);
+    }
+
+
+    public function addHint($value) {
+        $this->add("*** HINT", $value, true, false);
+    }
+    public function addErrorAndHint($label, $errorMessage, $hintMessage) {
+        $this->addError($label, $errorMessage);
+        $this->addHint($hintMessage);
+    }
+
+    public function add($label, $value, $forceLine = false, $isError = false)
     {
         $this->result->push(
             [
                 "label"=> $label,
-                "value" => $value
+                "value" => $value,
+                "isLine" => $forceLine,
+                "isError" => $isError,
+
             ]
         );
         $this->idx++;
