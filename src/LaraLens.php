@@ -180,6 +180,11 @@ class LaraLens
         } catch (\Exception $e){
             $checkcount = 0;
             $checkountMessage= " - error with ".$checkTable." table";
+            $results->addErrorAndHint(
+                "Table Error",
+                "Failed query, table <".$checkTable."> ",
+                "Make sure that table <".$checkTable."> exists, available tables : ".(($stringTables == "") ? "Not tables found": $stringTables)
+            );
         }
 
         $results->add(
@@ -199,9 +204,10 @@ class LaraLens
                     json_encode($latest)
                 );
             } catch (QueryException $e) {
-                $results->add(
-                    "LAST row in table",
-                    "Failed query, table <".$checkTable."> column <".$columnSorting.">"
+                $results->addErrorAndHint(
+                    "Table Error",
+                    "Failed query, table <".$checkTable."> column <".$columnSorting.">",
+                    "Make sure that table <".$checkTable."> column <".$columnSorting."> exists"
                 );
             }
 
