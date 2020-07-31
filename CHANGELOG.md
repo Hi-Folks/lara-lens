@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.13 - 2020-07-31
+
+### Add
+- Add hints for database tables (table exists, column exists)
+### Change
+- Fix typo in banner.  ( close #6 )
+- updated tests
+
+
 ## 0.1.12 - 2020-07-25
 
 ### Add
