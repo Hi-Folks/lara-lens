@@ -14,6 +14,14 @@ use Illuminate\Translation\Translator;
 
 class LaraLens
 {
+
+    public $checksBag;
+
+    public function __construct()
+    {
+        $this->checksBag = new ResultLens();
+    }
+
     public function getCredits()
     {
         $results = new ResultLens();
@@ -39,9 +47,22 @@ class LaraLens
                 "Connection HTTP Status",
                 $response->status()
             );
+            if ($response->failed()) {
+                $this->checksBag->addWarningAndHint(
+                    "Connection HTTP Status",
+                    "Connection response not 20x, status code: " . $response->status(),
+                    "Check this URL: " . $url . " in .env file APP_URL"
+                );
+
+            }
+
 
         } catch (\Exception $e){
-            $results->addErrorAndHint(
+            $results->add(
+                "Connection HTTP Status",
+                "Error connection"
+            );
+            $this->checksBag->addErrorAndHint(
                 "Connection HTTP Status",
                 "Connection Error: " . $e->getMessage(),
                 "Check this URL: " . $url . " in .env file APP_URL"
@@ -85,14 +106,15 @@ class LaraLens
         try {
             $dbconnection = DB::connection();
         } catch (\Exception $e) {
-            $results->addErrorAndHint(
+            $dbconnection = false;
+            $this->checksBag->addErrorAndHint(
                 "Error Database connection",
                 "- ".$e->getCode()." - ". $e->getMessage(),
                 "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
             );
-            $results = $this->getConfigsDatabase($results);
-            $results = $this->getConfigsDatabaseFromEnv($results);
-            return $results;
+            //$results = $this->getConfigsDatabase($results);
+            //$results = $this->getConfigsDatabaseFromEnv($results);
+            //return $results;
         }
 
 
@@ -101,117 +123,119 @@ class LaraLens
             "Database default",
             config("database.default")
         );
-        $connectionName= $dbconnection->getName();
-        $results->add(
-            "Connection name",
-            $connectionName
-        );
-        $grammar= $dbconnection->getQueryGrammar();
-        $results->add(
-            "Query Grammar",
-            Str::afterLast(get_class($grammar), '\\')
-        );
-        $driverName= $dbconnection->getDriverName();
-        $results->add(
-            "Driver name",
-            $driverName
-        );
-        $databaseName= $dbconnection->getDatabaseName();
-        $results->add(
-            "Database name",
-            $databaseName
-        );
-        $tablePrefix= $dbconnection->getTablePrefix();
-        $results->add(
-            "Table prefix",
-            $tablePrefix
-        );
-
-
-
-        //$serverVersion= $dbconnection->getConfig('server_version');
-
-        try {
-            $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        if ($dbconnection) {
+            $connectionName= $dbconnection->getName();
             $results->add(
-                "Server version",
-                $serverVersion
+                "Connection name",
+                $connectionName
             );
-        } catch (\PDOException $e) {
-            $results->addErrorAndHint(
-                "Error DB",
-                $e->getMessage(),
-                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+            $grammar= $dbconnection->getQueryGrammar();
+            $results->add(
+                "Query Grammar",
+                Str::afterLast(get_class($grammar), '\\')
             );
-            $results = $this->getConfigsDatabase($results);
-            $results = $this->getConfigsDatabaseFromEnv($results);
-            return $results;
-        }
-
-
-        $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
-        $results->add(
-            "Database connection type",
-            $connectionType
-        );
-        $stringTables="";
-        switch ($connectionType) {
-            case 'mysql':
-                $stringTables= $this->getTablesListMysql();
-                break;
-            case 'sqlite':
-                $stringTables = $this->getTablesListSqlite();
-                break;
-
-            default:
-                $stringTables = "<<skipped ". $connectionType.">>";
-                break;
-        }
-        $results->add(
-            "Tables",
-            $stringTables
-        );
-
-        $checkountMessage= "";
-        try {
-            $checkcount = DB::table($checkTable)
-                ->select(DB::raw('*'))
-                ->count();
-        } catch (\Exception $e){
-            $checkcount = 0;
-            $checkountMessage= " - error with ".$checkTable." table";
-            $results->addErrorAndHint(
-                "Table Error",
-                "Failed query, table <".$checkTable."> ",
-                "Make sure that table <".$checkTable."> exists, available tables : ".(($stringTables == "") ? "Not tables found": $stringTables)
+            $driverName= $dbconnection->getDriverName();
+            $results->add(
+                "Driver name",
+                $driverName
             );
-        }
-
-        $results->add(
-            "Query Table",
-            $checkTable
-        );
-        $results->add(
-            "Number of rows",
-            $checkcount . $checkountMessage
-        );
-        if ($checkcount > 0) {
+            $databaseName= $dbconnection->getDatabaseName();
+            $results->add(
+                "Database name",
+                $databaseName
+            );
+            $tablePrefix= $dbconnection->getTablePrefix();
+            $results->add(
+                "Table prefix",
+                $tablePrefix
+            );
             try {
-
-                $latest = DB::table($checkTable)->latest($columnSorting)->first();
+                $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
                 $results->add(
-                    "LAST row in table",
-                    json_encode($latest)
+                    "Server version",
+                    $serverVersion
                 );
-            } catch (QueryException $e) {
+            } catch (\PDOException $e) {
+                $results->addErrorAndHint(
+                    "Error DB",
+                    $e->getMessage(),
+                    "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+            );
+                $results = $this->getConfigsDatabase($results);
+                $results = $this->getConfigsDatabaseFromEnv($results);
+                return $results;
+            }
+
+
+            $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $results->add(
+                "Database connection type",
+                $connectionType
+            );
+            $stringTables="";
+            switch ($connectionType) {
+                case 'mysql':
+                    $stringTables= $this->getTablesListMysql();
+                    break;
+                case 'sqlite':
+                    $stringTables = $this->getTablesListSqlite();
+                    break;
+
+                default:
+                    $stringTables = "<<skipped ". $connectionType.">>";
+                    break;
+            }
+            $results->add(
+                "Tables",
+                $stringTables
+            );
+
+            $checkountMessage= "";
+            try {
+                $checkcount = DB::table($checkTable)
+                    ->select(DB::raw('*'))
+                    ->count();
+            } catch (\Exception $e){
+                $checkcount = 0;
+                $checkountMessage= " - error with ".$checkTable." table";
                 $results->addErrorAndHint(
                     "Table Error",
-                    "Failed query, table <".$checkTable."> column <".$columnSorting.">",
-                    "Make sure that table <".$checkTable."> column <".$columnSorting."> exists"
+                    "Failed query, table <".$checkTable."> ",
+                    "Make sure that table <".$checkTable."> exists, available tables : ".(($stringTables == "") ? "Not tables found": $stringTables)
                 );
             }
 
+            $results->add(
+                "Query Table",
+                $checkTable
+            );
+            $results->add(
+                "Number of rows",
+                $checkcount . $checkountMessage
+            );
+            if ($checkcount > 0) {
+                try {
+
+                    $latest = DB::table($checkTable)->latest($columnSorting)->first();
+                    $results->add(
+                        "LAST row in table",
+                        json_encode($latest)
+                    );
+                } catch (QueryException $e) {
+                    $results->addErrorAndHint(
+                        "Table Error",
+                        "Failed query, table <".$checkTable."> column <".$columnSorting.">",
+                        "Make sure that table <".$checkTable."> column <".$columnSorting."> exists"
+                    );
+                }
+
+            }
         }
+
+
+
+
+
         return $results;
     }
 
@@ -241,27 +265,39 @@ class LaraLens
     public function checkFiles()
     {
         $results = new ResultLens();
-        $results->add(
-            "Check .env exists",
-            self::printBool(file_exists(App::environmentFilePath()))
-        );
-
+        $envExists = file_exists(App::environmentFilePath());
+        if ($envExists) {
+            $results->add(
+                "Check .env exists",
+                self::printBool($envExists)
+            );
+        } else {
+            $results->addWarningAndHint(
+                "Check .env exists",
+                ".env not exists",
+                "Create .env file"
+            );
+        }
         $results->add(
             "Check Languages directory",
             self::printBool(is_dir(App::langPath()))
         );
-        $langArray = scandir(App::langPath());
+        try {
+            $langArray = scandir(App::langPath());
+        } catch (\Exception $e) {
+            $langArray= false;
+        }
+
         $languages = "";
         if ($langArray) {
-            //$s = app('translator');
-            //$langNamespaces = $s->getLoader()->namespaces();
-
             $languages = implode(",", array_diff($langArray, array('..', '.', 'vendor')));
-            //if (is_array($langNamespaces && sizeof($langNamespaces)>0)) {
-            //    $languages = $languages."; Namespaces:".implode("," , $langNamespaces);
-            //}
         } else {
             $languages = "No language found";
+            $this->checksBag->addWarningAndHint(
+                "List Languages directory",
+                "No languages found in " . App::langPath(),
+                "If your app needs translations, please fill ". App::langPath()
+            );
         }
         $results->add(
             "List Languages directory",
