@@ -121,7 +121,7 @@ class LaraLensCommand extends Command
         if (sizeof($rows) == 0) {
             $this->alert_green("All checks look good with data above");
         } else {
-            $this->alert("Some check has issues with data above");
+            $this->alert("CHECK: issues found");
         }
         $idx=0;
         foreach ($rows as $key => $row)
@@ -131,15 +131,17 @@ class LaraLensCommand extends Command
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if ($label != "" & ( $lineType === ResultLens::LINE_TYPE_ERROR | $lineType === ResultLens::LINE_TYPE_WARNING )) {
+            if ($label != "" & ( $lineType === ResultLens::LINE_TYPE_ERROR | ResultLens::isMessageLine($lineType) ) ) {
                 $idx++;
-                $this->warn( "------------------");
-                $this->warn( $idx . ") *** ". $label);
+                $this->warn( "--- " . $idx . " ------------------");
+                $this->warn( "*** ". $label);
             }
             if ($lineType === ResultLens::LINE_TYPE_ERROR) {
                 $this->error($value);
             }elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
                 $this->warn($value);
+            }elseif ($lineType === ResultLens::LINE_TYPE_INFO) {
+                $this->info($value);
             } else {
                 $this->comment($value);
             }

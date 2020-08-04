@@ -11,6 +11,7 @@ class ResultLens
 
     public const LINE_TYPE_ERROR   = 'error';
     public const LINE_TYPE_WARNING = 'warning';
+    public const LINE_TYPE_INFO = 'info';
     public const LINE_TYPE_HINT    = 'hint';
     public const LINE_TYPE_DEFAULT = 'default';
 
@@ -33,6 +34,9 @@ class ResultLens
     public function addWarning($label, $value) {
         $this->add($label, $value, true, self::LINE_TYPE_WARNING);
     }
+    public function addInfo($label, $value) {
+        $this->add($label, $value, true, self::LINE_TYPE_INFO);
+    }
 
 
     public function addHint($value) {
@@ -44,6 +48,10 @@ class ResultLens
     }
     public function addWarningAndHint($label, $warningMessage, $hintMessage) {
         $this->addWarning($label, $warningMessage);
+        $this->addHint($hintMessage);
+    }
+    public function addInfoAndHint($label, $infoMessage, $hintMessage) {
+        $this->addInfo($label, $infoMessage);
         $this->addHint($hintMessage);
     }
 
@@ -59,6 +67,18 @@ class ResultLens
         );
         $this->idx++;
     }
+
+    public static function isMessageLine($lineType)
+    {
+        return ($lineType === self::LINE_TYPE_ERROR) |
+            ( $lineType === self::LINE_TYPE_WARNING ) |
+            ( $lineType === self::LINE_TYPE_INFO );
+    }
+    public static function isHintLine($lineType)
+    {
+        return ($lineType === self::LINE_TYPE_HINT);
+    }
+
 
     public function toArray()
     {
