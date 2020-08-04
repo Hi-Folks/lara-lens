@@ -69,8 +69,9 @@ class LaraLensCommand extends Command
             $label = Arr::get($row, "label", "");
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
-            $isError = Arr::get($row, "isError", false);
-            if (strlen($value) > $this->widthValue || $isLine || $isError ) {
+            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
+
+            if (strlen($value) > $this->widthValue || $isLine || $lineType === ResultLens::LINE_TYPE_ERROR || $lineType === ResultLens::LINE_TYPE_WARNING ) {
                 $rowsLine[] = $row;
             } else {
                 $row["label"] = $this->formatCell($label, $this->widthLabel);
@@ -93,17 +94,56 @@ class LaraLensCommand extends Command
         {
             $label = Arr::get($line, "label", "");
             $value = Arr::get($line, "value", "");
-            $isError = Arr::get($line, "isError", false);
+            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
             if ($label != "") {
                 $this->info($label.":");
             }
-            if ($isError) {
+            if ($lineType === ResultLens::LINE_TYPE_ERROR ) {
                 $this->error($value);
+            }elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
+                $this->warn($value);
             } else {
                 $this->line($value);
             }
-            //$this->line($line["value"]);
-            //$this->info($line);
+        }
+    }
+
+    private function alert_green($string) {
+        $length = Str::length(strip_tags($string)) + 12;
+        $this->info(str_repeat('*', $length));
+        $this->info('*     '.$string.'     *');
+        $this->info(str_repeat('*', $length));
+        $this->output->newLine();
+    }
+
+    private function print_checks(array $rows)
+    {
+        if (sizeof($rows) == 0) {
+            $this->alert_green("CHECK: everything looks good");
+        } else {
+            $this->alert("CHECK: issues found");
+        }
+        $idx=0;
+        foreach ($rows as $key => $row)
+        {
+            $label = Arr::get($row, "label", "");
+            $value = Arr::get($row, "value", "");
+            $isLine = Arr::get($row, "isLine", false);
+            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
+            if ($label != "" & ( $lineType === ResultLens::LINE_TYPE_ERROR | ResultLens::isMessageLine($lineType) ) ) {
+                $idx++;
+                $this->warn( "--- " . $idx . " ------------------");
+                $this->warn( "*** ". $label);
+            }
+            if ($lineType === ResultLens::LINE_TYPE_ERROR) {
+                $this->error($value);
+            }elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
+                $this->warn($value);
+            }elseif ($lineType === ResultLens::LINE_TYPE_INFO) {
+                $this->info($value);
+            } else {
+                $this->comment($value);
+            }
         }
     }
 
@@ -123,8 +163,6 @@ class LaraLensCommand extends Command
             $output = $ll->checkFiles();
             $this->print_output(["Check files", "Values"], $output->toArray());
         }
-
-
         if ($show & self::OPTION_SHOW_CONNECTIONS) {
             $output = $ll->getConnections();
             $this->print_output(["Connections", "Values"], $output->toArray());
@@ -132,20 +170,24 @@ class LaraLensCommand extends Command
         if ($show & self::OPTION_SHOW_DATABASE) {
             $output = $ll->getDatabase($checkTable, $columnSorting);
             $this->print_output(["Database", "Values"], $output->toArray());
-
         }
         if ($show & self::OPTION_SHOW_MIGRATION) {
             try {
                 $this->call('migrate:status');
             } catch (\Exception $e) {
-                $this->info("Check migrations: ");
-                $this->error($e->getMessage());
-
+                $r = new ResultLens();
+                $r->add("Check migrate status",
+                "Error in check migration");
+                $ll->checksBag->addErrorAndHint(
+                "Migration status",
+                    $e->getMessage(),
+                    "Check the Database configuration"
+                );
+                $this->print_output(["Migration" , "result"], $r->toArray());
             }
-
         }
+        $this->print_checks( $ll->checksBag->toArray() );
     }
-
 
 
     public function handle()

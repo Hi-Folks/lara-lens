@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.14 - 2020-08-04
+
+- Refactoring "check" functionality
+- add warning messages
+- show report check
+- add alert green
+- managing multiple type of message (warning / error / hint)
+- try catch for db connection, for checking files, for scanning directories
+- check PDO for database connection
+
+
 ## 0.1.13 - 2020-07-31
 
 ### Add
