@@ -119,14 +119,13 @@ class LaraLensCommand extends Command
     private function print_checks(array $rows)
     {
         if (sizeof($rows) == 0) {
-            $this->alert_green("All checks look good with data above");
+            $this->alert_green("CHECK: everything looks good");
         } else {
             $this->alert("CHECK: issues found");
         }
         $idx=0;
         foreach ($rows as $key => $row)
         {
-
             $label = Arr::get($row, "label", "");
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
@@ -164,8 +163,6 @@ class LaraLensCommand extends Command
             $output = $ll->checkFiles();
             $this->print_output(["Check files", "Values"], $output->toArray());
         }
-
-
         if ($show & self::OPTION_SHOW_CONNECTIONS) {
             $output = $ll->getConnections();
             $this->print_output(["Connections", "Values"], $output->toArray());
@@ -173,7 +170,6 @@ class LaraLensCommand extends Command
         if ($show & self::OPTION_SHOW_DATABASE) {
             $output = $ll->getDatabase($checkTable, $columnSorting);
             $this->print_output(["Database", "Values"], $output->toArray());
-
         }
         if ($show & self::OPTION_SHOW_MIGRATION) {
             try {
@@ -188,17 +184,10 @@ class LaraLensCommand extends Command
                     "Check the Database configuration"
                 );
                 $this->print_output(["Migration" , "result"], $r->toArray());
-
-                //$this->info("Check migrations: ");
-                //$this->error($e->getMessage());
-
             }
-
         }
         $this->print_checks( $ll->checksBag->toArray() );
-
     }
-
 
 
     public function handle()
