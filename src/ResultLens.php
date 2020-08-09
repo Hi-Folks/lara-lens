@@ -2,7 +2,6 @@
 
 namespace HiFolks\LaraLens;
 
-use Illuminate\Support\Collection;
 
 class ResultLens
 {

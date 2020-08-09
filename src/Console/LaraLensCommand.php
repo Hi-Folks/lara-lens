@@ -2,13 +2,11 @@
 
 namespace HiFolks\LaraLens\Console;
 
-use HiFolks\LaraLens\LaraLens;
+use HiFolks\LaraLens\Lens\LaraLens;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
-use HiFolks\LaraLens\LaraLensServiceProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Helper\TableStyle;
 
 class LaraLensCommand extends Command
 {

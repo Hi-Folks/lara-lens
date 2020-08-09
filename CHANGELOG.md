@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.15 - WIP
+
+### Add
+
+### Change
+- Refactor logic with traits for: database connection (issue #11);
+
 ## 0.1.14 - 2020-08-04
 
 - Refactoring "check" functionality

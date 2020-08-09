@@ -1,19 +1,20 @@
 <?php
 
-namespace HiFolks\LaraLens;
+namespace HiFolks\LaraLens\Lens;
 use App;
+use HiFolks\LaraLens\Lens\Traits\DatabaseLens;
 use Illuminate\Database\QueryException;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Schema\Builder;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
-use Illuminate\Translation\Translator;
+
+use HiFolks\LaraLens\ResultLens;
 
 
 class LaraLens
 {
+    use DatabaseLens;
 
     public $checksBag;
 
@@ -72,194 +73,7 @@ class LaraLens
     }
 
 
-    public function getTablesListMysql()
-    {
-        $tables = DB::select('SHOW TABLES');
-        $stringTables = "";
-        foreach ($tables as $table) {
-            foreach ($table as $key => $value) {
-                $stringTables = $stringTables . $value . ";";
-            }
-        }
-        return $stringTables;
-    }
-    public function getTablesListSqlite()
-    {
-        $tables = DB::table('sqlite_master')
-            ->select('name')
-            ->where('type', 'table')
-            ->orderBy('name')
-            ->pluck('name')->toArray();
-        $stringTables = implode(",", $tables);
-        return $stringTables;
-
-    }
-
-
-
-
-    public function getDatabase($checkTable="users", $columnSorting = "created_at")
-    {
-
-        $results = new ResultLens();
-
-        try {
-            $dbconnection = DB::connection();
-        } catch (\Exception $e) {
-            $dbconnection = false;
-            $this->checksBag->addErrorAndHint(
-                "Error Database connection",
-                "- ".$e->getCode()." - ". $e->getMessage(),
-                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
-            );
-            //$results = $this->getConfigsDatabase($results);
-            //$results = $this->getConfigsDatabaseFromEnv($results);
-            //return $results;
-        }
-
-
-
-        $results->add(
-            "Database default",
-            config("database.default")
-        );
-        if ($dbconnection) {
-            $connectionName= $dbconnection->getName();
-            $results->add(
-                "Connection name",
-                $connectionName
-            );
-            $grammar= $dbconnection->getQueryGrammar();
-            $results->add(
-                "Query Grammar",
-                Str::afterLast(get_class($grammar), '\\')
-            );
-            $driverName= $dbconnection->getDriverName();
-            $results->add(
-                "Driver name",
-                $driverName
-            );
-            $databaseName= $dbconnection->getDatabaseName();
-            $results->add(
-                "Database name",
-                $databaseName
-            );
-            $tablePrefix= $dbconnection->getTablePrefix();
-            $results->add(
-                "Table prefix",
-                $tablePrefix
-            );
-
-            if ($dbconnection->getPDO() == null) {
-                if ($driverName === "mongodb") {
-                    $this->checksBag->addInfoAndHint(
-                        "Connection and PDO driver",
-                        "It is ok! Because you are using ".$driverName. ", and it doesn't support PDO driver.",
-                        ""
-                    );
-                } else {
-                    $this->checksBag->addWarningAndHint(
-                        "Connection and PDO driver",
-                        "Your DB doesn't support PDO driver (". $driverName. ").",
-                        ""
-                    );
-                }
-
-            } else {
-                try {
-                    $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
-                    $results->add(
-                        "Server version",
-                        $serverVersion
-                    );
-                } catch (\PDOException $e) {
-                    $results->addErrorAndHint(
-                        "Error DB",
-                        $e->getMessage(),
-                        "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
-                    );
-                    $results = $this->getConfigsDatabase($results);
-                    $results = $this->getConfigsDatabaseFromEnv($results);
-                    return $results;
-                }
-
-
-                $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
-                $results->add(
-                    "Database connection type",
-                    $connectionType
-                );
-                $stringTables="";
-                switch ($connectionType) {
-                    case 'mysql':
-                        $stringTables= $this->getTablesListMysql();
-                        break;
-                    case 'sqlite':
-                        $stringTables = $this->getTablesListSqlite();
-                        break;
-
-                    default:
-                        $stringTables = "<<skipped ". $connectionType.">>";
-                        break;
-                }
-                $results->add(
-                    "Tables",
-                    $stringTables
-                );
-
-                $checkountMessage= "";
-                try {
-                    $checkcount = DB::table($checkTable)
-                        ->select(DB::raw('*'))
-                        ->count();
-                } catch (\Exception $e){
-                    $checkcount = 0;
-                    $checkountMessage= " - error with ".$checkTable." table";
-                    $results->addErrorAndHint(
-                        "Table Error",
-                        "Failed query, table <".$checkTable."> ",
-                        "Make sure that table <".$checkTable."> exists, available tables : ".(($stringTables == "") ? "Not tables found": $stringTables)
-                    );
-                }
-
-                $results->add(
-                    "Query Table",
-                    $checkTable
-                );
-                $results->add(
-                    "Number of rows",
-                    $checkcount . $checkountMessage
-                );
-                if ($checkcount > 0) {
-                    try {
-                        $latest = DB::table($checkTable)->latest($columnSorting)->first();
-                        $results->add(
-                            "LAST row in table",
-                            json_encode($latest)
-                        );
-                    } catch (QueryException $e) {
-                        $results->addErrorAndHint(
-                            "Table Error",
-                            "Failed query, table <".$checkTable."> column <".$columnSorting.">",
-                            "Make sure that table <".$checkTable."> column <".$columnSorting."> exists"
-                        );
-                    }
-                }
-            }
-
-
-
-        }
-
-
-
-
-
-        return $results;
-    }
-
     private function appCaller($results, $functions) {
-
         $curDir = getcwd();
         foreach ($functions as $function => $label) {
             $value =call_user_func("App::".$function);
@@ -269,12 +83,10 @@ class LaraLens
                 }
             }
             $results->add(
-                //"App::".$function."()",
                 $label,
                 $value
             );
         }
-
     }
 
     public static function printBool(bool $b) {
@@ -306,7 +118,6 @@ class LaraLens
         } catch (\Exception $e) {
             $langArray= false;
         }
-
         $languages = "";
         if ($langArray) {
             $languages = implode(",", array_diff($langArray, array('..', '.', 'vendor')));
@@ -322,10 +133,7 @@ class LaraLens
             "List Languages directory",
             $languages
         );
-
-
         return $results;
-
     }
 
     public function getRuntimeConfigs()

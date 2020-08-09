@@ -5,6 +5,8 @@ namespace HiFolks\LaraLens;
 use HiFolks\LaraLens\Console\LaraLensCommand;
 use Illuminate\Support\ServiceProvider;
 
+use HiFolks\LaraLens\Lens\LaraLens;
+
 class LaraLensServiceProvider extends ServiceProvider
 {
     /**

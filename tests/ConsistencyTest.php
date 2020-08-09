@@ -2,7 +2,7 @@
 
 namespace HiFolks\LaraLens\Tests;
 
-use HiFolks\LaraLens\LaraLens;
+use HiFolks\LaraLens\Lens\LaraLens;
 use Orchestra\Testbench\TestCase;
 use HiFolks\LaraLens\LaraLensServiceProvider;
 use Illuminate\Support\Facades\Http;
