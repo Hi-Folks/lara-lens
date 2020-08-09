@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.15 - WIP
+## 0.1.15 - 2020-08-09
 
 ### Add
 - Add --url-path for using a specific path during HTTP connection. For example --url-path=test (for checking "test" path)
