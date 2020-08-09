@@ -1,11 +1,9 @@
 <?php
 
 namespace HiFolks\LaraLens\Lens\Traits;
-use App;
+
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\QueryException;
-
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 

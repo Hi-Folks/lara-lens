@@ -70,5 +70,5 @@ trait ConfigLens
         return $results;
     }
 
-    
+
 }

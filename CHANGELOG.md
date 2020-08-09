@@ -5,7 +5,7 @@
 ### Add
 
 ### Change
-- Refactor logic with traits for: database connection (issue #11);
+- Refactor logic with traits for: database connection, configuration, runtime parameters, filesystem, http connections (issue #11);
 
 ## 0.1.14 - 2020-08-04
 
