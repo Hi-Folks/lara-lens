@@ -3,9 +3,11 @@
 ## 0.1.15 - WIP
 
 ### Add
-
+- Add --url-path for using a specific path during HTTP connection. For example --url-path=test (for checking "test" path)
 ### Change
 - Refactor logic with traits for: database connection, configuration, runtime parameters, filesystem, http connections (issue #11);
+- Improve the HTTP Connection check (configuration url, url generated)
+
 
 ## 0.1.14 - 2020-08-04
 

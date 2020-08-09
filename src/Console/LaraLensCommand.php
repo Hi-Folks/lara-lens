@@ -13,11 +13,13 @@ class LaraLensCommand extends Command
 
     private const TABLE_STYLES ='default|borderless|compact|symfony-style-guide|box|box-double';
     private const DEFAULT_STYLE='box-double';
+    private const DEFAULT_PATH = "";
     protected $styleTable=self::DEFAULT_STYLE;
     protected $signature = 'laralens:diagnostic
                             {op=overview : What you want to see, overview or allconfigs (overview|allconfigs)}
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
+                            {--url-path='.self::DEFAULT_PATH.' : default path for checking URL}
                             {--show=*all : show (all|config|runtime|connection|database|migration)}
                             {--width-label='.self::DEFAULT_WIDTH.' : width of column for label}
                             {--width-value='.self::DEFAULT_WIDTH.' : width of column for value}
@@ -29,6 +31,8 @@ class LaraLensCommand extends Command
     private const DEFAULT_WIDTH=36;
     protected $widthLabel=self::DEFAULT_WIDTH;
     protected $widthValue=self::DEFAULT_WIDTH;
+
+    protected $urlPath = self::DEFAULT_PATH;
 
     public const OPTION_SHOW_NONE= 0b0000000;
     public const OPTION_SHOW_CONFIGS= 0b0000001;
@@ -162,7 +166,7 @@ class LaraLensCommand extends Command
             $this->print_output(["Check files", "Values"], $output->toArray());
         }
         if ($show & self::OPTION_SHOW_CONNECTIONS) {
-            $output = $ll->getConnections();
+            $output = $ll->getConnections($this->urlPath);
             $this->print_output(["Connections", "Values"], $output->toArray());
         }
         if ($show & self::OPTION_SHOW_DATABASE) {
@@ -215,6 +219,12 @@ class LaraLensCommand extends Command
         }
         $this->widthLabel= $this->option("width-label");
         $this->widthValue= $this->option("width-value");
+
+        $this->urlPath = $this->option("url-path");
+        if (is_null($this->urlPath) ) {
+            $this->urlPath = self::DEFAULT_PATH;
+        }
+
         switch ($op) {
             case 'overview':
                 $this->overview($checkTable, $columnSorting, $show);
