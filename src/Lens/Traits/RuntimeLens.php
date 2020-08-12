@@ -132,7 +132,7 @@ trait RuntimeLens
             $laravelMajorVersion = "8";
         }
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];
-        
+
         $results->add(
             "Laravel version",
             $laravelVersion . " ( ".$laravelMajorVersion." )"
@@ -184,10 +184,9 @@ trait RuntimeLens
         );
 
 
-        $results->addInfoAndHint(
-            "PHP (".$phpVersion.") extension installed",
-            implode(", ", $modulesOk ),
-            "It is ok"
+        $results->add(
+            "PHP extensions installed",
+            implode(",", $modulesOk )
         );
         if (count($modulesNotok) >0 ) {
             $stringHint = "Please install these modules :". PHP_EOL;
@@ -199,7 +198,7 @@ trait RuntimeLens
                 }
             }
             $this->checksBag->addWarningAndHint("PHP extensions missing",
-            "Some PHP Extension are missing",
+            "Some PHP Extensions are missing",
             $stringHint);
         } else {
             $results->add(

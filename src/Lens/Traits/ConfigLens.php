@@ -35,6 +35,7 @@ trait ConfigLens
             "database.connections.".config("database.default").".driver",
             "database.connections." . config("database.default") . ".url",
             "database.connections." . config("database.default") . ".host",
+            "database.connections." . config("database.default") . ".port",
             "database.connections." . config("database.default") . ".username",
             "database.connections." . config("database.default") . ".database"
         ];
