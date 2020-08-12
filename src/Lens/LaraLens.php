@@ -18,6 +18,9 @@ class LaraLens
     use RuntimeLens;
     USE FilesystemLens;
 
+    /**
+     * @var ResultLens
+     */
     public $checksBag;
 
     public function __construct()
@@ -25,6 +28,9 @@ class LaraLens
         $this->checksBag = new ResultLens();
     }
 
+    /**
+     * @return ResultLens
+     */
     public function getCredits()
     {
         $results = new ResultLens();
@@ -32,12 +38,16 @@ class LaraLens
             "App",
             "powered by LaraLens"
         );
+
+
         return $results;
     }
 
 
-
-
+    /**
+     * @param bool $b
+     * @return string
+     */
     public static function printBool(bool $b) {
         return $b ? "Yes": "No";
     }

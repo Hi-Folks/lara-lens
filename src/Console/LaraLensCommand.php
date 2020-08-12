@@ -6,6 +6,7 @@ use HiFolks\LaraLens\Lens\LaraLens;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 
 class LaraLensCommand extends Command
@@ -160,6 +161,8 @@ class LaraLensCommand extends Command
         if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
             $output = $ll->getRuntimeConfigs();
             $this->print_output(["Runtime Configs", "Values"], $output->toArray());
+            $output = $ll->checkServerRequirements();
+            $this->print_output(["Laravel Requirements", "Values"], $output->toArray());
         }
         if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
             $output = $ll->checkFiles();
@@ -237,7 +240,5 @@ class LaraLensCommand extends Command
                 $this->info("What you mean? try with 'php artisan laralens:diagnostic --help'");
                 break;
         }
-        //$this->info("Start");
-
     }
 }
