@@ -59,6 +59,8 @@ trait DatabaseLens
 
     public function getDatabaseConnectionInfos(ConnectionInterface $dbconnection, ResultLens $results, $checkTable, $columnSorting)
     {
+
+
         $connectionName= $dbconnection->getName();
         $results->add(
             "Connection name",
@@ -106,11 +108,13 @@ trait DatabaseLens
                     ""
                 );
             } else {
+                /*
                 $this->checksBag->addWarningAndHint(
                     "Connection and PDO driver",
                     "Your DB doesn't support PDO driver (". $driverName. ").",
                     ""
                 );
+                */
             }
 
         } else {

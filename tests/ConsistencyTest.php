@@ -21,7 +21,7 @@ class ConsistencyTest extends TestCase
         $l = new LaraLens();
         $a = $l->getConfigs();
         $this->assertIsArray($a->toArray());
-        $this->assertEquals(11, count($a->toArray()));
+        $this->assertEquals(12, count($a->toArray()));
 
     }
     /** @test */
