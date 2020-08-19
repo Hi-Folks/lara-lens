@@ -22,3 +22,8 @@ jobs:
 
     - name: Run test suite
       run: composer run-script test
+
+    - name: PHP Syntax Checker (Lint)
+      uses: StephaneBour/actions-php-lint@7.2
+      with:
+        dir: './src'
