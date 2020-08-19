@@ -51,7 +51,7 @@ trait DatabaseLens
             $this->checksBag->addErrorAndHint(
                 "Error Database connection",
                 "- ".$e->getCode()." - ". $e->getMessage(),
-                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
             );
         }
         return $dbconnection;
@@ -128,7 +128,7 @@ trait DatabaseLens
                 $results->addErrorAndHint(
                     "Error DB",
                     $e->getMessage(),
-                    "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+                    "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
                     );
                 $results = $this->getConfigsDatabase($results);
                 $results = $this->getConfigsDatabaseFromEnv($results);
