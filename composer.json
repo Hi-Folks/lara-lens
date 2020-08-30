@@ -23,11 +23,13 @@
     ],
     "require": {
         "php": "^7.2",
-        "illuminate/support": "^7.0"
+        "guzzlehttp/guzzle": "~6.0",
+        "illuminate/http": "^6.0|^7.25",
+        "illuminate/support": "^6.0|^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "4.*|5.*",
+        "phpunit/phpunit": "^8.4"
     },
     "autoload": {
         "psr-4": {

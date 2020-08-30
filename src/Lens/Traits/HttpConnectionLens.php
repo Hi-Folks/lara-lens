@@ -2,9 +2,11 @@
 namespace HiFolks\LaraLens\Lens\Traits;
 
 
-use HiFolks\LaraLens\Console\LaraLensCommand;
+
+use HiFolks\LaraLens\Lens\LaraHttp;
 use HiFolks\LaraLens\ResultLens;
-use Illuminate\Support\Facades\Http;
+
+
 
 trait HttpConnectionLens
 {
@@ -29,7 +31,9 @@ trait HttpConnectionLens
         );
 
         try {
-            $response = Http::get($url);
+            $response = LaraHttp::get($url);
+
+
             $results->add(
                 "Connection HTTP Status",
                 $response->status()

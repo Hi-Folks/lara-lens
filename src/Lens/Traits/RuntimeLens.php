@@ -76,8 +76,6 @@ trait RuntimeLens
     public function checkServerRequirements() {
         $results = new ResultLens();
 
-
-        //dd(get_loaded_extensions());
         $phpVersion = phpversion();
         $laravelVersion = app()->version();
         $laravelMajorVersion = Arr::get( explode('.', $laravelVersion), 0, "8");
