@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.17 - 2020-08-30
+### Add
+- Adding support for Laravel 6
+- Check server requirements for  PHP modules needed by Laravel;
+- Check server requirements for PHP Version (based on the Laravel version);
+- Adding PORT display for Database connection;
+- List PHP modules installed, needed by Laravel;
+
+### Change
+- Updating test cases
+
+## 0.1.16 - 2020-08-19
+### Add
+- Adding php linter in CICD. We use php 7.2 linter for incoming support to Laravel 6.
+### Fix
+- Fix syntax in DatabaseLens.php. Close #17 ;
+
 ## 0.1.15 - 2020-08-09
 
 ### Add
