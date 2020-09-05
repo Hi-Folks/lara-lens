@@ -1,4 +1,7 @@
 # Changelog
+## 0.1.18 - 2020-09-05
+### Add
+- Support for Laravel 8
 
 ## 0.1.17 - 2020-08-30
 ### Add
