@@ -9,10 +9,8 @@ use Illuminate\Support\Str;
 
 use HiFolks\LaraLens\ResultLens;
 
-
 trait DatabaseLens
 {
-
     public function getTablesListMysql()
     {
         $tables = DB::select('SHOW TABLES');
@@ -34,7 +32,6 @@ trait DatabaseLens
             ->pluck('name')->toArray();
         $stringTables = implode(",", $tables);
         return $stringTables;
-
     }
 
     /**
@@ -42,7 +39,8 @@ trait DatabaseLens
      * If it fails, return FALSE and fill checksBag.
      * @return false|\Illuminate\Database\ConnectionInterface
      */
-    public function dbConnection() {
+    public function dbConnection()
+    {
         $dbconnection = false;
         try {
             $dbconnection = DB::connection();
@@ -59,8 +57,6 @@ trait DatabaseLens
 
     public function getDatabaseConnectionInfos(ConnectionInterface $dbconnection, ResultLens $results, $checkTable, $columnSorting)
     {
-
-
         $connectionName= $dbconnection->getName();
         $results->add(
             "Connection name",
@@ -92,7 +88,7 @@ trait DatabaseLens
         try {
             $pdo = $dbconnection->getPDO();
             $pdoIsOk = true;
-        } catch (\PDOException $e ) {
+        } catch (\PDOException $e) {
             $this->checksBag->addWarningAndHint(
                 "Access to PDO (database)",
                 $e->getMessage(),
@@ -100,7 +96,7 @@ trait DatabaseLens
             );
         }
 
-        if ( ! $pdoIsOk) {
+        if (! $pdoIsOk) {
             if ($driverName === "mongodb") {
                 $this->checksBag->addInfoAndHint(
                     "Connection and PDO driver",
@@ -116,7 +112,6 @@ trait DatabaseLens
                 );
                 */
             }
-
         } else {
             try {
                 $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
@@ -129,7 +124,7 @@ trait DatabaseLens
                     "Error DB",
                     $e->getMessage(),
                     "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
-                    );
+                );
                 $results = $this->getConfigsDatabase($results);
                 $results = $this->getConfigsDatabaseFromEnv($results);
                 return $results;
@@ -164,7 +159,7 @@ trait DatabaseLens
                 $checkcount = DB::table($checkTable)
                     ->select(DB::raw('*'))
                     ->count();
-            } catch (\Exception $e){
+            } catch (\Exception $e) {
                 $checkcount = 0;
                 $checkountMessage= " - error with ".$checkTable." table";
                 $results->addErrorAndHint(
@@ -198,13 +193,10 @@ trait DatabaseLens
                 }
             }
         }
-
-
     }
 
     public function getDatabase($checkTable="users", $columnSorting = "created_at")
     {
-
         $results = new ResultLens();
 
         $dbconnection = $this->dbConnection();
@@ -215,7 +207,7 @@ trait DatabaseLens
             config("database.default")
         );
         if ($dbconnection) {
-            $this->getDatabaseConnectionInfos($dbconnection, $results,  $checkTable, $columnSorting);
+            $this->getDatabaseConnectionInfos($dbconnection, $results, $checkTable, $columnSorting);
         }
 
 

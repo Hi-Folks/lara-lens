@@ -7,13 +7,13 @@ use Illuminate\Support\Str;
 
 trait RuntimeLens
 {
-
-    private function appCaller($results, $functions) {
+    private function appCaller($results, $functions)
+    {
         $curDir = getcwd();
         foreach ($functions as $function => $label) {
             $value =call_user_func("App::".$function);
             if (Str::length($curDir) > 3) {
-                if (Str::startsWith( $value,$curDir )) {
+                if (Str::startsWith($value, $curDir)) {
                     $value = ".".Str::after($value, $curDir);
                 }
             }
@@ -23,7 +23,6 @@ trait RuntimeLens
             );
         }
     }
-
 
     public function getRuntimeConfigs()
     {
@@ -36,8 +35,8 @@ trait RuntimeLens
             "Current Directory",
             getcwd()
         );
-
-        $this->appCaller($results,
+        $this->appCaller(
+            $results,
             [
                 "version"=> "Laravel Version",
                 "getLocale"=>"Locale",
@@ -55,11 +54,8 @@ trait RuntimeLens
                 "getCachedConfigPath" => "Path to the configuration cache",
                 "getCachedRoutesPath" => "Path to the routes cache",
                 "getCachedEventsPath" => "Path to the events cache file"
-
             ]
-
         );
-
         $results->add(
             "Generated url for / ",
             url("/")
@@ -68,17 +64,16 @@ trait RuntimeLens
             "Generated asset url for /test.js ",
             asset("/test.js")
         );
-
         return $results;
     }
 
-
-    public function checkServerRequirements() {
+    public function checkServerRequirements()
+    {
         $results = new ResultLens();
 
         $phpVersion = phpversion();
         $laravelVersion = app()->version();
-        $laravelMajorVersion = Arr::get( explode('.', $laravelVersion), 0, "8");
+        $laravelMajorVersion = Arr::get(explode('.', $laravelVersion), 0, "8");
 
         $phpExtensionRequirements=[
             "6" =>[
@@ -123,14 +118,11 @@ trait RuntimeLens
                     "xml"
                 ]
             ]
-
         ];
-
-        if ( ! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
+        if (! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
             $laravelMajorVersion = "8";
         }
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];
-
         $results->add(
             "Laravel version",
             $laravelVersion . " ( ".$laravelMajorVersion." )"
@@ -143,8 +135,6 @@ trait RuntimeLens
             "PHP version required (min)",
             $phpVersionRequired
         );
-
-
 
         $helpInstall = [
             "bcmath" => "BCMath Arbitrary Precision Mathematics: https://www.php.net/manual/en/bc.setup.php",
@@ -166,10 +156,8 @@ trait RuntimeLens
                 $modulesNotok[] = $p;
             }
         }
-
         //*** CHECK PHP VERSION
-
-        if (version_compare($phpVersion , $phpVersionRequired) <0 ){
+        if (version_compare($phpVersion, $phpVersionRequired) <0) {
             $this->checksBag->addWarningAndHint(
                 "PHP (".$phpVersion.") version check",
                 "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion,
@@ -180,13 +168,11 @@ trait RuntimeLens
             "PHP (".$phpVersion.") version check",
             "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion
         );
-
-
         $results->add(
             "PHP extensions installed",
-            implode(",", $modulesOk )
+            implode(",", $modulesOk)
         );
-        if (count($modulesNotok) >0 ) {
+        if (count($modulesNotok) >0) {
             $stringHint = "Please install these modules :". PHP_EOL;
             foreach ($modulesNotok as $pko) {
                 if (key_exists($pko, $helpInstall)) {
@@ -195,16 +181,17 @@ trait RuntimeLens
                     $stringHint = $pko . PHP_EOL;
                 }
             }
-            $this->checksBag->addWarningAndHint("PHP extensions missing",
-            "Some PHP Extensions are missing",
-            $stringHint);
+            $this->checksBag->addWarningAndHint(
+                "PHP extensions missing",
+                "Some PHP Extensions are missing",
+                $stringHint
+            );
         } else {
             $results->add(
                 "PHP extension installed",
                 "Looks good for Laravel " . $laravelMajorVersion
             );
         }
-
         return $results;
     }
 }

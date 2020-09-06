@@ -11,10 +11,9 @@ use Illuminate\Support\Str;
 
 class LaraLensCommand extends Command
 {
-
     private const TABLE_STYLES ='default|borderless|compact|symfony-style-guide|box|box-double';
     private const DEFAULT_STYLE='box-double';
-    private const DEFAULT_PATH = "";
+    private const DEFAULT_PATH = '';
     protected $styleTable=self::DEFAULT_STYLE;
     protected $signature = 'laralens:diagnostic
                             {op=overview : What you want to see, overview or allconfigs (overview|allconfigs)}
@@ -51,11 +50,9 @@ class LaraLensCommand extends Command
     private function formatCell($string, $width)
     {
         $retVal = "";
-        if (strlen($string)> $width)
-        {
+        if (strlen($string)> $width) {
             $retVal = Str::limit($string, $width, '');
-        } else if (strlen($string)< $width)
-        {
+        } elseif (strlen($string)< $width) {
             $retVal = str_pad($string, $width);
         } else {
             $retVal =  $string;
@@ -67,20 +64,18 @@ class LaraLensCommand extends Command
     {
         $rowsTable = [];
         $rowsLine = [];
-        foreach ($rows as $key => $row)
-        {
+        foreach ($rows as $key => $row) {
             $label = Arr::get($row, "label", "");
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
 
-            if (strlen($value) > $this->widthValue || $isLine || $lineType === ResultLens::LINE_TYPE_ERROR || $lineType === ResultLens::LINE_TYPE_WARNING ) {
+            if (strlen($value) > $this->widthValue || $isLine || $lineType === ResultLens::LINE_TYPE_ERROR || $lineType === ResultLens::LINE_TYPE_WARNING) {
                 $rowsLine[] = $row;
             } else {
                 $row["label"] = $this->formatCell($label, $this->widthLabel);
                 $row["value"] = $this->formatCell($value, $this->widthValue);
                 $rowsTable[] = [ $row["label"], $row["value"]   ];
-
             }
         }
         /*
@@ -92,18 +87,17 @@ class LaraLensCommand extends Command
          * 'box'
          * 'box-double'
          */
-        $this->table($headers, $rowsTable,$this->styleTable);
-        foreach ($rowsLine as $key =>$line)
-        {
+        $this->table($headers, $rowsTable, $this->styleTable);
+        foreach ($rowsLine as $key =>$line) {
             $label = Arr::get($line, "label", "");
             $value = Arr::get($line, "value", "");
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
             if ($label != "") {
                 $this->info($label.":");
             }
-            if ($lineType === ResultLens::LINE_TYPE_ERROR ) {
+            if ($lineType === ResultLens::LINE_TYPE_ERROR) {
                 $this->error($value);
-            }elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
+            } elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
                 $this->warn($value);
             } else {
                 $this->line($value);
@@ -111,7 +105,8 @@ class LaraLensCommand extends Command
         }
     }
 
-    private function alert_green($string) {
+    private function alert_green($string)
+    {
         $length = Str::length(strip_tags($string)) + 12;
         $this->info(str_repeat('*', $length));
         $this->info('*     '.$string.'     *');
@@ -127,22 +122,21 @@ class LaraLensCommand extends Command
             $this->alert("CHECK: issues found");
         }
         $idx=0;
-        foreach ($rows as $key => $row)
-        {
+        foreach ($rows as $key => $row) {
             $label = Arr::get($row, "label", "");
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if ($label != "" & ( $lineType === ResultLens::LINE_TYPE_ERROR | ResultLens::isMessageLine($lineType) ) ) {
+            if ($label != "" & ($lineType === ResultLens::LINE_TYPE_ERROR | ResultLens::isMessageLine($lineType))) {
                 $idx++;
-                $this->warn( "--- " . $idx . " ------------------");
-                $this->warn( "*** ". $label);
+                $this->warn("--- " . $idx . " ------------------");
+                $this->warn("*** ". $label);
             }
             if ($lineType === ResultLens::LINE_TYPE_ERROR) {
                 $this->error($value);
-            }elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
+            } elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
                 $this->warn($value);
-            }elseif ($lineType === ResultLens::LINE_TYPE_INFO) {
+            } elseif ($lineType === ResultLens::LINE_TYPE_INFO) {
                 $this->info($value);
             } else {
                 $this->comment($value);
@@ -153,8 +147,7 @@ class LaraLensCommand extends Command
     private function overview($checkTable = "users", $columnSorting = "created_at", $show= self::OPTION_SHOW_ALL)
     {
         $ll = new LaraLens();
-        if ($show & self::OPTION_SHOW_CONFIGS)
-        {
+        if ($show & self::OPTION_SHOW_CONFIGS) {
             $output = $ll->getConfigs();
             $this->print_output(["Config key via config()", "Values"], $output->toArray());
         }
@@ -181,17 +174,19 @@ class LaraLensCommand extends Command
                 $this->call('migrate:status');
             } catch (\Exception $e) {
                 $r = new ResultLens();
-                $r->add("Check migrate status",
-                "Error in check migration");
+                $r->add(
+                    "Check migrate status",
+                    "Error in check migration"
+                );
                 $ll->checksBag->addErrorAndHint(
-                "Migration status",
+                    "Migration status",
                     $e->getMessage(),
                     "Check the Database configuration"
                 );
                 $this->print_output(["Migration" , "result"], $r->toArray());
             }
         }
-        $this->print_checks( $ll->checksBag->toArray() );
+        $this->print_checks($ll->checksBag->toArray());
     }
 
 
@@ -224,7 +219,7 @@ class LaraLensCommand extends Command
         $this->widthValue= $this->option("width-value");
 
         $this->urlPath = $this->option("url-path");
-        if (is_null($this->urlPath) ) {
+        if (is_null($this->urlPath)) {
             $this->urlPath = self::DEFAULT_PATH;
         }
 

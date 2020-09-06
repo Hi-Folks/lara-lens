@@ -6,7 +6,8 @@ use HiFolks\LaraLens\ResultLens;
 
 trait ConfigLens
 {
-    public function getConfigsDatabaseFromEnv(ResultLens $results = null) {
+    public function getConfigsDatabaseFromEnv(ResultLens $results = null)
+    {
         if (is_null($results)) {
             $results = new ResultLens();
         }
@@ -26,7 +27,8 @@ trait ConfigLens
         return $results;
     }
 
-    public function getConfigsDatabase(ResultLens $results = null) {
+    public function getConfigsDatabase(ResultLens $results = null)
+    {
         if (is_null($results)) {
             $results = new ResultLens();
         }
@@ -70,6 +72,4 @@ trait ConfigLens
         $results = $this->getConfigsDatabase($results);
         return $results;
     }
-
-
 }
