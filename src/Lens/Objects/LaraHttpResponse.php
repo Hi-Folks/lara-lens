@@ -12,6 +12,7 @@ class LaraHttpResponse
 
     /**
      * LaraHttpResponse constructor.
+     *
      * @param ResponseInterface $r
      */
     public function __construct(ResponseInterface $r)
@@ -21,6 +22,7 @@ class LaraHttpResponse
 
     /**
      * Return the Http response status code.
+     *
      * @return int
      */
     public function status()
@@ -30,6 +32,7 @@ class LaraHttpResponse
 
     /**
      * Return true if the status code of the HTTP response is an error
+     *
      * @return bool
      */
     public function failed()

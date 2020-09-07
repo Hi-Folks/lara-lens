@@ -44,7 +44,7 @@ class LaraLens
 
 
     /**
-     * @param bool $b
+     * @param  bool $b
      * @return string
      */
     public static function printBool(bool $b)

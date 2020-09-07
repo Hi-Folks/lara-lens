@@ -37,6 +37,7 @@ trait DatabaseLens
     /**
      * Try to establish a db connection.
      * If it fails, return FALSE and fill checksBag.
+     *
      * @return false|\Illuminate\Database\ConnectionInterface
      */
     public function dbConnection()
@@ -138,16 +139,16 @@ trait DatabaseLens
             );
             $stringTables="";
             switch ($connectionType) {
-                case 'mysql':
-                    $stringTables= $this->getTablesListMysql();
-                    break;
-                case 'sqlite':
-                    $stringTables = $this->getTablesListSqlite();
-                    break;
+            case 'mysql':
+                $stringTables= $this->getTablesListMysql();
+                break;
+            case 'sqlite':
+                $stringTables = $this->getTablesListSqlite();
+                break;
 
-                default:
-                    $stringTables = "<<skipped ". $connectionType.">>";
-                    break;
+            default:
+                $stringTables = "<<skipped ". $connectionType.">>";
+                break;
             }
             $results->add(
                 "Tables",

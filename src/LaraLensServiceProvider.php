@@ -23,9 +23,11 @@ class LaraLensServiceProvider extends ServiceProvider
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([
+            $this->publishes(
+                [
                 __DIR__.'/../config/config.php' => config_path('lara-lens.php'),
-            ], 'config');
+                ], 'config'
+            );
 
             // Publishing the views.
             /*$this->publishes([
@@ -43,9 +45,11 @@ class LaraLensServiceProvider extends ServiceProvider
             ], 'lang');*/
 
             // Registering package commands.
-            $this->commands([
+            $this->commands(
+                [
                 LaraLensCommand::class,
-            ]);
+                ]
+            );
         }
     }
 
@@ -58,8 +62,10 @@ class LaraLensServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'lara-lens');
 
         // Register the main class to use with the facade
-        $this->app->singleton('lara-lens', function () {
-            return new LaraLens;
-        });
+        $this->app->singleton(
+            'lara-lens', function () {
+                return new LaraLens;
+            }
+        );
     }
 }
