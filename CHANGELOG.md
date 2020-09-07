@@ -1,4 +1,13 @@
 # Changelog
+
+## 0.1.19 - WIP
+### Add
+- Add --skip-database in order to execute all checks except database and migration status (it is useful for example if the application it doesn't need the database);
+
+### Change
+- Code more PSR2 compliant (phpcs);
+
+
 ## 0.1.18 - 2020-09-05
 ### Add
 - Support for Laravel 8

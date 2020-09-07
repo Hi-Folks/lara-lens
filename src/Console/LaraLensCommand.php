@@ -6,7 +6,6 @@ use HiFolks\LaraLens\Lens\LaraLens;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 
 class LaraLensCommand extends Command
@@ -24,6 +23,7 @@ class LaraLensCommand extends Command
                             {--width-label='.self::DEFAULT_WIDTH.' : width of column for label}
                             {--width-value='.self::DEFAULT_WIDTH.' : width of column for value}
                             {--style='.self::DEFAULT_STYLE.' : style of the output table ('.self::TABLE_STYLES.')}
+                            {--skip-database : skip database check like connection and migration (if your laravel app doesn\'t need Database)}
                             ';
 
     protected $description = 'Show some application configurations.';
@@ -202,19 +202,28 @@ class LaraLensCommand extends Command
         }
         $columnSorting = $this->option("column-sort");
         $showOptions= $this->option("show");
+
         if (is_array($showOptions)) {
             if (count($showOptions) >0) {
                 $show = self::OPTION_SHOW_NONE;
-                $show = (in_array("all", $showOptions)) ? $show | self::OPTION_SHOW_ALL : $show ;
-                $show = (in_array("config", $showOptions)) ? $show | self::OPTION_SHOW_CONFIGS : $show ;
-                $show = (in_array("runtime", $showOptions)) ? $show | self::OPTION_SHOW_RUNTIMECONFIGS : $show ;
-                $show = (in_array("connection", $showOptions)) ? $show | self::OPTION_SHOW_CONNECTIONS : $show ;
-                $show = (in_array("database", $showOptions)) ? $show | self::OPTION_SHOW_DATABASE : $show ;
-                $show = (in_array("migration", $showOptions)) ? $show | self::OPTION_SHOW_MIGRATION : $show ;
-            } else {
-                $show = self::OPTION_SHOW_ALL;
+                if (in_array("all", $showOptions)) {
+                    $show = self::OPTION_SHOW_ALL;
+                    $skipDatabases = $this->option("skip-database");
+                    if ($skipDatabases) {
+                        echo $show;
+                        $show = self::OPTION_SHOW_ALL - self::OPTION_SHOW_DATABASE - self::OPTION_SHOW_MIGRATION;
+                    }
+                } else {
+                    $show = (in_array("config", $showOptions)) ? $show | self::OPTION_SHOW_CONFIGS : $show ;
+                    $show = (in_array("runtime", $showOptions)) ? $show | self::OPTION_SHOW_RUNTIMECONFIGS : $show ;
+                    $show = (in_array("connection", $showOptions)) ? $show | self::OPTION_SHOW_CONNECTIONS : $show ;
+                    $show = (in_array("database", $showOptions)) ? $show | self::OPTION_SHOW_DATABASE : $show ;
+                    $show = (in_array("migration", $showOptions)) ? $show | self::OPTION_SHOW_MIGRATION : $show ;
+
+                }
             }
         }
+
         $this->widthLabel= $this->option("width-label");
         $this->widthValue= $this->option("width-value");
 
@@ -224,16 +233,16 @@ class LaraLensCommand extends Command
         }
 
         switch ($op) {
-            case 'overview':
-                $this->overview($checkTable, $columnSorting, $show);
-                break;
-            case 'allconfigs':
-                $this->allConfigs();
-                break;
+        case 'overview':
+            $this->overview($checkTable, $columnSorting, $show);
+            break;
+        case 'allconfigs':
+            $this->allConfigs();
+            break;
 
-            default:
-                $this->info("What you mean? try with 'php artisan laralens:diagnostic --help'");
-                break;
+        default:
+            $this->info("What you mean? try with 'php artisan laralens:diagnostic --help'");
+            break;
         }
     }
 }
