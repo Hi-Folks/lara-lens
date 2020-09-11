@@ -16,6 +16,7 @@ class LaraHttp
             $response = new LaraHttpResponse($client->get($url));
         } catch (GuzzleException $e) {
             $response = null;
+            throw $e;
         }
         return $response;
     }

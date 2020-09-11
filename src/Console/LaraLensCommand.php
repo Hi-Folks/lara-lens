@@ -91,7 +91,7 @@ class LaraLensCommand extends Command
         foreach ($rowsLine as $key => $line) {
             $label = Arr::get($line, "label", "");
             $value = Arr::get($line, "value", "");
-            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
+            $lineType = Arr::get($line, "lineType", ResultLens::LINE_TYPE_DEFAULT);
             if ($label != "") {
                 $this->info($label . ":");
             }
@@ -195,6 +195,7 @@ class LaraLensCommand extends Command
         $op = $this->argument("op");
         $checkTable = $this->option("table");
         $styleTable = $this->option("style");
+        $show = self::OPTION_SHOW_NONE;
         if (in_array($styleTable, explode("|", self::TABLE_STYLES))) {
             $this->styleTable = $styleTable;
         } else {
