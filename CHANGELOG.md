@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.20 - 2020-09-11
+### Fix
+Thanks to [phpstan](https://github.com/phpstan/phpstan) :
+- using $line instead of $row
+- initialize correctly $show
+- re throw exception for HTTP connection
+
+
 ## 0.1.19 - 2020-09-11
 ### Add
 - Add --skip-database in order to execute all checks except database and migration status (it is useful for example if the application it doesn't need the database);
