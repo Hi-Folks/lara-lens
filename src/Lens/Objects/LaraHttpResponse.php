@@ -1,4 +1,5 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Objects;
 
 use Psr\Http\Message\ResponseInterface;
@@ -37,6 +38,6 @@ class LaraHttpResponse
      */
     public function failed()
     {
-        return ($this->response->getStatusCode()>= 400);
+        return ($this->response->getStatusCode() >= 400);
     }
 }

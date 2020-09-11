@@ -1,9 +1,9 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Support\Facades\App;
-
 
 trait FilesystemLens
 {
@@ -30,7 +30,7 @@ trait FilesystemLens
         try {
             $langArray = scandir(App::langPath());
         } catch (\Exception $e) {
-            $langArray= false;
+            $langArray = false;
         }
         $languages = "";
         if ($langArray) {
@@ -40,7 +40,7 @@ trait FilesystemLens
             $this->checksBag->addWarningAndHint(
                 "List Languages directory",
                 "No languages found in " . App::langPath(),
-                "If your app needs translations, please fill ". App::langPath()
+                "If your app needs translations, please fill " . App::langPath()
             );
         }
         $results->add(

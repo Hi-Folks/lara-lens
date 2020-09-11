@@ -1,6 +1,5 @@
 <?php
 
-
 namespace HiFolks\LaraLens\Lens;
 
 use GuzzleHttp\Client;

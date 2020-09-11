@@ -49,6 +49,6 @@ class LaraLens
      */
     public static function printBool(bool $b)
     {
-        return $b ? "Yes": "No";
+        return $b ? "Yes" : "No";
     }
 }

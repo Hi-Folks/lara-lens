@@ -1,4 +1,5 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use HiFolks\LaraLens\ResultLens;
@@ -11,10 +12,10 @@ trait RuntimeLens
     {
         $curDir = getcwd();
         foreach ($functions as $function => $label) {
-            $value =call_user_func("App::".$function);
+            $value = call_user_func("App::" . $function);
             if (Str::length($curDir) > 3) {
                 if (Str::startsWith($value, $curDir)) {
-                    $value = ".".Str::after($value, $curDir);
+                    $value = "." . Str::after($value, $curDir);
                 }
             }
             $results->add(
@@ -38,17 +39,17 @@ trait RuntimeLens
         $this->appCaller(
             $results,
             [
-                "version"=> "Laravel Version",
-                "getLocale"=>"Locale",
+                "version" => "Laravel Version",
+                "getLocale" => "Locale",
                 "getNamespace" => "Application namespace",
-                "environment"=>"Environment",
-                "environmentPath"=>"Environment file directory",
-                "environmentFile"=>"Environment file used",
-                "environmentFilePath" =>"Full path to the environment file",
-                "langPath" =>"Path to the language files",
-                "publicPath" =>"Path to the public / web directory",
+                "environment" => "Environment",
+                "environmentPath" => "Environment file directory",
+                "environmentFile" => "Environment file used",
+                "environmentFilePath" => "Full path to the environment file",
+                "langPath" => "Path to the language files",
+                "publicPath" => "Path to the public / web directory",
                 "storagePath" => "Storage directory",
-                "resourcePath" =>"Resources directory",
+                "resourcePath" => "Resources directory",
                 "getCachedServicesPath" => "Path to the cached services.php",
                 "getCachedPackagesPath" => "Path to the cached packages.php",
                 "getCachedConfigPath" => "Path to the configuration cache",
@@ -75,8 +76,8 @@ trait RuntimeLens
         $laravelVersion = app()->version();
         $laravelMajorVersion = Arr::get(explode('.', $laravelVersion), 0, "8");
 
-        $phpExtensionRequirements=[
-            "6" =>[
+        $phpExtensionRequirements = [
+            "6" => [
                 "phpversion" => "7.2.0",
                 "extensions" => [
                     "bcmath",
@@ -90,7 +91,7 @@ trait RuntimeLens
                     "xml"
                 ]
             ],
-            "7" =>[
+            "7" => [
                 "phpversion" => "7.2.5",
                 "extensions" => [
                     "bcmath",
@@ -104,7 +105,7 @@ trait RuntimeLens
                     "xml"
                 ]
             ],
-            "8" =>[
+            "8" => [
                 "phpversion" => "7.3.0",
                 "extensions" => [
                     "bcmath",
@@ -125,7 +126,7 @@ trait RuntimeLens
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];
         $results->add(
             "Laravel version",
-            $laravelVersion . " ( ".$laravelMajorVersion." )"
+            $laravelVersion . " ( " . $laravelMajorVersion . " )"
         );
         $results->add(
             "PHP version",
@@ -157,23 +158,23 @@ trait RuntimeLens
             }
         }
         //*** CHECK PHP VERSION
-        if (version_compare($phpVersion, $phpVersionRequired) <0) {
+        if (version_compare($phpVersion, $phpVersionRequired) < 0) {
             $this->checksBag->addWarningAndHint(
-                "PHP (".$phpVersion.") version check",
-                "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion,
-                "You need to install PHP version: ".$phpVersionRequired
+                "PHP (" . $phpVersion . ") version check",
+                "PHP version required: " . $phpVersionRequired . ", you have: " . $phpVersion,
+                "You need to install PHP version: " . $phpVersionRequired
             );
         }
         $results->add(
-            "PHP (".$phpVersion.") version check",
-            "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion
+            "PHP (" . $phpVersion . ") version check",
+            "PHP version required: " . $phpVersionRequired . ", you have: " . $phpVersion
         );
         $results->add(
             "PHP extensions installed",
             implode(",", $modulesOk)
         );
-        if (count($modulesNotok) >0) {
-            $stringHint = "Please install these modules :". PHP_EOL;
+        if (count($modulesNotok) > 0) {
+            $stringHint = "Please install these modules :" . PHP_EOL;
             foreach ($modulesNotok as $pko) {
                 if (key_exists($pko, $helpInstall)) {
                     $stringHint = $pko . " : " . $helpInstall[$pko] . PHP_EOL;

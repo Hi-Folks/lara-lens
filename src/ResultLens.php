@@ -64,7 +64,7 @@ class ResultLens
     {
         $this->result->push(
             [
-                "label"=> $label,
+                "label" => $label,
                 "value" => $value,
                 "isLine" => $forceLine,
                 "lineType" => $lineType

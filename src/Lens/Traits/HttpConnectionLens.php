@@ -1,4 +1,5 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use HiFolks\LaraLens\Lens\LaraHttp;
@@ -36,7 +37,7 @@ trait HttpConnectionLens
                 }
                 $this->checksBag->addWarningAndHint(
                     "Connection HTTP Status",
-                    "Connection response not 20x, status code: " . $response->status() . " for ".$url,
+                    "Connection response not 20x, status code: " . $response->status() . " for " . $url,
                     $checkUrlHint
                 );
             }

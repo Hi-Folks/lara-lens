@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ruleset  name="PHP_CodeSniffer">
+    <description>PHPCS configuration file.</description>
+    <file>src</file>
+    <exclude-pattern>*/exclude/*</exclude-pattern>
+    <!-- ignore warnings and display ERRORS only -->
+    <arg  value="np"/>
+    <rule  ref="PSR12"/>
+</ruleset>

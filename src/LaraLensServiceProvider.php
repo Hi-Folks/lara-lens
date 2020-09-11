@@ -4,7 +4,6 @@ namespace HiFolks\LaraLens;
 
 use HiFolks\LaraLens\Console\LaraLensCommand;
 use Illuminate\Support\ServiceProvider;
-
 use HiFolks\LaraLens\Lens\LaraLens;
 
 class LaraLensServiceProvider extends ServiceProvider
@@ -25,8 +24,9 @@ class LaraLensServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes(
                 [
-                __DIR__.'/../config/config.php' => config_path('lara-lens.php'),
-                ], 'config'
+                __DIR__ . '/../config/config.php' => config_path('lara-lens.php'),
+                ],
+                'config'
             );
 
             // Publishing the views.
@@ -59,12 +59,13 @@ class LaraLensServiceProvider extends ServiceProvider
     public function register()
     {
         // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'lara-lens');
+        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'lara-lens');
 
         // Register the main class to use with the facade
         $this->app->singleton(
-            'lara-lens', function () {
-                return new LaraLens;
+            'lara-lens',
+            function () {
+                return new LaraLens();
             }
         );
     }
