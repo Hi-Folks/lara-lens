@@ -15,7 +15,8 @@ application. It is useful to show in your terminal the status of:
 * some useful configuration variable;
 * the database connection;
 * the tables in the database;
-* the connection via HTTP request.
+* the connection via HTTP request;
+* the server requirements (PHP version, PHP modules required and installed, Laravel version etc.).
 
 ![LaraLens - diagnostic package for Laravel](https://dev-to-uploads.s3.amazonaws.com/i/h8r18mt4fhe0w1a6cke4.gif)
 
@@ -65,7 +66,7 @@ You can control the output via the _show_ option. You can define:
 * runtime
 * migration
 * all
-The defalut for _--show_ option is _all_.
+The default for _--show_ option is _all_.
 
 
 ```sh
@@ -77,6 +78,14 @@ If you want to see only database information:
 ```sh
 php artisan laralens:diagnostic --show=database
 ```
+
+### Usage: skip database connection and database diagnostics
+If your Laravel application doesn't use the database, you can skip the database inspection with --skip-database option.
+
+```shell script
+php artisan laralens:diagnostic --skip-database 
+```
+
 ### Usage: change the style of output table
 You can choose one of these styles via *--style=* option:
 
@@ -118,6 +127,10 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Roberto Butti](https://github.com/hi-folks)
 - [All Contributors](../../contributors)
 - [Laravel Package Boilerplate](https://laravelpackageboilerplate.com)
+
+## Who talks about LaraLens
+- [Laravel News](https://laravel-news.com/inspect-application-configuration-with-laralens)
+- [Medium Article](https://levelup.gitconnected.com/laralens-a-laravel-command-for-inspecting-configuration-2bbb4e714cf7)
 
 ## License
 
