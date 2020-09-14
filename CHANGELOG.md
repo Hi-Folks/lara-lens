@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.21 - WIP
+### Add
+- CI/CD: Add Caching vendors in GitHub actions pipeline
+### Change
+- DOCS: Update README, add some docs about skip database connection and database
+
 ## 0.1.20 - 2020-09-11
 ### Fix
 Thanks to [phpstan](https://github.com/phpstan/phpstan) :
