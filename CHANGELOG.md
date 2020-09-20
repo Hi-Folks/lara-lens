@@ -1,10 +1,10 @@
 # Changelog
 
-## 0.2.0 - WIP
+## 0.2.0 - 2020-09-20
 ### Add
 - You can watch your LaraLens report with your browser (not just with your terminal);
 - Makefile to manage development tasks;
-- Add timeout when checking HTTP connection;
+- Add a _timeout_ when checking HTTP connection;
 - CI/CD: Add Caching vendors in GitHub actions pipeline.
 
 ### Change
