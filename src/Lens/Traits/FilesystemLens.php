@@ -5,7 +5,6 @@ namespace HiFolks\LaraLens\Lens\Traits;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Support\Facades\App;
 
-
 trait FilesystemLens
 {
     public function checkFiles()

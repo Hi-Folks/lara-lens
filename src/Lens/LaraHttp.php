@@ -13,7 +13,7 @@ class LaraHttp
     {
         $client = new Client();
         try {
-            $response = new LaraHttpResponse($client->get($url));
+            $response = new LaraHttpResponse($client->get($url, ['timeout' => 1]));
         } catch (GuzzleException $e) {
             $response = null;
             throw $e;

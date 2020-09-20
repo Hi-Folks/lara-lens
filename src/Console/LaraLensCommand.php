@@ -149,7 +149,7 @@ class LaraLensCommand extends Command
         $ll = new LaraLens();
         if ($show & self::OPTION_SHOW_CONFIGS) {
             $output = $ll->getConfigs();
-            $this->printOutput(["Config key via config()", "Values"], $output->toArray());
+            $this->printOutput(["Config keys via config()", "Values"], $output->toArray());
         }
         if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
             $output = $ll->getRuntimeConfigs();

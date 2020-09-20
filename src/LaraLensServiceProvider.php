@@ -5,6 +5,7 @@ namespace HiFolks\LaraLens;
 use HiFolks\LaraLens\Console\LaraLensCommand;
 use Illuminate\Support\ServiceProvider;
 use HiFolks\LaraLens\Lens\LaraLens;
+use Illuminate\Support\Facades\Route;
 
 class LaraLensServiceProvider extends ServiceProvider
 {
@@ -17,9 +18,10 @@ class LaraLensServiceProvider extends ServiceProvider
          * Optional methods to load your package assets
          */
         // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'lara-lens');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'lara-lens');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lara-lens');
         // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
+        //$this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->registerRoutes();
 
         if ($this->app->runningInConsole()) {
             $this->publishes(
@@ -51,6 +53,23 @@ class LaraLensServiceProvider extends ServiceProvider
                 ]
             );
         }
+    }
+
+
+    protected function registerRoutes()
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        });
+    }
+
+    protected function routeConfiguration()
+    {
+
+        return [
+            'prefix' => config('lara-lens.prefix', 'laralens-diagnostic'),
+            'middleware' => config('lara-lens.middleware'),
+        ];
     }
 
     /**
