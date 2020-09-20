@@ -4,16 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link rel="shortcut icon" href="./assets/img/favicon.ico" />
-    <link
-        rel="apple-touch-icon"
-        sizes="76x76"
-        href="./assets/img/apple-icon.png"
-    />
-
-    <!-- link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/creativetimofficial/tailwind-starter-kit/compiled-tailwind.min.css" -->
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-
     <title>LaraLens</title>
 </head>
 <body>
@@ -21,10 +12,10 @@
 
 <nav class="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-yellow-500 mb-3">
     <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
-        <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
-            <a class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white" href="#pablo">
-                LaraLens
-            </a>
+        <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start  font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap  text-white">
+
+            LaraLens
+
         </div>
         <div class="lg:flex flex-grow items-center" id="example-navbar-warning">
             <ul class="flex flex-col lg:flex-row list-none ml-auto">
