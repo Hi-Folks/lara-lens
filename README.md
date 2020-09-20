@@ -1,7 +1,7 @@
 # LaraLens
 
 
-![CICD Github Actions](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
+![CI/CD Github Actions](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/hi-folks/lara-lens)
 ![GitHub Release Date](https://img.shields.io/github/release-date/hi-folks/lara-lens)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hi-folks/lara-lens)
@@ -112,6 +112,39 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
+## Usage as Web Page
+
+LaraLens provides information with the command line via terminal as shown above.
+You have also the opportunity to see the information via your web browser.
+You can enable web view via the configuration.
+
+Publish default configuration for LaraLens in your Laravel Application:
+```shell script
+php artisan vendor:publish --provider="HiFolks\LaraLens\LaraLensServiceProvider" --tag="config"
+```
+
+After that,you will have a new configuration file in your config directory. The file is: config/lara-lens.php
+
+With the following configuration you will enable the web view (_web-enabled_ parameter) under _/laralens/_ path:
+
+```php
+return [
+    'prefix' => 'laralens', // URL prefix (default=laralens)
+    'middleware' => ['web'], // middleware to use (default=web)
+    'web-enabled' => 'on' // Activate web view (default=off)
+];
+```
+
+### Web view configuration hint
+LaraLens shows some internal configuration of your Laravel application, so I suggest you to disable it in a production environment.
+To disable LaraLens web view, make sure that _web-enabled_ is _off_:
+```
+'web-enabled' => 'off'
+```
+
+ 
+
+
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
@@ -125,7 +158,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Credits
 
 - [Roberto Butti](https://github.com/hi-folks)
-- [All Contributors](../../contributors)
+- [All Contributors](https://github.com/Hi-Folks/lara-lens/graphs/contributors)
 - [Laravel Package Boilerplate](https://laravelpackageboilerplate.com)
 
 ## Who talks about LaraLens
