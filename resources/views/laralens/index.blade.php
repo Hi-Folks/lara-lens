@@ -12,7 +12,7 @@
 
 <nav class="relative flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-yellow-500 mb-3">
     <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
-        <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start  font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap  text-white">
+        <div class="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start  font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap text-white">
 
             LaraLens
 
@@ -69,18 +69,18 @@
 
 @foreach( $checks as $item)
     @if(\Illuminate\Support\Arr::get($item, "lineType", \HiFolks\LaraLens\ResultLens::LINE_TYPE_DEFAULT) === \HiFolks\LaraLens\ResultLens::LINE_TYPE_HINT)
-        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="info">
+        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
             <p class="font-bold">{{ $item['label'] }}</p>
             <p>{{ $item['value']  }}</p>
         </div>
 
     @elseif(\Illuminate\Support\Arr::get($item, "lineType", \HiFolks\LaraLens\ResultLens::LINE_TYPE_DEFAULT) === \HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR)
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="error">
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
             <p class="font-bold">{{ $item['label'] }}</p>
             <p>{{ $item['value']  }}</p>
         </div>
     @elseif(\Illuminate\Support\Arr::get($item, "lineType", \HiFolks\LaraLens\ResultLens::LINE_TYPE_DEFAULT) === \HiFolks\LaraLens\ResultLens::LINE_TYPE_WARNING)
-        <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="warning">
+        <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
             <p class="font-bold">{{ $item['label'] }}</p>
             <p>{{ $item['value']  }}</p>
         </div>
