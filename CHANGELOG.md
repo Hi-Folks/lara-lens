@@ -1,10 +1,14 @@
 # Changelog
 
-## 0.1.21 - WIP
+## 0.2.0 - WIP
 ### Add
-- CI/CD: Add Caching vendors in GitHub actions pipeline
+- You can watch your LaraLens report with your browser (not just with your terminal);
+- Makefile to manage development tasks;
+- Add timeout when checking HTTP connection;
+- CI/CD: Add Caching vendors in GitHub actions pipeline.
+
 ### Change
-- DOCS: Update README, add some docs about skip database connection and database
+- DOCS: Update README, add some docs about skip database connection and database.
 
 ## 0.1.20 - 2020-09-11
 ### Fix
