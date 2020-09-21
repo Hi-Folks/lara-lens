@@ -70,4 +70,13 @@ class ConsistencyTest extends TestCase
         $this->assertGreaterThan(0, count($a->toArray()));
     }
 
+    /** @test */
+    public function test_php_ext_array()
+    {
+        $l = new LaraLens();
+        $a = $l->getPhpExtensions();
+        $this->assertIsArray($a->toArray());
+        $this->assertGreaterThan(0, count($a->toArray()));
+    }
+
 }

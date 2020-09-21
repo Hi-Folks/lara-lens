@@ -195,4 +195,15 @@ trait RuntimeLens
         }
         return $results;
     }
+
+    function getPhpExtensions() {
+        $results = new ResultLens();
+        foreach (get_loaded_extensions() as $name) {
+            $results->add(
+                $name,
+                ""
+            );
+        }
+        return $results;
+    }
 }

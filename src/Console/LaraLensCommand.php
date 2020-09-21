@@ -19,7 +19,7 @@ class LaraLensCommand extends Command
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
                             {--url-path=' . self::DEFAULT_PATH . ' : default path for checking URL}
-                            {--show=*all : show (all|config|runtime|connection|database|migration)}
+                            {--show=*all : show (all|config|runtime|connection|database|migration|php-ext)}
                             {--width-label=' . self::DEFAULT_WIDTH . ' : width of column for label}
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
                             {--style=' . self::DEFAULT_STYLE . ' : style of the output table (' . self::TABLE_STYLES . ')}
@@ -40,7 +40,8 @@ class LaraLensCommand extends Command
     public const OPTION_SHOW_CONNECTIONS = 0b00000100;
     public const OPTION_SHOW_DATABASE = 0b00001000;
     public const OPTION_SHOW_MIGRATION = 0b00010000;
-    public const OPTION_SHOW_ALL = 0b00011111;
+    public const OPTION_SHOW_PHPEXTENSIONS = 0b00100000;
+    public const OPTION_SHOW_ALL = 0b00111111;
 
     private function allConfigs()
     {
@@ -186,6 +187,10 @@ class LaraLensCommand extends Command
                 $this->printOutput(["Migration" , "result"], $r->toArray());
             }
         }
+        if ($show & self::OPTION_SHOW_PHPEXTENSIONS) {
+            $output = $ll->getPhpExtensions($checkTable, $columnSorting);
+            $this->printOutput(["PHP Extensions"], $output->toArray());
+        }
         $this->printChecks($ll->checksBag->toArray());
     }
 
@@ -211,7 +216,6 @@ class LaraLensCommand extends Command
                     $show = self::OPTION_SHOW_ALL;
                     $skipDatabases = $this->option("skip-database");
                     if ($skipDatabases) {
-                        echo $show;
                         $show = self::OPTION_SHOW_ALL - self::OPTION_SHOW_DATABASE - self::OPTION_SHOW_MIGRATION;
                     }
                 } else {
@@ -220,6 +224,7 @@ class LaraLensCommand extends Command
                     $show = (in_array("connection", $showOptions)) ? $show | self::OPTION_SHOW_CONNECTIONS : $show ;
                     $show = (in_array("database", $showOptions)) ? $show | self::OPTION_SHOW_DATABASE : $show ;
                     $show = (in_array("migration", $showOptions)) ? $show | self::OPTION_SHOW_MIGRATION : $show ;
+                    $show = (in_array("php-ext", $showOptions)) ? $show | self::OPTION_SHOW_PHPEXTENSIONS : $show ;
                 }
             }
         }

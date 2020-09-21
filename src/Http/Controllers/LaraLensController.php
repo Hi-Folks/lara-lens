@@ -47,6 +47,11 @@ class LaraLensController extends Controller
                 "data" => $ll->getDatabase()->toArray()
             ],
             [
+                "title" => "PHP Extensions",
+                "description" => "List of PHP extensions loaded",
+                "data" => $ll->getPhpExtensions()->toArray()
+            ],
+            [
                 "title" => "Credits",
                 "description" => "LaraLens app",
                 "data" => $ll->getCredits()->toArray()
