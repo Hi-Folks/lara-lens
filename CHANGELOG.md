@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 - 2020-09-22
+### Add
+- Show available PHP extension via --show=php-ext option  (thanks to https://github.com/yogendra-revanna);
+- Show PHP ini configuration via --show=php-ini (thanks to https://github.com/yogendra-revanna).
+
+### Change
+- Managing default show options. Before this change the default was to show all options. Now we have a lot of option to show (also the long list of PHP extension and PHP ini configuration), so by default LaraLens shows: configuration, runtime, HTTP connection, database, migrations.
+
 ## 0.2.0 - 2020-09-20
 ### Add
 - You can watch your LaraLens report with your browser (not just with your terminal);
