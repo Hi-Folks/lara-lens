@@ -52,6 +52,11 @@ class LaraLensController extends Controller
                 "data" => $ll->getPhpExtensions()->toArray()
             ],
             [
+                "title" => "PHP INI",
+                "description" => "List of php ini values",
+                "data" => $ll->getPhpIniValues()->toArray()
+            ],
+            [
                 "title" => "Credits",
                 "description" => "LaraLens app",
                 "data" => $ll->getCredits()->toArray()
