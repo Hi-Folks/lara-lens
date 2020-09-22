@@ -19,7 +19,7 @@ class LaraLensCommand extends Command
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
                             {--url-path=' . self::DEFAULT_PATH . ' : default path for checking URL}
-                            {--show=*all : show (all|config|runtime|connection|database|migration|php-ext|php-ini)}
+                            {--show=* : show (all|config|runtime|connection|database|migration|php-ext|php-ini)}
                             {--width-label=' . self::DEFAULT_WIDTH . ' : width of column for label}
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
                             {--style=' . self::DEFAULT_STYLE . ' : style of the output table (' . self::TABLE_STYLES . ')}
@@ -43,6 +43,7 @@ class LaraLensCommand extends Command
     public const OPTION_SHOW_PHPEXTENSIONS = 0b00100000;
     public const OPTION_SHOW_PHPINIVALUES = 0b01000000;
     public const OPTION_SHOW_ALL = 0b01111111;
+    public const OPTION_SHOW_DEFAULT = 0b00011111;
 
     private function allConfigs()
     {
@@ -205,7 +206,7 @@ class LaraLensCommand extends Command
         $op = $this->argument("op");
         $checkTable = $this->option("table");
         $styleTable = $this->option("style");
-        $show = self::OPTION_SHOW_NONE;
+        $show = self::OPTION_SHOW_DEFAULT;
         if (in_array($styleTable, explode("|", self::TABLE_STYLES))) {
             $this->styleTable = $styleTable;
         } else {
@@ -213,6 +214,7 @@ class LaraLensCommand extends Command
         }
         $columnSorting = $this->option("column-sort");
         $showOptions = $this->option("show");
+
 
         if (is_array($showOptions)) {
             if (count($showOptions) > 0) {
@@ -232,6 +234,8 @@ class LaraLensCommand extends Command
                     $show = (in_array("php-ext", $showOptions)) ? $show | self::OPTION_SHOW_PHPEXTENSIONS : $show ;
                     $show = (in_array("php-ini", $showOptions)) ? $show | self::OPTION_SHOW_PHPINIVALUES : $show ;
                 }
+            } else {
+                $show = self::OPTION_SHOW_DEFAULT;
             }
         }
 
