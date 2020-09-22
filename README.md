@@ -30,7 +30,7 @@ This is useful also when the installation of your Laravel application is on prem
 
 You can install the package via composer:
 
-```bash
+```shell script
 composer require hi-folks/lara-lens
 ```
 
@@ -39,21 +39,21 @@ https://packagist.org/packages/hi-folks/lara-lens
 
 ## Usage
 
-```bash
+```shell script
 php artisan laralens:diagnostic
 ```
 
 ### Usage: control database connection
 You can see Database Connection information, and you can choose the table to check, and the column used for the "order by" (default created_at):
-```sh
+```shell script
 php artisan laralens:diagnostic --table=migrations --column-sort=id
 ```
 To take the last **created** user:
-```
+```shell script
 php artisan laralens:diagnostic --table=users --column-sort=created_at
 ```
 To take the last **updated** user:
-```
+```shell script
 php artisan laralens:diagnostic --table=users --column-sort=updated_at
 ```
 
@@ -68,17 +68,33 @@ You can control the output via the _show_ option. You can define:
 * php-ext
 * php-ini
 * all
-The default for _--show_ option is _all_.
+The default for _--show_ option (if you avoid specifying _--show_) is to display: config, connection, database, runtime, migration.
 
 
-```sh
+```shell script
 php artisan laralens:diagnostic --show=config --show=connection --show=database --show=runtime --show=migration
 ```
 
 If you want to see only database information:
 
-```sh
+```shell script
 php artisan laralens:diagnostic --show=database
+```
+
+If you want to see a verbose output (with also PHP extensions and PHP INI values):
+
+```shell script
+php artisan laralens:diagnostic --show=all
+```
+
+If you want to see only PHP extensions:
+```shell script
+php artisan laralens:diagnostic --show=php-ext
+```
+
+If you want to see only PHP INI values:
+```shell script
+php artisan laralens:diagnostic --show=php-ini
 ```
 
 ### Usage: skip database connection and database diagnostics
