@@ -68,6 +68,7 @@ You can control the output via the _show_ option. You can define:
 * php-ext
 * php-ini
 * all
+
 The default for _--show_ option (if you avoid specifying _--show_) is to display: config, connection, database, runtime, migration.
 
 
