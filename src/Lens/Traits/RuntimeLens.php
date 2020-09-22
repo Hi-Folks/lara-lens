@@ -206,4 +206,15 @@ trait RuntimeLens
         }
         return $results;
     }
+
+    function getPhpIniValues() {
+        $results = new ResultLens();
+        foreach (ini_get_all() as $name => $row) {
+            $results->add(
+                $name,
+                $row['local_value']
+            );
+        }
+        return $results;
+    }
 }

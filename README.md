@@ -65,6 +65,8 @@ You can control the output via the _show_ option. You can define:
 * database
 * runtime
 * migration
+* php-ext
+* php-ini
 * all
 The default for _--show_ option is _all_.
 
