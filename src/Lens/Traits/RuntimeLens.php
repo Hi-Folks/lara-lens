@@ -196,7 +196,8 @@ trait RuntimeLens
         return $results;
     }
 
-    function getPhpExtensions() {
+    public function getPhpExtensions()
+    {
         $results = new ResultLens();
         foreach (get_loaded_extensions() as $name) {
             $results->add(
@@ -207,7 +208,8 @@ trait RuntimeLens
         return $results;
     }
 
-    function getPhpIniValues() {
+    public function getPhpIniValues()
+    {
         $results = new ResultLens();
         foreach (ini_get_all() as $name => $row) {
             $results->add(
