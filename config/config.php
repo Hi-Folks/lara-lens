@@ -6,5 +6,5 @@
 return [
     'prefix' => 'laralens', // URL prefix (default=laralens)
     'middleware' => ['web'], // middleware to use (default=web)
-    'web-enabled' => 'off' // Activate web view (default=off)
+    'web-enabled' => env('LARALENS_WEB_ENABLED', 'off') // Activate web view (default=off)
 ];

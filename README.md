@@ -144,21 +144,26 @@ php artisan vendor:publish --provider="HiFolks\LaraLens\LaraLensServiceProvider"
 
 After that,you will have a new configuration file in your config directory. The file is: config/lara-lens.php
 
+Add LARALENS_WEB_ENABLED=on option to your .env file
+```
+LARALENS_WEB_ENABLED=on
+``` 
+
 With the following configuration you will enable the web view (_web-enabled_ parameter) under _/laralens/_ path:
 
 ```php
 return [
     'prefix' => 'laralens', // URL prefix (default=laralens)
     'middleware' => ['web'], // middleware to use (default=web)
-    'web-enabled' => 'on' // Activate web view (default=off)
+    'web-enabled' => env('LARALENS_WEB_ENABLED', 'off') // Activate web view (default=off)
 ];
 ```
 
 ### Web view configuration hint
 LaraLens shows some internal configuration of your Laravel application, so I suggest you to disable it in a production environment.
-To disable LaraLens web view, make sure that _web-enabled_ is _off_:
+To disable LaraLens web view, make sure to remove LARALENS_WEB_ENABLED config from .env file or set it to _off_ 
 ```
-'web-enabled' => 'off'
+LARALENS_WEB_ENABLED=off
 ```
 
  
