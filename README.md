@@ -148,7 +148,7 @@ Add `LARALENS_WEB_ENABLED=on` option to your .env file. You may also override th
 ```
 LARALENS_WEB_ENABLED=on // Wether Web Report should be enabled or not
 LARALENS_PREFIX="lararens_test" // Path prefix in order to acess the Web Report via browser
-LARALENS_MIDDLEWARE="web,auth.basic" // Which middleware should be used when acessing the Web Report, you may specify many separating them by a comma
+LARALENS_MIDDLEWARE="web;auth.basic" // Which middleware should be used when acessing the Web Report, separete more with ;
 ``` 
 
 For example, with the configuration above you would have enabled the web view (_web-enabled_ parameter) under _/laralens_test/_ path and with the `web` and `auth.basic` middleware
@@ -156,7 +156,7 @@ For example, with the configuration above you would have enabled the web view (_
 ```php
 return [
     'prefix' => env('LARALENS_PREFIX', 'laralens'), // URL prefix (default=laralens)
-    'middleware' => explode(',', env('LARALENS_MIDDLEWARE', 'web')), // middleware (default=web) more separate with ,
+    'middleware' => explode(',', env('LARALENS_MIDDLEWARE', 'web')), // middleware (default=web) more separate with ;
     'web-enabled' => env('LARALENS_WEB_ENABLED', 'off') // Activate web view (default=off)
 ];
 ```
