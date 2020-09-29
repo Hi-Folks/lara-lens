@@ -146,9 +146,12 @@ After that,you will have a new configuration file in your config directory. The 
 
 Add `LARALENS_WEB_ENABLED=on` option to your .env file. You may also override the default parameters for `LARALENS_PREFIX` and `LARALENS_MIDDLEWARE`
 ```
-LARALENS_WEB_ENABLED=on // Wether Web Report should be enabled or not
-LARALENS_PREFIX="lararens_test" // Path prefix in order to acess the Web Report via browser
-LARALENS_MIDDLEWARE="web;auth.basic" // Which middleware should be used when acessing the Web Report, separete more with ;
+# Wether Web Report should be enabled or not
+LARALENS_WEB_ENABLED=on 
+# Path prefix in order to acess the Web Report via browser
+LARALENS_PREFIX="lararens_test"
+# Which middleware should be used when acessing the Web Report, separete more with ;
+LARALENS_MIDDLEWARE="web;auth.basic" 
 ``` 
 
 For example, with the configuration above you would have enabled the web view (_web-enabled_ parameter) under _/laralens_test/_ path and with the `web` and `auth.basic` middleware
