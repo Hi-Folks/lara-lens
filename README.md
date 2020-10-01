@@ -144,17 +144,22 @@ php artisan vendor:publish --provider="HiFolks\LaraLens\LaraLensServiceProvider"
 
 After that,you will have a new configuration file in your config directory. The file is: config/lara-lens.php
 
-Add LARALENS_WEB_ENABLED=on option to your .env file
+Add `LARALENS_WEB_ENABLED=on` option to your .env file. You may also override the default parameters for `LARALENS_PREFIX` and `LARALENS_MIDDLEWARE`
 ```
-LARALENS_WEB_ENABLED=on
+# Wether Web Report should be enabled or not
+LARALENS_WEB_ENABLED=on 
+# Path prefix in order to acess the Web Report via browser
+LARALENS_PREFIX="lararens_test"
+# Which middleware should be used when acessing the Web Report, separete more with ;
+LARALENS_MIDDLEWARE="web;auth.basic" 
 ``` 
 
-With the following configuration you will enable the web view (_web-enabled_ parameter) under _/laralens/_ path:
+For example, with the configuration above you would have enabled the web view (_web-enabled_ parameter) under _/laralens_test/_ path and with the `web` and `auth.basic` middleware
 
 ```php
 return [
     'prefix' => env('LARALENS_PREFIX', 'laralens'), // URL prefix (default=laralens)
-    'middleware' => explode(',', env('LARALENS_MIDDLEWARE', 'web')), // middleware (default=web) more separate with ,
+    'middleware' => explode(';', env('LARALENS_MIDDLEWARE', 'web')), // middleware (default=web) more separate with ;
     'web-enabled' => env('LARALENS_WEB_ENABLED', 'off') // Activate web view (default=off)
 ];
 ```
