@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.2 - 2020-11-05
+### Add
+- Add configuration parameters (config/lara-lens.php) for managing webview: LARALENS_PREFIX, LARALENS_MIDDLEWARE, LARALENS_WEB_ENABLED, thanks to @yogendra-revanna, @JexPY, @Zuruckt;
+- Initial support for PHP8-rc;
+
+
+
 ## 0.2.1 - 2020-09-22
 ### Add
 - Show available PHP extension via --show=php-ext option  (thanks to https://github.com/yogendra-revanna);

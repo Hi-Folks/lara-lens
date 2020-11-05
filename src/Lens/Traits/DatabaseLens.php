@@ -55,29 +55,33 @@ trait DatabaseLens
         return $dbconnection;
     }
 
-    public function getDatabaseConnectionInfos(ConnectionInterface $dbconnection, ResultLens $results, $checkTable, $columnSorting)
-    {
-        $connectionName = $dbconnection->getName();
+    public function getDatabaseConnectionInfos(
+        ConnectionInterface $dbConnection,
+        ResultLens $results,
+        $checkTable,
+        $columnSorting
+    ) {
+        $connectionName = $dbConnection->getName();
         $results->add(
             "Connection name",
             $connectionName
         );
-        $grammar = $dbconnection->getQueryGrammar();
+        $grammar = $dbConnection->getQueryGrammar();
         $results->add(
             "Query Grammar",
             Str::afterLast(get_class($grammar), '\\')
         );
-        $driverName = $dbconnection->getDriverName();
+        $driverName = $dbConnection->getDriverName();
         $results->add(
             "Driver name",
             $driverName
         );
-        $databaseName = $dbconnection->getDatabaseName();
+        $databaseName = $dbConnection->getDatabaseName();
         $results->add(
             "Database name",
             $databaseName
         );
-        $tablePrefix = $dbconnection->getTablePrefix();
+        $tablePrefix = $dbConnection->getTablePrefix();
         $results->add(
             "Table prefix",
             $tablePrefix
@@ -86,7 +90,7 @@ trait DatabaseLens
         $pdo = null;
         $pdoIsOk = false;
         try {
-            $pdo = $dbconnection->getPDO();
+            $pdo = $dbConnection->getPDO();
             $pdoIsOk = true;
         } catch (\PDOException $e) {
             $this->checksBag->addWarningAndHint(
@@ -104,17 +108,10 @@ trait DatabaseLens
                     ""
                 );
             } else {
-                /*
-                $this->checksBag->addWarningAndHint(
-                    "Connection and PDO driver",
-                    "Your DB doesn't support PDO driver (". $driverName. ").",
-                    ""
-                );
-                */
             }
         } else {
             try {
-                $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+                $serverVersion = $dbConnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
                 $results->add(
                     "Server version",
                     $serverVersion
@@ -131,7 +128,7 @@ trait DatabaseLens
             }
 
 
-            $connectionType = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $connectionType = $dbConnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
             $results->add(
                 "Database connection type",
                 $connectionType
@@ -154,18 +151,21 @@ trait DatabaseLens
                 $stringTables
             );
 
-            $checkountMessage = "";
+            $checkCountMessage = "";
+            $checkCount = 0;
             try {
-                $checkcount = DB::table($checkTable)
+                $checkCount = DB::table($checkTable)
                     ->select(DB::raw('*'))
                     ->count();
             } catch (\Exception $e) {
-                $checkcount = 0;
-                $checkountMessage = " - error with " . $checkTable . " table";
+                $checkCount = 0;
+                $checkCountMessage = " - error with " . $checkTable . " table";
                 $results->addErrorAndHint(
                     "Table Error",
                     "Failed query, table <" . $checkTable . "> ",
-                    "Make sure that table <" . $checkTable . "> exists, available tables : " . (($stringTables == "") ? "Not tables found" : $stringTables)
+                    "Make sure that table <" . $checkTable .
+                    "> exists, available tables : " .
+                    (($stringTables == "") ? "Not tables found" : $stringTables)
                 );
             }
 
@@ -175,9 +175,9 @@ trait DatabaseLens
             );
             $results->add(
                 "Number of rows",
-                $checkcount . $checkountMessage
+                $checkCount . $checkCountMessage
             );
-            if ($checkcount > 0) {
+            if ($checkCount > 0) {
                 try {
                     $latest = DB::table($checkTable)->latest($columnSorting)->first();
                     $results->add(
@@ -199,15 +199,15 @@ trait DatabaseLens
     {
         $results = new ResultLens();
 
-        $dbconnection = $this->dbConnection();
+        $dbConnection = $this->dbConnection();
 
 
         $results->add(
             "Database default",
             config("database.default")
         );
-        if ($dbconnection) {
-            $this->getDatabaseConnectionInfos($dbconnection, $results, $checkTable, $columnSorting);
+        if ($dbConnection) {
+            $this->getDatabaseConnectionInfos($dbConnection, $results, $checkTable, $columnSorting);
         }
 
 
