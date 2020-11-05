@@ -149,7 +149,7 @@ Add `LARALENS_WEB_ENABLED=on` option to your .env file. You may also override th
 # Wether Web Report should be enabled or not
 LARALENS_WEB_ENABLED=on 
 # Path prefix in order to acess the Web Report via browser
-LARALENS_PREFIX="lararens_test"
+LARALENS_PREFIX="laralens"
 # Which middleware should be used when acessing the Web Report, separete more with ;
 LARALENS_MIDDLEWARE="web;auth.basic" 
 ``` 
