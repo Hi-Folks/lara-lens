@@ -68,8 +68,7 @@ jobs:
         composer update --${{ matrix.dependency-stability }} --prefer-dist --no-interaction --no-suggest
 
 
-    - name: Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+
     - name: Create Database
       run: |
         mkdir -p database
