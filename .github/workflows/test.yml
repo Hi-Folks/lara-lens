@@ -69,11 +69,6 @@ jobs:
                   composer require --dev squizlabs/php_codesniffer
                   vendor/bin/phpcs --standard=PSR12 src
 
-            - name: Execute Code Static Analysis (PHP Stan + Larastan)
-              run: |
-                  composer require --dev nunomaduro/larastan
-                  vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
-
 
 
 
