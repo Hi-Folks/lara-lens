@@ -70,10 +70,18 @@ class LaraLensCommand extends Command
         foreach ($rows as $key => $row) {
             $label = Arr::get($row, "label", "");
             $value = Arr::get($row, "value", "");
+            if (is_array($value)) {
+                $value = implode(",", $value);
+            }
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
 
-            if (strlen($value) > $this->widthValue || $isLine || $lineType === ResultLens::LINE_TYPE_ERROR || $lineType === ResultLens::LINE_TYPE_WARNING) {
+            if (
+                strlen($value) > $this->widthValue ||
+                $isLine ||
+                $lineType === ResultLens::LINE_TYPE_ERROR ||
+                $lineType === ResultLens::LINE_TYPE_WARNING
+            ) {
                 $rowsLine[] = $row;
             } else {
                 $row["label"] = $this->formatCell($label, $this->widthLabel);
