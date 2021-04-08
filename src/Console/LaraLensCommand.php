@@ -22,8 +22,8 @@ class LaraLensCommand extends Command
                             {--show=* : show (all|config|runtime|connection|database|migration|php-ext|php-ini)}
                             {--width-label=' . self::DEFAULT_WIDTH . ' : width of column for label}
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
-                            {--style=' . self::DEFAULT_STYLE . ' : style of the output table (' . self::TABLE_STYLES . ')}
-                            {--skip-database : skip database check like connection and migration (if your laravel app doesn\'t need Database)}
+                            {--style=' . self::DEFAULT_STYLE . ' : style for output table (' . self::TABLE_STYLES . ')}
+                            {--skip-database : skip database check (if your laravel app doesn\'t need Database)}
                             ';
 
     protected $description = 'Show some application configurations.';
