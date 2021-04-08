@@ -49,11 +49,9 @@ jobs:
               if: steps.vendor-cache.outputs.cache-hit != 'true'
               run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-            - name: Generate key
-              run: php artisan key:generate
 
-            - name: Show Laravel versions
-              run: php artisan --version
+
+
             - name: Show dir
               run: pwd
             - name: PHP Version
