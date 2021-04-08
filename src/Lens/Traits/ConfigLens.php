@@ -1,4 +1,5 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use App;
@@ -6,11 +7,12 @@ use HiFolks\LaraLens\ResultLens;
 
 trait ConfigLens
 {
-    public function getConfigsDatabaseFromEnv(ResultLens $results = null) {
+    public function getConfigsDatabaseFromEnv(ResultLens $results = null)
+    {
         if (is_null($results)) {
             $results = new ResultLens();
         }
-        $configKeys=[
+        $configKeys = [
             "DB_HOST",
             "DB_DATABASE",
             "DB_USERNAME",
@@ -19,20 +21,21 @@ trait ConfigLens
         ];
         foreach ($configKeys as $key => $value) {
             $results->add(
-                ".env ".$value,
+                ".env " . $value,
                 env($value)
             );
         }
         return $results;
     }
 
-    public function getConfigsDatabase(ResultLens $results = null) {
+    public function getConfigsDatabase(ResultLens $results = null)
+    {
         if (is_null($results)) {
             $results = new ResultLens();
         }
-        $configKeys=[
+        $configKeys = [
             "database.default",
-            "database.connections.".config("database.default").".driver",
+            "database.connections." . config("database.default") . ".driver",
             "database.connections." . config("database.default") . ".url",
             "database.connections." . config("database.default") . ".host",
             "database.connections." . config("database.default") . ".port",
@@ -41,7 +44,7 @@ trait ConfigLens
         ];
         foreach ($configKeys as $key => $value) {
             $results->add(
-                "".$value,
+                "" . $value,
                 config($value)
             );
         }
@@ -55,7 +58,7 @@ trait ConfigLens
             "Running diagnostic",
             date('Y-m-d H:i:s')
         );
-        $configKeys=[
+        $configKeys = [
             "app.timezone",
             "app.locale",
             "app.name",
@@ -63,13 +66,11 @@ trait ConfigLens
         ];
         foreach ($configKeys as $key => $value) {
             $results->add(
-                "".$value,
+                "" . $value,
                 config($value)
             );
         }
         $results = $this->getConfigsDatabase($results);
         return $results;
     }
-
-
 }

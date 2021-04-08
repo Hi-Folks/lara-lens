@@ -6,13 +6,10 @@ use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-
 use HiFolks\LaraLens\ResultLens;
-
 
 trait DatabaseLens
 {
-
     public function getTablesListMysql()
     {
         $tables = DB::select('SHOW TABLES');
@@ -34,15 +31,16 @@ trait DatabaseLens
             ->pluck('name')->toArray();
         $stringTables = implode(",", $tables);
         return $stringTables;
-
     }
 
     /**
      * Try to establish a db connection.
      * If it fails, return FALSE and fill checksBag.
+     *
      * @return false|\Illuminate\Database\ConnectionInterface
      */
-    public function dbConnection() {
+    public function dbConnection()
+    {
         $dbconnection = false;
         try {
             $dbconnection = DB::connection();
@@ -50,38 +48,40 @@ trait DatabaseLens
             $dbconnection = false;
             $this->checksBag->addErrorAndHint(
                 "Error Database connection",
-                "- ".$e->getCode()." - ". $e->getMessage(),
-                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
+                "- " . $e->getCode() . " - " . $e->getMessage(),
+                "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
             );
         }
         return $dbconnection;
     }
 
-    public function getDatabaseConnectionInfos(ConnectionInterface $dbconnection, ResultLens $results, $checkTable, $columnSorting)
-    {
-
-
-        $connectionName= $dbconnection->getName();
+    public function getDatabaseConnectionInfos(
+        ConnectionInterface $dbConnection,
+        ResultLens $results,
+        $checkTable,
+        $columnSorting
+    ) {
+        $connectionName = $dbConnection->getName();
         $results->add(
             "Connection name",
             $connectionName
         );
-        $grammar= $dbconnection->getQueryGrammar();
+        $grammar = $dbConnection->getQueryGrammar();
         $results->add(
             "Query Grammar",
             Str::afterLast(get_class($grammar), '\\')
         );
-        $driverName= $dbconnection->getDriverName();
+        $driverName = $dbConnection->getDriverName();
         $results->add(
             "Driver name",
             $driverName
         );
-        $databaseName= $dbconnection->getDatabaseName();
+        $databaseName = $dbConnection->getDatabaseName();
         $results->add(
             "Database name",
             $databaseName
         );
-        $tablePrefix= $dbconnection->getTablePrefix();
+        $tablePrefix = $dbConnection->getTablePrefix();
         $results->add(
             "Table prefix",
             $tablePrefix
@@ -90,9 +90,9 @@ trait DatabaseLens
         $pdo = null;
         $pdoIsOk = false;
         try {
-            $pdo = $dbconnection->getPDO();
+            $pdo = $dbConnection->getPDO();
             $pdoIsOk = true;
-        } catch (\PDOException $e ) {
+        } catch (\PDOException $e) {
             $this->checksBag->addWarningAndHint(
                 "Access to PDO (database)",
                 $e->getMessage(),
@@ -100,26 +100,18 @@ trait DatabaseLens
             );
         }
 
-        if ( ! $pdoIsOk) {
+        if (! $pdoIsOk) {
             if ($driverName === "mongodb") {
                 $this->checksBag->addInfoAndHint(
                     "Connection and PDO driver",
-                    "It is ok! Because you are using ".$driverName. ", and it doesn't support PDO driver.",
+                    "It is ok! Because you are using " . $driverName . ", and it doesn't support PDO driver.",
                     ""
                 );
             } else {
-                /*
-                $this->checksBag->addWarningAndHint(
-                    "Connection and PDO driver",
-                    "Your DB doesn't support PDO driver (". $driverName. ").",
-                    ""
-                );
-                */
             }
-
         } else {
             try {
-                $serverVersion = $dbconnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+                $serverVersion = $dbConnection->getPDO()->getAttribute(\PDO::ATTR_SERVER_VERSION);
                 $results->add(
                     "Server version",
                     $serverVersion
@@ -128,30 +120,30 @@ trait DatabaseLens
                 $results->addErrorAndHint(
                     "Error DB",
                     $e->getMessage(),
-                    "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD",
-                    );
+                    "Check out your .env file for these parameters: DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
+                );
                 $results = $this->getConfigsDatabase($results);
                 $results = $this->getConfigsDatabaseFromEnv($results);
                 return $results;
             }
 
 
-            $connectionType= $dbconnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+            $connectionType = $dbConnection->getPDO()->getAttribute(\PDO::ATTR_DRIVER_NAME);
             $results->add(
                 "Database connection type",
                 $connectionType
             );
-            $stringTables="";
+            $stringTables = "";
             switch ($connectionType) {
                 case 'mysql':
-                    $stringTables= $this->getTablesListMysql();
+                    $stringTables = $this->getTablesListMysql();
                     break;
                 case 'sqlite':
                     $stringTables = $this->getTablesListSqlite();
                     break;
 
                 default:
-                    $stringTables = "<<skipped ". $connectionType.">>";
+                    $stringTables = "<<skipped " . $connectionType . ">>";
                     break;
             }
             $results->add(
@@ -159,18 +151,21 @@ trait DatabaseLens
                 $stringTables
             );
 
-            $checkountMessage= "";
+            $checkCountMessage = "";
+            $checkCount = 0;
             try {
-                $checkcount = DB::table($checkTable)
+                $checkCount = DB::table($checkTable)
                     ->select(DB::raw('*'))
                     ->count();
-            } catch (\Exception $e){
-                $checkcount = 0;
-                $checkountMessage= " - error with ".$checkTable." table";
+            } catch (\Exception $e) {
+                $checkCount = 0;
+                $checkCountMessage = " - error with " . $checkTable . " table";
                 $results->addErrorAndHint(
                     "Table Error",
-                    "Failed query, table <".$checkTable."> ",
-                    "Make sure that table <".$checkTable."> exists, available tables : ".(($stringTables == "") ? "Not tables found": $stringTables)
+                    "Failed query, table <" . $checkTable . "> ",
+                    "Make sure that table <" . $checkTable .
+                    "> exists, available tables : " .
+                    (($stringTables == "") ? "Not tables found" : $stringTables)
                 );
             }
 
@@ -180,9 +175,9 @@ trait DatabaseLens
             );
             $results->add(
                 "Number of rows",
-                $checkcount . $checkountMessage
+                $checkCount . $checkCountMessage
             );
-            if ($checkcount > 0) {
+            if ($checkCount > 0) {
                 try {
                     $latest = DB::table($checkTable)->latest($columnSorting)->first();
                     $results->add(
@@ -192,30 +187,27 @@ trait DatabaseLens
                 } catch (QueryException $e) {
                     $results->addErrorAndHint(
                         "Table Error",
-                        "Failed query, table <".$checkTable."> column <".$columnSorting.">",
-                        "Make sure that table <".$checkTable."> column <".$columnSorting."> exists"
+                        "Failed query, table <" . $checkTable . "> column <" . $columnSorting . ">",
+                        "Make sure that table <" . $checkTable . "> column <" . $columnSorting . "> exists"
                     );
                 }
             }
         }
-
-
     }
 
-    public function getDatabase($checkTable="users", $columnSorting = "created_at")
+    public function getDatabase($checkTable = "users", $columnSorting = "created_at")
     {
-
         $results = new ResultLens();
 
-        $dbconnection = $this->dbConnection();
+        $dbConnection = $this->dbConnection();
 
 
         $results->add(
             "Database default",
             config("database.default")
         );
-        if ($dbconnection) {
-            $this->getDatabaseConnectionInfos($dbconnection, $results,  $checkTable, $columnSorting);
+        if ($dbConnection) {
+            $this->getDatabaseConnectionInfos($dbConnection, $results, $checkTable, $columnSorting);
         }
 
 

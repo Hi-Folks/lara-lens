@@ -22,14 +22,15 @@
         }
     ],
     "require": {
-        "php": "^7.3",
-        "illuminate/support": "dev-master"
+        "php": "^7.2|^8.0",
+        "guzzlehttp/guzzle": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0|^8.0",
+        "ext-json": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "dev-master",
-        "phpunit/phpunit": "^9.0"
+        "orchestra/testbench": "4.*|5.*|6.*",
+        "phpunit/phpunit": "^8.0|^9.3"
     },
-    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "HiFolks\\LaraLens\\": "src"

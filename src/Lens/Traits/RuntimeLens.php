@@ -1,4 +1,5 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use HiFolks\LaraLens\ResultLens;
@@ -8,13 +9,14 @@ use Illuminate\Support\Str;
 trait RuntimeLens
 {
 
-    private function appCaller($results, $functions) {
+    private function appCaller($results, $functions)
+    {
         $curDir = getcwd();
         foreach ($functions as $function => $label) {
-            $value =call_user_func("App::".$function);
+            $value = call_user_func("App::" . $function);
             if (Str::length($curDir) > 3) {
-                if (Str::startsWith( $value,$curDir )) {
-                    $value = ".".Str::after($value, $curDir);
+                if (Str::startsWith($value, $curDir)) {
+                    $value = "." . Str::after($value, $curDir);
                 }
             }
             $results->add(
@@ -23,7 +25,6 @@ trait RuntimeLens
             );
         }
     }
-
 
     public function getRuntimeConfigs()
     {
@@ -36,30 +37,27 @@ trait RuntimeLens
             "Current Directory",
             getcwd()
         );
-
-        $this->appCaller($results,
+        $this->appCaller(
+            $results,
             [
-                "version"=> "Laravel Version",
-                "getLocale"=>"Locale",
+                "version" => "Laravel Version",
+                "getLocale" => "Locale",
                 "getNamespace" => "Application namespace",
-                "environment"=>"Environment",
-                "environmentPath"=>"Environment file directory",
-                "environmentFile"=>"Environment file used",
-                "environmentFilePath" =>"Full path to the environment file",
-                "langPath" =>"Path to the language files",
-                "publicPath" =>"Path to the public / web directory",
+                "environment" => "Environment",
+                "environmentPath" => "Environment file directory",
+                "environmentFile" => "Environment file used",
+                "environmentFilePath" => "Full path to the environment file",
+                "langPath" => "Path to the language files",
+                "publicPath" => "Path to the public / web directory",
                 "storagePath" => "Storage directory",
-                "resourcePath" =>"Resources directory",
+                "resourcePath" => "Resources directory",
                 "getCachedServicesPath" => "Path to the cached services.php",
                 "getCachedPackagesPath" => "Path to the cached packages.php",
                 "getCachedConfigPath" => "Path to the configuration cache",
                 "getCachedRoutesPath" => "Path to the routes cache",
                 "getCachedEventsPath" => "Path to the events cache file"
-
             ]
-
         );
-
         $results->add(
             "Generated url for / ",
             url("/")
@@ -68,22 +66,19 @@ trait RuntimeLens
             "Generated asset url for /test.js ",
             asset("/test.js")
         );
-
         return $results;
     }
 
-
-    public function checkServerRequirements() {
+    public function checkServerRequirements()
+    {
         $results = new ResultLens();
 
-
-        //dd(get_loaded_extensions());
         $phpVersion = phpversion();
         $laravelVersion = app()->version();
-        $laravelMajorVersion = Arr::get( explode('.', $laravelVersion), 0, "8");
+        $laravelMajorVersion = Arr::get(explode('.', $laravelVersion), 0, "8");
 
-        $phpExtensionRequirements=[
-            "6" =>[
+        $phpExtensionRequirements = [
+            "6" => [
                 "phpversion" => "7.2.0",
                 "extensions" => [
                     "bcmath",
@@ -97,7 +92,7 @@ trait RuntimeLens
                     "xml"
                 ]
             ],
-            "7" =>[
+            "7" => [
                 "phpversion" => "7.2.5",
                 "extensions" => [
                     "bcmath",
@@ -111,7 +106,7 @@ trait RuntimeLens
                     "xml"
                 ]
             ],
-            "8" =>[
+            "8" => [
                 "phpversion" => "7.3.0",
                 "extensions" => [
                     "bcmath",
@@ -125,17 +120,14 @@ trait RuntimeLens
                     "xml"
                 ]
             ]
-
         ];
-
-        if ( ! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
+        if (! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
             $laravelMajorVersion = "8";
         }
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];
-
         $results->add(
             "Laravel version",
-            $laravelVersion . " ( ".$laravelMajorVersion." )"
+            $laravelVersion . " ( " . $laravelMajorVersion . " )"
         );
         $results->add(
             "PHP version",
@@ -145,8 +137,6 @@ trait RuntimeLens
             "PHP version required (min)",
             $phpVersionRequired
         );
-
-
 
         $helpInstall = [
             "bcmath" => "BCMath Arbitrary Precision Mathematics: https://www.php.net/manual/en/bc.setup.php",
@@ -168,28 +158,24 @@ trait RuntimeLens
                 $modulesNotok[] = $p;
             }
         }
-
         //*** CHECK PHP VERSION
-
-        if (version_compare($phpVersion , $phpVersionRequired) <0 ){
+        if (version_compare($phpVersion, $phpVersionRequired) < 0) {
             $this->checksBag->addWarningAndHint(
-                "PHP (".$phpVersion.") version check",
-                "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion,
-                "You need to install PHP version: ".$phpVersionRequired
+                "PHP (" . $phpVersion . ") version check",
+                "PHP version required: " . $phpVersionRequired . ", you have: " . $phpVersion,
+                "You need to install PHP version: " . $phpVersionRequired
             );
         }
         $results->add(
-            "PHP (".$phpVersion.") version check",
-            "PHP version required: ".$phpVersionRequired.", you have: ".$phpVersion
+            "PHP (" . $phpVersion . ") version check",
+            "PHP version required: " . $phpVersionRequired . ", you have: " . $phpVersion
         );
-
-
         $results->add(
             "PHP extensions installed",
-            implode(",", $modulesOk )
+            implode(",", $modulesOk)
         );
-        if (count($modulesNotok) >0 ) {
-            $stringHint = "Please install these modules :". PHP_EOL;
+        if (count($modulesNotok) > 0) {
+            $stringHint = "Please install these modules :" . PHP_EOL;
             foreach ($modulesNotok as $pko) {
                 if (key_exists($pko, $helpInstall)) {
                     $stringHint = $pko . " : " . $helpInstall[$pko] . PHP_EOL;
@@ -197,16 +183,41 @@ trait RuntimeLens
                     $stringHint = $pko . PHP_EOL;
                 }
             }
-            $this->checksBag->addWarningAndHint("PHP extensions missing",
-            "Some PHP Extensions are missing",
-            $stringHint);
+            $this->checksBag->addWarningAndHint(
+                "PHP extensions missing",
+                "Some PHP Extensions are missing",
+                $stringHint
+            );
         } else {
             $results->add(
                 "PHP extension installed",
                 "Looks good for Laravel " . $laravelMajorVersion
             );
         }
+        return $results;
+    }
 
+    public function getPhpExtensions()
+    {
+        $results = new ResultLens();
+        foreach (get_loaded_extensions() as $name) {
+            $results->add(
+                $name,
+                ""
+            );
+        }
+        return $results;
+    }
+
+    public function getPhpIniValues()
+    {
+        $results = new ResultLens();
+        foreach (ini_get_all() as $name => $row) {
+            $results->add(
+                $name,
+                $row['local_value']
+            );
+        }
         return $results;
     }
 }

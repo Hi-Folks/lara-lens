@@ -1,10 +1,9 @@
 <?php
+
 namespace HiFolks\LaraLens\Lens\Traits;
 
-
-use HiFolks\LaraLens\Console\LaraLensCommand;
+use HiFolks\LaraLens\Lens\LaraHttp;
 use HiFolks\LaraLens\ResultLens;
-use Illuminate\Support\Facades\Http;
 
 trait HttpConnectionLens
 {
@@ -17,8 +16,6 @@ trait HttpConnectionLens
             $app_url
         );
         $url = url($checkPath);
-
-
         $results->add(
             "url()->full()",
             url()->full()
@@ -27,30 +24,24 @@ trait HttpConnectionLens
             "Connection HTTP URL",
             $url
         );
-
         try {
-            $response = Http::get($url);
+            $response = LaraHttp::get($url);
             $results->add(
                 "Connection HTTP Status",
                 $response->status()
             );
             if ($response->failed()) {
                 $checkUrlHint = "Check APP_URL '" . $app_url . "' in .env file ";
-
                 if ($checkPath !== "") {
                     $checkUrlHint .= " or check this path: '" . $checkPath . "' in routing file (routes/web.php)";
                 }
                 $this->checksBag->addWarningAndHint(
                     "Connection HTTP Status",
-                    "Connection response not 20x, status code: " . $response->status() . " for ".$url,
+                    "Connection response not 20x, status code: " . $response->status() . " for " . $url,
                     $checkUrlHint
                 );
-
-
             }
-
-
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $results->add(
                 "Connection HTTP Status",
                 "Error connection"
@@ -63,5 +54,4 @@ trait HttpConnectionLens
         }
         return $results;
     }
-
 }

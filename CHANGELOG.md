@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.2.2 - 2020-11-05
+### Add
+- Add configuration parameters (config/lara-lens.php) for managing webview: LARALENS_PREFIX, LARALENS_MIDDLEWARE, LARALENS_WEB_ENABLED, thanks to @yogendra-revanna, @JexPY, @Zuruckt;
+- Initial support for PHP8-rc;
+
+
+
+## 0.2.1 - 2020-09-22
+### Add
+- Show available PHP extension via --show=php-ext option  (thanks to https://github.com/yogendra-revanna);
+- Show PHP ini configuration via --show=php-ini (thanks to https://github.com/yogendra-revanna).
+
+### Change
+- Managing default show options. Before this change the default was to show all options. Now we have a lot of option to show (also the long list of PHP extension and PHP ini configuration), so by default LaraLens shows: configuration, runtime, HTTP connection, database, migrations.
+
+## 0.2.0 - 2020-09-20
+### Add
+- You can watch your LaraLens report with your browser (not just with your terminal);
+- Makefile to manage development tasks;
+- Add a _timeout_ when checking HTTP connection;
+- CI/CD: Add Caching vendors in GitHub actions pipeline.
+
+### Change
+- DOCS: Update README, add some docs about skip database connection and database.
+
+## 0.1.20 - 2020-09-11
+### Fix
+Thanks to [phpstan](https://github.com/phpstan/phpstan) :
+- using $line instead of $row
+- initialize correctly $show
+- re throw exception for HTTP connection
+
+
+## 0.1.19 - 2020-09-11
+### Add
+- Add --skip-database in order to execute all checks except database and migration status (it is useful for example if the application it doesn't need the database);
+
+### Change
+- Code more PSR2 compliant (phpcs);
+- Fix LaraHttpResponse::status(). The method returns the http status code. Close #19
+
+
+## 0.1.18 - 2020-09-05
+### Add
+- Support for Laravel 8
+
+## 0.1.17 - 2020-08-30
+### Add
+- Adding support for Laravel 6
+- Check server requirements for  PHP modules needed by Laravel;
+- Check server requirements for PHP Version (based on the Laravel version);
+- Adding PORT display for Database connection;
+- List PHP modules installed, needed by Laravel;
+
+### Change
+- Updating test cases
+
+## 0.1.16 - 2020-08-19
+### Add
+- Adding php linter in CI/CD. We use php 7.2 linter for incoming support to Laravel 6.
+### Fix
+- Fix syntax in DatabaseLens.php. Close #17 ;
+
 ## 0.1.15 - 2020-08-09
 
 ### Add
@@ -32,9 +95,9 @@
 ## 0.1.12 - 2020-07-25
 
 ### Add
-- When a check is not working properly, some hints are now displayed.
-- Add hints for database connection
-- Add hints for HTTP connections
+- When a check is not working properly, now it is displayed some hints;
+- Add hints for database connection;
+- Add hints for HTTP connections.
 
 ## 0.1.11 - 2020-07-12
 
@@ -134,12 +197,12 @@ Runtime configuration:
 
 ### Add
 
-* detect DB connection type
-* get tables for mysql
-* get tables for sqlite
-* count and retrieve last row from a table. Table and column name are as input parameters
-* test database diagnostics
-* update readme for documentation
+* detect DB connection type;
+* get tables for mysql;
+* get tables for sqlite;
+* count and retrieve last row from a table. Table and column name are as input parameters;
+* test database diagnostics;
+* update readme for documentation.
 
 
 ## 0.1.2 - 2020-05-22
@@ -147,8 +210,8 @@ Runtime configuration:
 ### Add
 
 * Add new argument as input (it is optional):
-    - overview: you can see configuration, http connection, db connection etc
-    - allconfigs: you can see verbose configuration from Laravel application. Try to use 'php artisan laralens:diagnostic allconfigs' in your laravel application. You will see the dump of all configuration parameters in json format
+    - overview: you can see configuration, http connection, db connection etc.;
+    - allconfigs: you can see the verbose configuration from Laravel application. Try to use 'php artisan laralens:diagnostic allconfigs' in your laravel application. You will see the dump of all configuration parameters in json format.
 
 ## 0.1.1 - 2020-05-22
 
@@ -163,7 +226,7 @@ Runtime configuration:
 ## 0.1.0 - 2020-05-21
 
 * :tada: initial release
-* Add laralens:diagnostic artisan command (Laraval)
+* Add laralens:diagnostic artisan command (Laravel)
 * Check config parameter like app.url, app.locale, app.url and database.*
-* Check the http connection with app.url defined in base configuration
+* Check the http connection with "app.url" defined in base configuration
 * Check the connection with DB and counts the row for a specific table (users by default)

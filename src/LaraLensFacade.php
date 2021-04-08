@@ -4,9 +4,6 @@ namespace HiFolks\LaraLens;
 
 use Illuminate\Support\Facades\Facade;
 
-/**
- * @see \HiFolks\LaraLens\Skeleton\SkeletonClass
- */
 class LaraLensFacade extends Facade
 {
     /**

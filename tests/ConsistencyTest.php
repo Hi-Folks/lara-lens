@@ -21,7 +21,7 @@ class ConsistencyTest extends TestCase
         $l = new LaraLens();
         $a = $l->getConfigs();
         $this->assertIsArray($a->toArray());
-        $this->assertEquals(12, count($a->toArray()));
+        $this->assertCount(12, $a->toArray());
 
     }
     /** @test */
@@ -30,7 +30,7 @@ class ConsistencyTest extends TestCase
         $l = new LaraLens();
         $a = $l->getRuntimeConfigs();
         $this->assertIsArray($a->toArray());
-        $this->assertEquals(20, count($a->toArray()));
+        $this->assertCount(20, $a->toArray());
     }
     /** @test */
     public function test_database_array()
@@ -66,6 +66,24 @@ class ConsistencyTest extends TestCase
     {
         $l = new LaraLens();
         $a = $l->getCredits();
+        $this->assertIsArray($a->toArray());
+        $this->assertGreaterThan(0, count($a->toArray()));
+    }
+
+    /** @test */
+    public function test_php_ext_array()
+    {
+        $l = new LaraLens();
+        $a = $l->getPhpExtensions();
+        $this->assertIsArray($a->toArray());
+        $this->assertGreaterThan(0, count($a->toArray()));
+    }
+
+    /** @test */
+    public function test_php_ini_array()
+    {
+        $l = new LaraLens();
+        $a = $l->getPhpIniValues();
         $this->assertIsArray($a->toArray());
         $this->assertGreaterThan(0, count($a->toArray()));
     }
