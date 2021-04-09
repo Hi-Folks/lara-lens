@@ -198,11 +198,11 @@ class LaraLensCommand extends Command
             }
         }
         if ($show & self::OPTION_SHOW_PHPEXTENSIONS) {
-            $output = $ll->getPhpExtensions($checkTable, $columnSorting);
+            $output = $ll->getPhpExtensions();
             $this->printOutput(["PHP Extensions"], $output->toArray());
         }
         if ($show & self::OPTION_SHOW_PHPINIVALUES) {
-            $output = $ll->getPhpIniValues($checkTable, $columnSorting);
+            $output = $ll->getPhpIniValues();
             $this->printOutput(["PHP ini config", "Values"], $output->toArray());
         }
         $this->printChecks($ll->checksBag->toArray());
