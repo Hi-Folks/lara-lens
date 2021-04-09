@@ -66,8 +66,11 @@ jobs:
 
             - name: Execute Code Sniffer via phpcs
               run: |
-                  composer require --dev squizlabs/php_codesniffer
                   vendor/bin/phpcs --standard=PSR12 src
+            - name: Execute Code Static Generator via phpstan
+              run: |
+                  vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+
 
 
 
