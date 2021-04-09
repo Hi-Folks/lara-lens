@@ -3,17 +3,18 @@ help:           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 phpstan: ## Execute phpstan
-	phpstan analyse src --level=1
+	vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+
 
 test: ## Execute phpunit
-	vendor/bin/phpunit
+	vendor/bin/phpunit --testdox
 
 coverage: ## Execute the coverage test
 	vendor/bin/phpunit --coverage-text
 
 phpcs: ## execute phpcs
-	phpcs src
+	vendor/bin/phpcs --standard=PSR12 src
 
-allcheck: phpcs phpstan ## all check
+allcheck: phpcs phpstan test ## all check
 
 

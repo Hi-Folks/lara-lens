@@ -3,6 +3,7 @@
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Connection;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -37,7 +38,7 @@ trait DatabaseLens
      * Try to establish a db connection.
      * If it fails, return FALSE and fill checksBag.
      *
-     * @return false|\Illuminate\Database\ConnectionInterface
+     * @return false|\Illuminate\Database\Connection
      */
     public function dbConnection()
     {
@@ -56,7 +57,7 @@ trait DatabaseLens
     }
 
     public function getDatabaseConnectionInfos(
-        ConnectionInterface $dbConnection,
+        Connection $dbConnection,
         ResultLens $results,
         $checkTable,
         $columnSorting
