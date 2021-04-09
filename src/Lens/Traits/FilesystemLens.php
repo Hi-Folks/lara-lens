@@ -68,7 +68,7 @@ trait FilesystemLens
                 $this->checksBag->addWarningAndHint(
                     "Check storage target link",
                     $this->stripPrefixDir($dir) . " it doesn't exist.",
-                    "Create directory target (for storage link) : ".$dir
+                    "Create directory target (for storage link) : " . $dir
                 );
             }
 
