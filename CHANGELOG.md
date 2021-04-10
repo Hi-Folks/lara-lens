@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.3 - WIP
+## 0.2.3 - 2021-04-10
 ### Add
 - Check DEBUG and ENV configuration for production (if production avoid having debug on);
 - Check Storage Links and sohw the user a waring if some directory links are missing
