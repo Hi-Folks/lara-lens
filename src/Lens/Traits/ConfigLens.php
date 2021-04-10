@@ -28,6 +28,31 @@ trait ConfigLens
         return $results;
     }
 
+    public function checkDebugEnv(ResultLens $results = null)
+    {
+        if (is_null($results)) {
+            $results  = new ResultLens();
+        }
+        $debug = config("app.debug");
+        $env = config("app.env");
+        $results->add(
+            "ENV",
+            $env
+        );
+        $results->add(
+            "DEBUG",
+            $debug
+        );
+        if ($debug && $env === "production") {
+            $this->checksBag->addWarningAndHint(
+                "Check config ENV and DEBUG",
+                "You have DEBUG mode in Production.",
+                "Change you APP_DEBUG env parameter to false for Production environments"
+            );
+        }
+        return $results;
+    }
+
     public function getConfigsDatabase(ResultLens $results = null)
     {
         if (is_null($results)) {
@@ -70,6 +95,7 @@ trait ConfigLens
                 config($value)
             );
         }
+        $results = $this->checkDebugEnv($results);
         $results = $this->getConfigsDatabase($results);
         return $results;
     }

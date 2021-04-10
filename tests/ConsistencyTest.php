@@ -3,6 +3,7 @@
 namespace HiFolks\LaraLens\Tests;
 
 use HiFolks\LaraLens\Lens\LaraLens;
+use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase;
 use HiFolks\LaraLens\LaraLensServiceProvider;
 use Illuminate\Support\Facades\Http;
@@ -21,7 +22,23 @@ class ConsistencyTest extends TestCase
         $l = new LaraLens();
         $a = $l->getConfigs();
         $this->assertIsArray($a->toArray());
-        $this->assertCount(12, $a->toArray());
+        $this->assertCount(14, $a->toArray());
+        $arrayChecks = $l->checksBag->toArray();
+        
+        $this->assertCount(0, $arrayChecks, "test check config length 0");
+
+        $l = new LaraLens();
+        $a = $l->getConfigs();
+        config(['app.debug' => true]);
+        config(['app.env' => "production"]);
+        $l = new LaraLens();
+        $a = $l->getConfigs();
+        $arrayChecks = $l->checksBag->toArray();
+
+        // 2 =  1 for the warning , 1 for the hint
+        $this->assertCount(2, $arrayChecks);
+
+
 
     }
     /** @test */
