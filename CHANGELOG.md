@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.3 - WIP
+### Add
+- Check DEBUG and ENV configuration for production (if production avoid having debug on);
+- Check Storage Links and sohw the user a waring if some directory links are missing
+
+### Change
+- improve tests and checks script for Workflows
+
 ## 0.2.2 - 2020-11-05
 ### Add
 - Add configuration parameters (config/lara-lens.php) for managing webview: LARALENS_PREFIX, LARALENS_MIDDLEWARE, LARALENS_WEB_ENABLED, thanks to @yogendra-revanna, @JexPY, @Zuruckt;
