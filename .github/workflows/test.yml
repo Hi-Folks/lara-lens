@@ -1,69 +1,58 @@
 # GithHub Actions Workflow generated with Ghygen
-# Original configuration: https://ghygen.hi-folks.dev?code=bb85a1693f8aa341b4c92d07cea283be
+# Original configuration: http://gh-actions-yaml-generator.test?code=a436ff704779d3f9e3fc98aee7df2c75
 name: Test Laravel Package
 on:
-    push:
-        branches:
-            - main
-            - master
-            - develop
-            - features/**
-            - feature/**
+  push:
+    branches:
+      - master
+      - develop
+      - features/**
 
 jobs:
-    laravel-tests:
-        runs-on: ubuntu-latest
+  laravel-tests:
+    runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                operating-system: [ubuntu-latest]
-                php-versions: [ '8.0','7.4','7.3' ]
-                dependency-stability: [ prefer-stable ]
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: [ '8.0','7.4','7.3' ]
+        dependency-stability: [ prefer-stable ]
 
-        name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
 
-        steps:
-            - uses: actions/checkout@v2
-            - name: Install PHP versions
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php-versions }}
-            - name: Get Composer Cache Directory 2
-              id: composer-cache
-              run: |
-                  echo "::set-output name=dir::$(composer config cache-files-dir)"
-            - uses: actions/cache@v2
-              id: actions-cache
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
-            - name: Install Dependencies
-              run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install PHP versions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+    - name: Install Dependencies
+      if: steps.vendor-cache.outputs.cache-hit != 'true'
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
 
+    - name: Show dir
+      run: pwd
+    - name: PHP Version
+      run: php --version
 
+# Code quality
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+# Set environment
+      env:
+        SESSION_DRIVER: array
 
-            - name: Show dir
-              run: pwd
-            - name: PHP Version
-              run: php --version
+      run: vendor/bin/phpunit --testdox
 
-            - name: Execute tests (Unit and Feature tests) via PHPUnit
-                # Set environment
-              env:
-                  SESSION_DRIVER: array
+    - name: Execute Code Sniffer via phpcs
+      run: |
+        composer require --dev squizlabs/php_codesniffer
+        vendor/bin/phpcs --standard=PSR12 app
 
-              run: vendor/bin/phpunit --testdox
-
-            - name: Execute Code Sniffer via phpcs
-              run: |
-                  vendor/bin/phpcs --standard=PSR12 src
-            - name: Execute Code Static Generator via phpstan
-              run: |
-                  vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
-
+    - name: Execute Code Static Analysis (PHP Stan + Larastan)
+      run: |
+        composer require --dev nunomaduro/larastan
+        vendor/bin/phpstan analyse app -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
 
 
 
