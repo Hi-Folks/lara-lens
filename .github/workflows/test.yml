@@ -1,5 +1,5 @@
 # GithHub Actions Workflow generated with Ghygen
-# Original configuration: http://gh-actions-yaml-generator.test?code=a436ff704779d3f9e3fc98aee7df2c75
+# Original configuration: http://gh-actions-yaml-generator.test?code=5235d4961cb93053ccb49f25b81f09eb
 name: Test Laravel Package
 on:
   push:
@@ -46,12 +46,10 @@ jobs:
 
     - name: Execute Code Sniffer via phpcs
       run: |
-        composer require --dev squizlabs/php_codesniffer
         vendor/bin/phpcs --standard=PSR12 app
 
     - name: Execute Code Static Analysis (PHP Stan + Larastan)
       run: |
-        composer require --dev nunomaduro/larastan
         vendor/bin/phpstan analyse app -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
 
 
