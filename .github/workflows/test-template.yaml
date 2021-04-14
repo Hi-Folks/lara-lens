@@ -1,0 +1,76 @@
+# GithHub Actions Workflow generated with Ghygen
+# Original configuration: http://gh-actions-yaml-generator.test?code=cd2d02dcc025e2bc0a9c54b361725aee
+name: Template - Laravel package
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - features/**
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: [ '8.0','7.4','7.3' ]
+        dependency-stability: [ prefer-stable ]
+
+    name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install PHP versions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+    - name: Get Composer Cache Directory 2
+      id: composer-cache
+      run: |
+        echo "::set-output name=dir::$(composer config cache-files-dir)"
+    - uses: actions/cache@v2
+      id: actions-cache
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+    - name: Cache PHP dependencies
+      uses: actions/cache@v2
+      id: vendor-cache
+      with:
+        path: vendor
+        key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
+    - name: Install Dependencies
+      if: steps.vendor-cache.outputs.cache-hit != 'true'
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+
+    - name: Show dir
+      run: pwd
+    - name: PHP Version
+      run: php --version
+
+# Code quality
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
+# Set environment
+      env:
+        SESSION_DRIVER: array
+
+      run: vendor/bin/phpunit --testdox
+
+    - name: Execute Code Sniffer via phpcs
+      run: |
+        composer require --dev squizlabs/php_codesniffer
+        vendor/bin/phpcs --standard=PSR12 src
+
+    - name: Execute Code Static Analysis (PHP Stan + Larastan)
+      run: |
+        composer require --dev nunomaduro/larastan
+        vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
+
+
+
+
