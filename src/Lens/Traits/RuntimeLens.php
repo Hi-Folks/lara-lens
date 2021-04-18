@@ -26,6 +26,20 @@ trait RuntimeLens
         }
     }
 
+    private function getIniValues($results)
+    {
+        $labels = [
+            "post_max_size",
+            "upload_max_filesize",
+        ];
+        foreach ($labels as $label) {
+            $results->add(
+                $label,
+                ini_get($label)
+            );
+        }
+    }
+
     public function getRuntimeConfigs()
     {
         $results = new ResultLens();
@@ -33,6 +47,7 @@ trait RuntimeLens
             "PHP Version",
             phpversion()
         );
+        $this->getIniValues($results);
         $results->add(
             "Current Directory",
             getcwd()
