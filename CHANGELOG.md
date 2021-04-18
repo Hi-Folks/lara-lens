@@ -1,9 +1,12 @@
 # Changelog
+## 0.2.4 - 2021-04-18
+### Add
+- In runtime information, added upload_max_filesize and post_max_size from php configuration ( thanks to @yogendra-revanna )
 
 ## 0.2.3 - 2021-04-10
 ### Add
 - Check DEBUG and ENV configuration for production (if production avoid having debug on);
-- Check Storage Links and sohw the user a waring if some directory links are missing
+- Check Storage Links and show the user a waring if some directory links are missing
 
 ### Change
 - improve tests and checks script for Workflows
