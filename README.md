@@ -105,6 +105,21 @@ If your Laravel application doesn't use the database, you can skip the database 
 php artisan laralens:diagnostic --skip-database 
 ```
 
+### Usage: show some oprating system information
+You can show some operating system information like:
+- PHP script owner's UID
+- Current User
+- Operating System
+- Hostname
+- Release name
+- Machine Name
+- Version info
+
+using _"--show os"_ option or _"--show all"_ option 
+```shell
+php artisan laralens:diagnostic  --show os
+```
+
 ### Usage: change the style of output table
 You can choose one of these styles via *--style=* option:
 

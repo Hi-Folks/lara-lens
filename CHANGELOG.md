@@ -1,4 +1,16 @@
 # Changelog
+
+## 0.2.5 - 2021-06-18
+### Add
+- Add some Operating System information:
+    - PHP script owner's UID
+    - Current User
+    - Operating System
+    - Hostname
+    - Release name
+    - Machine Name
+    - Version info
+    
 ## 0.2.4 - 2021-04-18
 ### Add
 - In runtime information, added upload_max_filesize and post_max_size from php configuration ( thanks to @yogendra-revanna )
