@@ -19,7 +19,7 @@ class LaraLensCommand extends Command
                             {--table=users : name of the table, default users}
                             {--column-sort=created_at : column name used for sorting}
                             {--url-path=' . self::DEFAULT_PATH . ' : default path for checking URL}
-                            {--show=* : show (all|config|runtime|connection|database|migration|php-ext|php-ini)}
+                            {--show=* : show (all|config|runtime|connection|database|migration|php-ext|php-ini|os)}
                             {--width-label=' . self::DEFAULT_WIDTH . ' : width of column for label}
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
                             {--style=' . self::DEFAULT_STYLE . ' : style for output table (' . self::TABLE_STYLES . ')}
@@ -42,7 +42,8 @@ class LaraLensCommand extends Command
     public const OPTION_SHOW_MIGRATION = 0b00010000;
     public const OPTION_SHOW_PHPEXTENSIONS = 0b00100000;
     public const OPTION_SHOW_PHPINIVALUES = 0b01000000;
-    public const OPTION_SHOW_ALL = 0b01111111;
+    public const OPTION_SHOW_OS = 0b10000000;
+    public const OPTION_SHOW_ALL = 0b11111111;
     public const OPTION_SHOW_DEFAULT = 0b00011111;
 
     private function allConfigs()
@@ -205,6 +206,10 @@ class LaraLensCommand extends Command
             $output = $ll->getPhpIniValues();
             $this->printOutput(["PHP ini config", "Values"], $output->toArray());
         }
+        if ($show & self::OPTION_SHOW_OS) {
+            $output = $ll->getOsConfigs();
+            $this->printOutput(["Operating System", "Values"], $output->toArray());
+        }
         $this->printChecks($ll->checksBag->toArray());
     }
 
@@ -241,6 +246,7 @@ class LaraLensCommand extends Command
                     $show = (in_array("migration", $showOptions)) ? $show | self::OPTION_SHOW_MIGRATION : $show ;
                     $show = (in_array("php-ext", $showOptions)) ? $show | self::OPTION_SHOW_PHPEXTENSIONS : $show ;
                     $show = (in_array("php-ini", $showOptions)) ? $show | self::OPTION_SHOW_PHPINIVALUES : $show ;
+                    $show = (in_array("os", $showOptions)) ? $show | self::OPTION_SHOW_OS : $show ;
                 }
             } else {
                 $show = self::OPTION_SHOW_DEFAULT;
