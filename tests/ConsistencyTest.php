@@ -24,7 +24,7 @@ class ConsistencyTest extends TestCase
         $this->assertIsArray($a->toArray());
         $this->assertCount(14, $a->toArray());
         $arrayChecks = $l->checksBag->toArray();
-        
+
         $this->assertCount(0, $arrayChecks, "test check config length 0");
 
         $l = new LaraLens();
@@ -103,6 +103,15 @@ class ConsistencyTest extends TestCase
         $a = $l->getPhpIniValues();
         $this->assertIsArray($a->toArray());
         $this->assertGreaterThan(0, count($a->toArray()));
+    }
+
+    /** @test */
+    public function test_os_config_array()
+    {
+        $l = new LaraLens();
+        $a = $l->getOsConfigs();
+        $this->assertIsArray($a->toArray());
+        $this->assertLessThanOrEqual(8, count($a->toArray()));
     }
 
 }
