@@ -24,6 +24,7 @@ class LaraLensCommand extends Command
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
                             {--style=' . self::DEFAULT_STYLE . ' : style for output table (' . self::TABLE_STYLES . ')}
                             {--skip-database : skip database check (if your laravel app doesn\'t need Database)}
+                            {--v|verbose|all : verbose output (--show=all)}
                             ';
 
     protected $description = 'Show some application configurations.';
@@ -226,7 +227,7 @@ class LaraLensCommand extends Command
             $this->styleTable = self::DEFAULT_STYLE;
         }
         $columnSorting = $this->option("column-sort");
-        $showOptions = $this->option("show");
+        $showOptions = $this->option("verbose") ? ['all'] : $this->option("show");
 
 
         if (is_array($showOptions)) {
