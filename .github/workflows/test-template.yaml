@@ -7,6 +7,7 @@ on:
       - main
       - develop
       - features/**
+      - fix/**
 
 jobs:
   laravel-tests:
