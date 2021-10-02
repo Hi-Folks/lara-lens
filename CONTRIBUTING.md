@@ -38,9 +38,19 @@ Before submitting a pull request:
 
 ## Requirements
 
-If the project maintainer has any additional requirements, you will find them listed here.
+In order to maintain consistency in the source code we are following PSR12 coding standard, and using PHP stan for static code analysis.
+You can use the command:
+```
+make allcheck
+```
+to launch
+- **[PSR-12 Coding Standard](https://www.php-fig.org/psr/psr-12/)**, under the hood is used [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer);
+- **PHPstan** with [level 4](https://phpstan.org/user-guide/rule-levels)
+- **Phpunit** to execute all tests from ./tests/*
 
-- **[PSR-2 Coding Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)** - The easiest way to apply the conventions is to install [PHP Code Sniffer](https://pear.php.net/package/PHP_CodeSniffer).
+I suggest to launch *make allchecks* before to commit or before to create PR.
+
+If you want to contribute with an high quality PR, I suggest you to focus not just on the source code but also:
 
 - **Add tests!** - Your patch won't be accepted if it doesn't have tests.
 
