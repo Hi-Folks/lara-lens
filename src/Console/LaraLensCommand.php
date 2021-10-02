@@ -22,6 +22,7 @@ class LaraLensCommand extends Command
                             {--show=* : show (all|config|runtime|connection|database|migration|php-ext|php-ini|os)}
                             {--width-label=' . self::DEFAULT_WIDTH . ' : width of column for label}
                             {--width-value=' . self::DEFAULT_WIDTH . ' : width of column for value}
+                            {--large : use 120 columns for the output}
                             {--style=' . self::DEFAULT_STYLE . ' : style for output table (' . self::TABLE_STYLES . ')}
                             {--skip-database : skip database check (if your laravel app doesn\'t need Database)}
                             {--a|all : verbose output (--show=all)}
@@ -30,6 +31,7 @@ class LaraLensCommand extends Command
     protected $description = 'Show some application configurations.';
 
     private const DEFAULT_WIDTH = 36;
+    private const DEFAULT_LARGE_WIDTH = 77;
     protected $widthLabel = self::DEFAULT_WIDTH;
     protected $widthValue = self::DEFAULT_WIDTH;
 
@@ -256,6 +258,9 @@ class LaraLensCommand extends Command
 
         $this->widthLabel = $this->option("width-label");
         $this->widthValue = $this->option("width-value");
+        if ($this->option("large")) {
+            $this->widthValue = self::DEFAULT_LARGE_WIDTH;
+        }
 
         $this->urlPath = $this->option("url-path");
         if (is_null($this->urlPath)) {
