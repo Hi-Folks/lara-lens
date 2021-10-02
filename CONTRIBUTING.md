@@ -36,7 +36,7 @@ Before submitting a pull request:
 - Check the codebase to ensure that your feature doesn't already exist.
 - Check the pull requests to ensure that another person hasn't already submitted the feature or fix.
 
-## Requirements
+## Open a Pull Request
 
 In order to maintain consistency in the source code we are following PSR12 coding standard, and using PHP stan for static code analysis.
 You can use the command:
@@ -49,6 +49,8 @@ to launch
 - **Phpunit** to execute all tests from ./tests/*
 
 I suggest to launch *make allchecks* before to commit or before to create PR.
+
+If you want to work on a PR, I suggest you to creating a new branch starting from **develop branch**, and use it also when you will submit your new **P**ull **R**equest on the original repository.
 
 If you want to contribute with an high quality PR, I suggest you to focus not just on the source code but also:
 
