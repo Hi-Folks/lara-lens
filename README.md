@@ -7,7 +7,7 @@
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hi-folks/lara-lens)
 
 
-![LaraLens](https://raw.githubusercontent.com/Hi-Folks/lara-lens/v0.1.13/LaraLens-Laravel-Artisan.png)
+![LaraLens](https://raw.githubusercontent.com/Hi-Folks/lara-lens/develop/LaraLens-Laravel-Artisan.png)
 
 ## What
 **LaraLens** is a _Laravel_ artisan command to show you the current configuration of your
