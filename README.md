@@ -87,6 +87,11 @@ If you want to see a verbose output (with also PHP extensions and PHP INI values
 ```shell script
 php artisan laralens:diagnostic --show=all
 ```
+or better:
+```shell script
+php artisan laralens:diagnostic --all
+```
+
 
 If you want to see only PHP extensions:
 ```shell script
@@ -102,7 +107,7 @@ php artisan laralens:diagnostic --show=php-ini
 If your Laravel application doesn't use the database, you can skip the database inspection with --skip-database option.
 
 ```shell script
-php artisan laralens:diagnostic --skip-database 
+php artisan laralens:diagnostic --skip-database
 ```
 
 ### Usage: show some oprating system information
@@ -115,7 +120,7 @@ You can show some operating system information like:
 - Machine Name
 - Version info
 
-using _"--show os"_ option or _"--show all"_ option 
+using _"--show os"_ option or _"--show all"_ option
 ```shell
 php artisan laralens:diagnostic  --show os
 ```
@@ -133,6 +138,12 @@ You can choose one of these styles via *--style=* option:
 For example:
 ```sh
 php artisan laralens:diagnostic --style=borderless
+```
+
+### Usage: change the width of the output table
+To use 120 characters (wide terminal), you can use --large option
+```sh
+php artisan laralens:diagnostic --large
 ```
 
 
@@ -162,12 +173,12 @@ After that,you will have a new configuration file in your config directory. The 
 Add `LARALENS_WEB_ENABLED=on` option to your .env file. You may also override the default parameters for `LARALENS_PREFIX` and `LARALENS_MIDDLEWARE`
 ```
 # Wether Web Report should be enabled or not
-LARALENS_WEB_ENABLED=on 
+LARALENS_WEB_ENABLED=on
 # Path prefix in order to acess the Web Report via browser
 LARALENS_PREFIX="laralens"
 # Which middleware should be used when acessing the Web Report, separete more with ;
-LARALENS_MIDDLEWARE="web;auth.basic" 
-``` 
+LARALENS_MIDDLEWARE="web;auth.basic"
+```
 
 For example, with the configuration above you would have enabled the web view (_web-enabled_ parameter) under _/laralens_test/_ path and with the `web` and `auth.basic` middleware
 
@@ -181,12 +192,12 @@ return [
 
 ### Web view configuration hint
 LaraLens shows some internal configuration of your Laravel application, so I suggest you to disable it in a production environment.
-To disable LaraLens web view, make sure to remove LARALENS_WEB_ENABLED config from .env file or set it to _off_ 
+To disable LaraLens web view, make sure to remove LARALENS_WEB_ENABLED config from .env file or set it to _off_
 ```
 LARALENS_WEB_ENABLED=off
 ```
 
- 
+
 
 
 ## Contributing
