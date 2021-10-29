@@ -49,7 +49,7 @@ class LaraLensCommand extends Command
     public const OPTION_SHOW_ALL = 0b11111111;
     public const OPTION_SHOW_DEFAULT = 0b00011111;
 
-    private function allConfigs()
+    private function allConfigs(): void
     {
         $this->info(json_encode(config()->all(), JSON_PRETTY_PRINT));
     }
@@ -67,7 +67,7 @@ class LaraLensCommand extends Command
         return $retVal;
     }
 
-    private function printOutput(array $headers, array $rows)
+    private function printOutput(array $headers, array $rows): void
     {
         $rowsTable = [];
         $rowsLine = [];
@@ -79,7 +79,6 @@ class LaraLensCommand extends Command
             }
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-
             if (
                 strlen($value) > $this->widthValue ||
                 $isLine ||
@@ -120,7 +119,7 @@ class LaraLensCommand extends Command
         }
     }
 
-    private function alertGreen($string)
+    private function alertGreen($string): void
     {
         $length = Str::length(strip_tags($string)) + 12;
         $this->info(str_repeat('*', $length));
@@ -129,7 +128,7 @@ class LaraLensCommand extends Command
         $this->output->newLine();
     }
 
-    private function printChecks(array $rows)
+    private function printChecks(array $rows): void
     {
         if (sizeof($rows) == 0) {
             $this->alertGreen("CHECK: everything looks good");
@@ -142,7 +141,11 @@ class LaraLensCommand extends Command
             $value = Arr::get($row, "value", "");
             $isLine = Arr::get($row, "isLine", false);
             $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if ($label != "" & ($lineType === ResultLens::LINE_TYPE_ERROR | ResultLens::isMessageLine($lineType))) {
+            if (
+                ($label !== "") &&
+                (($lineType === ResultLens::LINE_TYPE_ERROR) ||
+                    ResultLens::isMessageLine($lineType))
+            ) {
                 $idx++;
                 $this->warn("--- " . $idx . " ------------------");
                 $this->warn("*** " . $label);
@@ -159,7 +162,7 @@ class LaraLensCommand extends Command
         }
     }
 
-    private function overview($checkTable = "users", $columnSorting = "created_at", $show = self::OPTION_SHOW_ALL)
+    private function overview($checkTable = "users", $columnSorting = "created_at", $show = self::OPTION_SHOW_ALL): void
     {
         $ll = new LaraLens();
         if ($show & self::OPTION_SHOW_CONFIGS) {
@@ -217,7 +220,7 @@ class LaraLensCommand extends Command
     }
 
 
-    public function handle()
+    public function handle(): void
     {
         $op = $this->argument("op");
         $checkTable = $this->option("table");

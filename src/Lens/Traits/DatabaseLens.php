@@ -11,7 +11,7 @@ use HiFolks\LaraLens\ResultLens;
 
 trait DatabaseLens
 {
-    public function getTablesListMysql()
+    public function getTablesListMysql(): string
     {
         $tables = DB::select('SHOW TABLES');
         $stringTables = "";
@@ -23,7 +23,7 @@ trait DatabaseLens
         return $stringTables;
     }
 
-    public function getTablesListSqlite()
+    public function getTablesListSqlite(): string
     {
         $tables = DB::table('sqlite_master')
             ->select('name')
@@ -196,7 +196,7 @@ trait DatabaseLens
         }
     }
 
-    public function getDatabase($checkTable = "users", $columnSorting = "created_at")
+    public function getDatabase($checkTable = "users", $columnSorting = "created_at"): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
 

@@ -6,7 +6,7 @@ use HiFolks\LaraLens\Lens\LaraLens;
 
 class LaraLensController extends Controller
 {
-    public function index()
+    public function index(): \Illuminate\View\View
     {
         if (config('lara-lens.web-enabled') != 'on') {
             abort(403, 'Unauthorized action.', ['X-Laralens' => 'off']);
