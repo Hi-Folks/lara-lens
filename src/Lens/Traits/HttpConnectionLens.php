@@ -7,7 +7,7 @@ use HiFolks\LaraLens\ResultLens;
 
 trait HttpConnectionLens
 {
-    public function getConnections($checkPath)
+    public function getConnections($checkPath): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         $app_url = config("app.url");

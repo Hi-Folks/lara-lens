@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 trait RuntimeLens
 {
 
-    private function appCaller($results, $functions)
+    private function appCaller($results, $functions): void
     {
         $curDir = getcwd();
         foreach ($functions as $function => $label) {
@@ -26,7 +26,7 @@ trait RuntimeLens
         }
     }
 
-    private function getIniValues($results)
+    private function getIniValues($results): void
     {
         $labels = [
             "post_max_size",
@@ -40,7 +40,7 @@ trait RuntimeLens
         }
     }
 
-    public function getRuntimeConfigs()
+    public function getRuntimeConfigs(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         $results->add(
@@ -84,7 +84,7 @@ trait RuntimeLens
         return $results;
     }
 
-    public function checkServerRequirements()
+    public function checkServerRequirements(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
 
@@ -212,7 +212,7 @@ trait RuntimeLens
         return $results;
     }
 
-    public function getPhpExtensions()
+    public function getPhpExtensions(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         foreach (get_loaded_extensions() as $name) {
@@ -224,7 +224,7 @@ trait RuntimeLens
         return $results;
     }
 
-    public function getPhpIniValues()
+    public function getPhpIniValues(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         foreach (ini_get_all() as $name => $row) {

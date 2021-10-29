@@ -15,7 +15,7 @@ trait FilesystemLens
             [public_path('storage') => storage_path('app/public')];
         //return $this->laravel['config']['filesystems.links'] ??
     }
-    public function checkFiles()
+    public function checkFiles(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         $envExists = file_exists(App::environmentFilePath());

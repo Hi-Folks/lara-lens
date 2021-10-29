@@ -1,0 +1,10 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - '#Parameter .1 \$separator of function explode expects non-empty-string, string given.#'
+
+    level: 5
+    paths:
+        - src

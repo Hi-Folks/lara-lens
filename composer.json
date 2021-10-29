@@ -31,7 +31,9 @@
         "nunomaduro/larastan": "^0.7.2",
         "orchestra/testbench": "4.*|5.*|6.*",
         "phpunit/phpunit": "^8.0|^9.3",
-        "squizlabs/php_codesniffer": "^3.5"
+        "psalm/plugin-laravel": "^1.5",
+        "squizlabs/php_codesniffer": "^3.6",
+        "vimeo/psalm": "^4.11"
     },
     "autoload": {
         "psr-4": {

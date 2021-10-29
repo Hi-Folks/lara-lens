@@ -10,7 +10,7 @@ trait OperatingSystemLens
 {
 
 
-    private function getUnameValues($results)
+    private function getUnameValues($results): void
     {
         $modes =  [
             "s" => "Operating System",
@@ -29,7 +29,7 @@ trait OperatingSystemLens
         }
     }
 
-    public function getOsConfigs()
+    public function getOsConfigs(): \HiFolks\LaraLens\ResultLens
     {
         $results = new ResultLens();
         $results->add(

@@ -12,7 +12,7 @@ class LaraLensServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         /*
          * Optional methods to load your package assets
@@ -56,14 +56,19 @@ class LaraLensServiceProvider extends ServiceProvider
     }
 
 
-    protected function registerRoutes()
+    protected function registerRoutes(): void
     {
         Route::group($this->routeConfiguration(), function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
     }
 
-    protected function routeConfiguration()
+    /**
+     * @return (\Illuminate\Config\Repository|mixed)[]
+     *
+     * @psalm-return array{prefix: \Illuminate\Config\Repository|mixed, middleware: \Illuminate\Config\Repository|mixed}
+     */
+    protected function routeConfiguration(): array
     {
 
         return [

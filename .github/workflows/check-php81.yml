@@ -57,13 +57,6 @@ jobs:
 
     - name: Execute Code Sniffer via phpcs
       run: |
-        composer require --dev squizlabs/php_codesniffer
         vendor/bin/phpcs --standard=PSR12 src
 
-    - name: Execute Code Static Analysis (PSALM)
-      run: |
-        composer require --dev vimeo/psalm
-        ./vendor/bin/psalm --init
-        composer require --dev psalm/plugin-laravel
-        ./vendor/bin/psalm-plugin enable psalm/plugin-laravel
-        vendor/bin/psalm
+

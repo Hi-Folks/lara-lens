@@ -19,48 +19,48 @@ class ResultLens
         $this->reset();
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->result = collect();
         $this->idx = -1;
     }
 
-    public function addError($label, $value)
+    public function addError($label, $value): void
     {
         $this->add($label, $value, true, self::LINE_TYPE_ERROR);
     }
 
-    public function addWarning($label, $value)
+    public function addWarning($label, $value): void
     {
         $this->add($label, $value, true, self::LINE_TYPE_WARNING);
     }
-    public function addInfo($label, $value)
+    public function addInfo($label, $value): void
     {
         $this->add($label, $value, true, self::LINE_TYPE_INFO);
     }
 
 
-    public function addHint($value)
+    public function addHint($value): void
     {
         $this->add("*** HINT", $value, true, self::LINE_TYPE_HINT);
     }
-    public function addErrorAndHint($label, $errorMessage, $hintMessage)
+    public function addErrorAndHint($label, $errorMessage, $hintMessage): void
     {
         $this->addError($label, $errorMessage);
         $this->addHint($hintMessage);
     }
-    public function addWarningAndHint($label, $warningMessage, $hintMessage)
+    public function addWarningAndHint($label, $warningMessage, $hintMessage): void
     {
         $this->addWarning($label, $warningMessage);
         $this->addHint($hintMessage);
     }
-    public function addInfoAndHint($label, $infoMessage, $hintMessage)
+    public function addInfoAndHint($label, $infoMessage, $hintMessage): void
     {
         $this->addInfo($label, $infoMessage);
         $this->addHint($hintMessage);
     }
 
-    public function add($label, $value, $forceLine = false, $lineType = self::LINE_TYPE_DEFAULT)
+    public function add($label, $value, $forceLine = false, $lineType = self::LINE_TYPE_DEFAULT): void
     {
         $this->result->push(
             [
@@ -73,13 +73,16 @@ class ResultLens
         $this->idx++;
     }
 
-    public static function isMessageLine($lineType)
+    /**
+     * @return bool
+     */
+    public static function isMessageLine(string $lineType)
     {
-        return ($lineType === self::LINE_TYPE_ERROR) |
-            ($lineType === self::LINE_TYPE_WARNING) |
-            ($lineType === self::LINE_TYPE_INFO);
+        return (($lineType === self::LINE_TYPE_ERROR) ||
+            ($lineType === self::LINE_TYPE_WARNING) ||
+            ($lineType === self::LINE_TYPE_INFO));
     }
-    public static function isHintLine($lineType)
+    public static function isHintLine($lineType): bool
     {
         return ($lineType === self::LINE_TYPE_HINT);
     }
