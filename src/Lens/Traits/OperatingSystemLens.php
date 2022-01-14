@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 trait OperatingSystemLens
 {
-
-
     private function getUnameValues($results): void
     {
         $modes =  [

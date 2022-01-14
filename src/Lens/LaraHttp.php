@@ -8,7 +8,6 @@ use HiFolks\LaraLens\Lens\Objects\LaraHttpResponse;
 
 class LaraHttp
 {
-
     public static function get($url): LaraHttpResponse
     {
         $client = new Client();

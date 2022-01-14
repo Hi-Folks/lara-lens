@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 trait RuntimeLens
 {
-
     private function appCaller($results, $functions): void
     {
         $curDir = getcwd();
