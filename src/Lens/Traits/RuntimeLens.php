@@ -133,7 +133,22 @@ trait RuntimeLens
                     "tokenizer",
                     "xml"
                 ]
+            ],
+            "9" => [
+                "phpversion" => "8.0.2",
+                "extensions" => [
+                    "bcmath",
+                    "ctype",
+                    "fileinfo",
+                    "json",
+                    "mbstring",
+                    "openssl",
+                    "pdo",
+                    "tokenizer",
+                    "xml"
+                ]
             ]
+
         ];
         if (! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
             $laravelMajorVersion = "8";
