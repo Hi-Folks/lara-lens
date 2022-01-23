@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.2.6 - 2021-01-03
+## 0.2.7 - 2022-01-23
+- Add Support for Laravel 9
+- Add tests for PHP8.1
+- Drop support for PHP7.3
+- Some fie tuning for Static Code analysis
+
+## 0.2.6 - 2021-10-03
 Hacktoberfest!!!
 We would like to say thank you to @tweichart and @martijnengler for the contributions.
 ### Add
