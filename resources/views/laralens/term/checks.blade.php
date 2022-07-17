@@ -1,78 +1,50 @@
-<div class="mt-1 mx-1">
+<div class="mt-2 mx-1">
     @if (sizeof($rows) > 0)
-    <div class="flex space-x-1">
-        <span class="flex-1 content-repeat-[─] text-red">
-        </span>
-        <span class="text-red">
-        CHECK: issues found
-        </span>
-    </div>
+        <div class="flex space-x-1">
+            <span class="text-red">CHECK: issues found</span>
+            <span class="flex-1 content-repeat-[─] text-red"></span>
+        </div>
     @else
-    <div class="flex space-x-1">
-        <span class="flex-1 content-repeat-[─] text-green">
-        </span>
-        <span class="text-green">
-        CHECK: everything looks good
-        </span>
-    </div>
+        <div class="flex space-x-1">
+            <span class="text-green">CHECK: everything looks good</span>
+            <span class="flex-1 content-repeat-[─] text-green"></span>
+        </div>
     @endif
     <div>
-        <span>
-            @foreach ($rows as $row)
-                @php
+        @foreach ($rows as $row)
+            @php
                 $lineType = Arr::get($row, "lineType", HiFolks\LaraLens\ResultLens::LINE_TYPE_DEFAULT);
                 $label = Arr::get($row, "label", "");
-                @endphp 
-                
-                @if ($label === "*** HINT")
-                <div class="flex bg-gray-900 space-x-1">
-                    <span class="px-1   text-gray-100">
-                    💡 Hint:
-                    </span>
-                    
+            @endphp
+            @if ($label === "*** HINT")
+                <div class="flex space-x-1 mt-1">
+                    <span class="px-1 text-gray-100">💡 Hint:</span>
                     <span>
                         <span class="px-0  text-gray-300">
-                        {{ Arr::get($row, "value", "") }}
+                            {{ Arr::get($row, "value", "") }}
                         </span>
                     </span>
-                    </div>
-                @else
-                <div class="">
                 </div>
-                <div class="flex bg-gray-900 space-x-0  ">
-                    <span class=" text-gray-800 px-1 bg-gray-200 font-bold">
+            @else
+                <div @class([
+                        'w-full mx-1 py-1 mt-1 text-center font-bold',
+                        'bg-red text-white' => $lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR,
+                        'bg-yellow text-black' => $lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_WARNING,
+                        'bg-green text-white' => $lineType !== HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR
+                            && $lineType !== HiFolks\LaraLens\ResultLens::LINE_TYPE_WARNING,
+                ])>
+                    {{ Arr::get($row, "label", "")}}
+                </div>
+                <div class="mt-1 mx-1 text-gray-300">
                     @if ($lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR)
-                    ❌
+                        {{ Arr::get($row, "value", "")}}
                     @elseif ($lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_WARNING)
-                    ⚠️
+                        {{ Arr::get($row, "value", "")}}
                     @else
-                    ✔️
-                    @endif
-                    &nbsp;{{ Arr::get($row, "label", "")}}
-                    </span>
-                
-                    <span class="flex-1  content-repeat-[.] text-gray"></span>
-
-                    <span>
-                        @if ($lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR)
-                        <span class="px-0 bg-red text-white  font-bold">
-                        {{ Arr::get($row, "value", "")}}
-                        </span>
-                        @elseif ($lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_WARNING)
-                        <span class="px-0 bg-yellow text-gray  font-bold">
-                        {{ Arr::get($row, "value", "")}}
-                        </span>
-                        @else
-                        
-                        <span class="px-0 bg-green text-gray  font-bold">
                         {{ Str::replace("\\", "/", Arr::get($row, "value", "")) }}
-                        </span>
-                        @endif
-
-                    </span>
+                    @endif
                 </div>
-                @endif
-            @endforeach
-        </span>
+            @endif
+        @endforeach
     </div>
 </div>
