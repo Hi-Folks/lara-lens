@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.0 - WIP
+- Add Termwind package
+
+
 ## 0.2.7 - 2022-01-23
 - Add Support for Laravel 9
 - Add tests for PHP8.1

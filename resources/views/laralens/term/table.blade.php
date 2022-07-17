@@ -28,7 +28,7 @@
 
                     <span class="flex-1  content-repeat-[.] text-gray"></span>
 
-                    <div>
+                    <span>
                         @if ($lineType === HiFolks\LaraLens\ResultLens::LINE_TYPE_ERROR)
                             <span class="text-gray-100 bg-red  font-bold">
                                 {{ Arr::get($row, "value", "")}}
@@ -42,7 +42,7 @@
                                 {{ Str::replace("\\", "/", Arr::get($row, "value", "")) }}
                             </span>
                         @endif
-                    </div>
+                    </span>
                 </div>
                 @endif
             @endforeach
