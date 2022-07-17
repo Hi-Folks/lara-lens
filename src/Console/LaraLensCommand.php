@@ -3,6 +3,7 @@
 namespace HiFolks\LaraLens\Console;
 
 use HiFolks\LaraLens\Lens\LaraLens;
+use HiFolks\LaraLens\Lens\Traits\TermOutput;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
@@ -10,6 +11,8 @@ use Illuminate\Support\Str;
 
 class LaraLensCommand extends Command
 {
+    use TermOutput;
+
     private const TABLE_STYLES = 'default|borderless|compact|symfony-style-guide|box|box-double';
     private const DEFAULT_STYLE = 'box-double';
     private const DEFAULT_PATH = '';
@@ -54,138 +57,30 @@ class LaraLensCommand extends Command
         $this->info(json_encode(config()->all(), JSON_PRETTY_PRINT));
     }
 
-    private function formatCell($string, $width)
-    {
-        $retVal = "";
-        if (strlen($string) > $width) {
-            $retVal = Str::limit($string, $width, '');
-        } elseif (strlen($string) < $width) {
-            $retVal = str_pad($string, $width);
-        } else {
-            $retVal =  $string;
-        }
-        return $retVal;
-    }
-
-    private function printOutput(array $headers, array $rows): void
-    {
-        $rowsTable = [];
-        $rowsLine = [];
-        foreach ($rows as $key => $row) {
-            $label = Arr::get($row, "label", "");
-            $value = Arr::get($row, "value", "");
-            if (is_array($value)) {
-                $value = implode(",", $value);
-            }
-            $isLine = Arr::get($row, "isLine", false);
-            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if (
-                strlen($value) > $this->widthValue ||
-                $isLine ||
-                $lineType === ResultLens::LINE_TYPE_ERROR ||
-                $lineType === ResultLens::LINE_TYPE_WARNING
-            ) {
-                $rowsLine[] = $row;
-            } else {
-                $row["label"] = $this->formatCell($label, $this->widthLabel);
-                $row["value"] = $this->formatCell($value, $this->widthValue);
-                $rowsTable[] = [ $row["label"], $row["value"]   ];
-            }
-        }
-        /*
-         * table style:
-         * 'default'
-         * 'borderless'
-         * 'compact'
-         * 'symfony-style-guide'
-         * 'box'
-         * 'box-double'
-         */
-        $this->table($headers, $rowsTable, $this->styleTable);
-        foreach ($rowsLine as $key => $line) {
-            $label = Arr::get($line, "label", "");
-            $value = Arr::get($line, "value", "");
-            $lineType = Arr::get($line, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if ($label != "") {
-                $this->info($label . ":");
-            }
-            if ($lineType === ResultLens::LINE_TYPE_ERROR) {
-                $this->error($value);
-            } elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
-                $this->warn($value);
-            } else {
-                $this->line($value);
-            }
-        }
-    }
-
-    private function alertGreen($string): void
-    {
-        $length = Str::length(strip_tags($string)) + 12;
-        $this->info(str_repeat('*', $length));
-        $this->info('*     ' . $string . '     *');
-        $this->info(str_repeat('*', $length));
-        $this->output->newLine();
-    }
-
-    private function printChecks(array $rows): void
-    {
-        if (sizeof($rows) == 0) {
-            $this->alertGreen("CHECK: everything looks good");
-        } else {
-            $this->alert("CHECK: issues found");
-        }
-        $idx = 0;
-        foreach ($rows as $key => $row) {
-            $label = Arr::get($row, "label", "");
-            $value = Arr::get($row, "value", "");
-            $isLine = Arr::get($row, "isLine", false);
-            $lineType = Arr::get($row, "lineType", ResultLens::LINE_TYPE_DEFAULT);
-            if (
-                ($label !== "") &&
-                (($lineType === ResultLens::LINE_TYPE_ERROR) ||
-                    ResultLens::isMessageLine($lineType))
-            ) {
-                $idx++;
-                $this->warn("--- " . $idx . " ------------------");
-                $this->warn("*** " . $label);
-            }
-            if ($lineType === ResultLens::LINE_TYPE_ERROR) {
-                $this->error($value);
-            } elseif ($lineType === ResultLens::LINE_TYPE_WARNING) {
-                $this->warn($value);
-            } elseif ($lineType === ResultLens::LINE_TYPE_INFO) {
-                $this->info($value);
-            } else {
-                $this->comment($value);
-            }
-        }
-    }
-
     private function overview($checkTable = "users", $columnSorting = "created_at", $show = self::OPTION_SHOW_ALL): void
     {
         $ll = new LaraLens();
         if ($show & self::OPTION_SHOW_CONFIGS) {
             $output = $ll->getConfigs();
-            $this->printOutput(["Config keys via config()", "Values"], $output->toArray());
+            $this->printOutputTerm("Config keys via config()", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
             $output = $ll->getRuntimeConfigs();
-            $this->printOutput(["Runtime Configs", "Values"], $output->toArray());
+            $this->printOutputTerm("Runtime Configs", $output->toArray());
             $output = $ll->checkServerRequirements();
-            $this->printOutput(["Laravel Requirements", "Values"], $output->toArray());
+            $this->printOutputTerm("Laravel Requirements", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_RUNTIMECONFIGS) {
             $output = $ll->checkFiles();
-            $this->printOutput(["Check files", "Values"], $output->toArray());
+            $this->printOutputTerm("Check files", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_CONNECTIONS) {
             $output = $ll->getConnections($this->urlPath);
-            $this->printOutput(["Connections", "Values"], $output->toArray());
+            $this->printOutputTerm("Connections", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_DATABASE) {
             $output = $ll->getDatabase($checkTable, $columnSorting);
-            $this->printOutput(["Database", "Values"], $output->toArray());
+            $this->printOutputTerm("Database", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_MIGRATION) {
             try {
@@ -201,22 +96,22 @@ class LaraLensCommand extends Command
                     $e->getMessage(),
                     "Check the Database configuration"
                 );
-                $this->printOutput(["Migration" , "result"], $r->toArray());
+                $this->printOutputTerm("Migration", $r->toArray());
             }
         }
         if ($show & self::OPTION_SHOW_PHPEXTENSIONS) {
             $output = $ll->getPhpExtensions();
-            $this->printOutput(["PHP Extensions"], $output->toArray());
+            $this->printOutputTerm("PHP Extensions", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_PHPINIVALUES) {
             $output = $ll->getPhpIniValues();
-            $this->printOutput(["PHP ini config", "Values"], $output->toArray());
+            $this->printOutputTerm("PHP ini config", $output->toArray());
         }
         if ($show & self::OPTION_SHOW_OS) {
             $output = $ll->getOsConfigs();
-            $this->printOutput(["Operating System", "Values"], $output->toArray());
+            $this->printOutputTerm("Operating System", $output->toArray());
         }
-        $this->printChecks($ll->checksBag->toArray());
+        $this->printChecksTerm($ll->checksBag->toArray());
     }
 
 
