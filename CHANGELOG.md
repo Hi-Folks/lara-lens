@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1- 2022-07-17
+- Fine tuning dependencies for PHP 8.1, and symfony / doctrine packages
+- Drop supprt for PHP7.4, for older PHP and Laravel, use Laralens v0.2.x
+
+
 ## 0.3.0 - 2022-07-17
 - Add Termwind package
 - Review console output, thanks also to @exodusanto
