@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 - WIP
+- Support for Laravel 10
+
 ## 0.3.1- 2022-07-17
 - Fine tuning dependencies for PHP 8.1, and symfony / doctrine packages
 - Drop supprt for PHP7.4, for older PHP and Laravel, use Laralens v0.2.x
