@@ -1,47 +1,44 @@
-# GithHub Actions Workflow generated with Ghygen
-# Original configuration: http://gh-actions-yaml-generator.test?code=cd2d02dcc025e2bc0a9c54b361725aee
-name: Template - Laravel package
+name: Code Quality Workflow
 on:
   push:
     branches:
-      - main
       - develop
       - features/**
-      - fix/**
+      - feature/**
 
 jobs:
   laravel-tests:
-    runs-on: ubuntu-latest
-
     strategy:
-      matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: [ '8.1', '8.0' ]
-        dependency-stability: [ prefer-stable ]
+        matrix:
+            operating-system: [ubuntu-latest, window-latest]
+            php-versions: [ '8.2', '8.1', '8.0' ]
+            dependency-stability: [ 'prefer-stable','prefer-lowest' ]
+
+    runs-on: ${{ matrix.operating-system }}
+
 
     name: P${{ matrix.php-versions }} - L${{ matrix.laravel }} - ${{ matrix.dependency-stability }} - ${{ matrix.operating-system}}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Install PHP versions
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-    - name: Show dir
-      run: pwd
-    - name: PHP Version
-      run: php --version
+    - name: Update Dependencies with latest stable
+      if: matrix.dependency-stability == 'prefer-stable'
+      run: composer update --prefer-stable
+    - name: Update Dependencies with lowest stable
+      if: matrix.dependency-stability == 'prefer-lowest'
+      run: composer update --prefer-stable --prefer-lowest
 
 # Code quality
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-# Set environment
       env:
         SESSION_DRIVER: array
-
       run: vendor/bin/phpunit --testdox
 
     - name: Execute Code Sniffer via phpcs
@@ -50,5 +47,4 @@ jobs:
 
     - name: Execute Code Static Analysis (PHP Stan + Larastan)
       run: |
-        vendor/bin/phpstan analyse src -c ./vendor/nunomaduro/larastan/extension.neon  --level=4 --no-progress
-
+        vendor/bin/phpstan analyse -c ./phpstan.neon --no-progress

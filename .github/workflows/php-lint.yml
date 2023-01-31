@@ -1,10 +1,10 @@
-name: PHP Composer
+name: PHP Syntax Checker (Lint)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
 
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
 
     - name: Validate composer.json and composer.lock
