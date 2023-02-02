@@ -10,7 +10,7 @@ jobs:
   laravel-tests:
     strategy:
         matrix:
-            operating-system: [ubuntu-latest, window-latest]
+            operating-system: [ubuntu-latest]
             php-versions: [ '8.2', '8.1', '8.0' ]
             dependency-stability: [ 'prefer-stable','prefer-lowest' ]
 
