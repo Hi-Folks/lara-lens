@@ -7,7 +7,6 @@ use HiFolks\LaraLens\Lens\Traits\DatabaseLens;
 use HiFolks\LaraLens\Lens\Traits\FilesystemLens;
 use HiFolks\LaraLens\Lens\Traits\HttpConnectionLens;
 use HiFolks\LaraLens\Lens\Traits\OperatingSystemLens;
-use HiFolks\LaraLens\Lens\Traits\OperationSystemLens;
 use HiFolks\LaraLens\Lens\Traits\RuntimeLens;
 use HiFolks\LaraLens\ResultLens;
 

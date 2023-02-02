@@ -70,7 +70,6 @@ class LaraLensServiceProvider extends ServiceProvider
      */
     protected function routeConfiguration(): array
     {
-
         return [
             'prefix' => config('lara-lens.prefix', 'laralens-diagnostic'),
             'middleware' => config('lara-lens.middleware'),

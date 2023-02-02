@@ -2,7 +2,6 @@
 
 namespace HiFolks\LaraLens\Lens\Traits;
 
-use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Connection;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;

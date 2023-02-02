@@ -2,7 +2,6 @@
 
 namespace HiFolks\LaraLens\Lens\Traits;
 
-use App;
 use HiFolks\LaraLens\ResultLens;
 
 trait ConfigLens

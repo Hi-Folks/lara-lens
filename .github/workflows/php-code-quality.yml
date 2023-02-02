@@ -39,12 +39,12 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         SESSION_DRIVER: array
-      run: vendor/bin/phpunit --testdox
+      run: composer test
 
     - name: Execute Code Sniffer via phpcs
       run: |
-        vendor/bin/phpcs --standard=PSR12 src
+        composer style-fix
 
     - name: Execute Code Static Analysis (PHP Stan + Larastan)
       run: |
-        vendor/bin/phpstan analyse -c ./phpstan.neon --no-progress
+        composer phpstan
