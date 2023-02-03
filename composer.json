@@ -58,7 +58,7 @@
         "style-fix": "pint",
         "style-check": "pint --test",
         "phpstan": "phpstan analyse -c ./phpstan.neon --no-progress",
-        "test": "pest"
+        "test": "./vendor/bin/pest --order-by random"
     },
     "config": {
         "sort-packages": true,
