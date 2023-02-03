@@ -3,6 +3,9 @@
 ## 0.4.0 - WIP
 - Support for Laravel 10
 - GitHub Actions Workflows: cleaning and fine-tuning
+- Using Pint for Check styleguide (PSR12)
+- Using PestPHP for testing
+- Removing Makefile and using composer scripts to launching code quality tools
 
 ## 0.3.1- 2022-07-17
 - Fine tuning dependencies for PHP 8.1, and Symfony / Doctrine packages
