@@ -6,7 +6,8 @@
 - Using Pint for Check styleguide (PSR12)
 - Using PestPHP for testing
 - Removing Makefile and using composer scripts to launching code quality tools
-
+- migrating tests from PHPUnit to PestPHP, thanks to @dansysanalyst
+- 
 ## 0.3.1- 2022-07-17
 - Fine tuning dependencies for PHP 8.1, and Symfony / Doctrine packages
 - Drop supprt for PHP7.4, for older PHP and Laravel, use Laralens v0.2.x
