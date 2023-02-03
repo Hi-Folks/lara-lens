@@ -3,8 +3,6 @@
 namespace HiFolks\LaraLens\Lens\Traits;
 
 use HiFolks\LaraLens\ResultLens;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 trait OperatingSystemLens
 {

@@ -6,8 +6,6 @@ use HiFolks\LaraLens\Lens\LaraLens;
 use HiFolks\LaraLens\Lens\Traits\TermOutput;
 use HiFolks\LaraLens\ResultLens;
 use Illuminate\Console\Command;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class LaraLensCommand extends Command
 {

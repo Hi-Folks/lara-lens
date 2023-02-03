@@ -10,7 +10,7 @@ jobs:
   laravel-tests:
     strategy:
         matrix:
-            operating-system: [ubuntu-latest, window-latest]
+            operating-system: [ubuntu-latest]
             php-versions: [ '8.2', '8.1', '8.0' ]
             dependency-stability: [ 'prefer-stable','prefer-lowest' ]
 
@@ -39,12 +39,12 @@ jobs:
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         SESSION_DRIVER: array
-      run: vendor/bin/phpunit --testdox
+      run: composer test
 
     - name: Execute Code Sniffer via phpcs
       run: |
-        vendor/bin/phpcs --standard=PSR12 src
+        composer style-fix
 
     - name: Execute Code Static Analysis (PHP Stan + Larastan)
       run: |
-        vendor/bin/phpstan analyse -c ./phpstan.neon --no-progress
+        composer phpstan

@@ -3,14 +3,12 @@
 namespace HiFolks\LaraLens\Tests;
 
 use HiFolks\LaraLens\Lens\LaraLens;
-use Illuminate\Support\Facades\Config;
 use Orchestra\Testbench\TestCase;
 use HiFolks\LaraLens\LaraLensServiceProvider;
 use Illuminate\Support\Facades\Http;
 
 class ConsistencyTest extends TestCase
 {
-
     protected function getPackageProviders($app)
     {
         return [LaraLensServiceProvider::class];
@@ -37,9 +35,6 @@ class ConsistencyTest extends TestCase
 
         // 2 =  1 for the warning , 1 for the hint
         $this->assertCount(2, $arrayChecks);
-
-
-
     }
     /** @test */
     public function test_runtimeconfig_array()
@@ -64,7 +59,6 @@ class ConsistencyTest extends TestCase
     public function test_facade()
     {
         $this->assertIsObject($this->app["lara-lens"], "Test object facade");
-
     }
 
     /*
@@ -113,5 +107,4 @@ class ConsistencyTest extends TestCase
         $this->assertIsArray($a->toArray());
         $this->assertLessThanOrEqual(8, count($a->toArray()));
     }
-
 }
