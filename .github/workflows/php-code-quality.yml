@@ -5,6 +5,8 @@ on:
       - develop
       - features/**
       - feature/**
+  pull_request:
+      branches: [ develop ]
 
 jobs:
   laravel-tests:
