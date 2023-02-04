@@ -1,10 +1,10 @@
 # LaraLens
 
 
-![CI/CD Github Actions](https://github.com/Hi-Folks/lara-lens/workflows/PHP%20Composer/badge.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/hi-folks/lara-lens)
-![GitHub Release Date](https://img.shields.io/github/release-date/hi-folks/lara-lens)
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/hi-folks/lara-lens)
+![CI/CD Github Actions](https://img.shields.io/github/actions/workflow/status/hi-folks/lara-lens/php-code-quality.yml?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/hi-folks/lara-lens?style=for-the-badge)
+![GitHub Release Date](https://img.shields.io/github/release-date/hi-folks/lara-lens?style=for-the-badge)
+![Packagist PHP Version](https://img.shields.io/packagist/v/hi-folks/lara-lens?style=for-the-badge)
 
 
 ![LaraLens](https://raw.githubusercontent.com/Hi-Folks/lara-lens/develop/LaraLens-Laravel-Artisan.png)
