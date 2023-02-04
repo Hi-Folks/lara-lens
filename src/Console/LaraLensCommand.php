@@ -133,10 +133,6 @@ class LaraLensCommand extends Command
                 $show = self::OPTION_SHOW_NONE;
                 if (in_array("all", $showOptions)) {
                     $show = self::OPTION_SHOW_ALL;
-                    $skipDatabases = $this->option("skip-database");
-                    if ($skipDatabases) {
-                        $show = self::OPTION_SHOW_ALL - self::OPTION_SHOW_DATABASE - self::OPTION_SHOW_MIGRATION;
-                    }
                 } else {
                     $show = (in_array("config", $showOptions)) ? $show | self::OPTION_SHOW_CONFIGS : $show ;
                     $show = (in_array("runtime", $showOptions)) ? $show | self::OPTION_SHOW_RUNTIMECONFIGS : $show ;
@@ -150,6 +146,10 @@ class LaraLensCommand extends Command
             } else {
                 $show = self::OPTION_SHOW_DEFAULT;
             }
+        }
+        $skipDatabases = $this->option("skip-database");
+        if ($skipDatabases) {
+            $show = $show - self::OPTION_SHOW_DATABASE - self::OPTION_SHOW_MIGRATION;
         }
 
         $this->widthLabel = $this->option("width-label");
