@@ -147,6 +147,23 @@ trait RuntimeLens
                     "tokenizer",
                     "xml"
                 ]
+            ],
+            "10" => [
+                "phpversion" => "8.1.0",
+                "extensions" => [
+                    "bcmath",
+                    "ctype",
+                    "curl",
+                    "dom",
+                    "fileinfo",
+                    "json",
+                    "mbstring",
+                    "openssl",
+                    "pcre",
+                    "pdo",
+                    "tokenizer",
+                    "xml"
+                ]
             ]
 
         ];

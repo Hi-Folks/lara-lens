@@ -2,6 +2,7 @@
 
 ## 0.4.0 - WIP
 - Support for Laravel 10
+- Add requirements check for Laravel 10
 - GitHub Actions Workflows: cleaning and fine-tuning
 - Using Pint for Check styleguide (PSR12)
 - Using PestPHP for testing
