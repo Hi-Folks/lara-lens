@@ -18,7 +18,7 @@ application. It is useful to show in your terminal the status of:
 * the connection via HTTP request;
 * the server requirements (PHP version, PHP modules required and installed, Laravel version etc.).
 
-![LaraLens - diagnostic package for Laravel](https://dev-to-uploads.s3.amazonaws.com/i/h8r18mt4fhe0w1a6cke4.gif)
+![LaraLens - diagnostic package for Laravel](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ryagpu0qqwgy476x5w5b.gif)
 
 
 ## Why
