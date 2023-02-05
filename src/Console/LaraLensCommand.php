@@ -163,17 +163,10 @@ class LaraLensCommand extends Command
             $this->urlPath = self::DEFAULT_PATH;
         }
 
-        switch ($op) {
-            case 'overview':
-                $this->overview($checkTable, $columnSorting, $show);
-                break;
-            case 'allconfigs':
-                $this->allConfigs();
-                break;
-
-            default:
-                $this->info("What you mean? try with 'php artisan laralens:diagnostic --help'");
-                break;
-        }
+        match ($op) {
+            'overview' => $this->overview($checkTable, $columnSorting, $show),
+            'allconfigs' => $this->allConfigs(),
+            default => $this->info("What you mean? try with 'php artisan laralens:diagnostic --help'"),
+        };
     }
 }

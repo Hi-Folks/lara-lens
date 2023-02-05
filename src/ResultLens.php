@@ -5,7 +5,7 @@ namespace HiFolks\LaraLens;
 class ResultLens
 {
     private $result = null;
-    private $idx = -1;
+    private int $idx = -1;
 
     public const LINE_TYPE_ERROR   = 'error';
     public const LINE_TYPE_WARNING = 'warning';

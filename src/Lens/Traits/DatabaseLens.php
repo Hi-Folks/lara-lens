@@ -36,10 +36,8 @@ trait DatabaseLens
     /**
      * Try to establish a db connection.
      * If it fails, return FALSE and fill checksBag.
-     *
-     * @return false|\Illuminate\Database\Connection
      */
-    public function dbConnection()
+    public function dbConnection(): false|\Illuminate\Database\Connection
     {
         $dbconnection = false;
         try {
@@ -69,7 +67,7 @@ trait DatabaseLens
         $grammar = $dbConnection->getQueryGrammar();
         $results->add(
             "Query Grammar",
-            Str::afterLast(get_class($grammar), '\\')
+            Str::afterLast($grammar::class, '\\')
         );
         $driverName = $dbConnection->getDriverName();
         $results->add(
@@ -134,18 +132,11 @@ trait DatabaseLens
                 $connectionType
             );
             $stringTables = "";
-            switch ($connectionType) {
-                case 'mysql':
-                    $stringTables = $this->getTablesListMysql();
-                    break;
-                case 'sqlite':
-                    $stringTables = $this->getTablesListSqlite();
-                    break;
-
-                default:
-                    $stringTables = "<<skipped " . $connectionType . ">>";
-                    break;
-            }
+            $stringTables = match ($connectionType) {
+                'mysql' => $this->getTablesListMysql(),
+                'sqlite' => $this->getTablesListSqlite(),
+                default => "<<skipped " . $connectionType . ">>",
+            };
             $results->add(
                 "Tables",
                 $stringTables
@@ -157,7 +148,7 @@ trait DatabaseLens
                 $checkCount = DB::table($checkTable)
                     ->select(DB::raw('*'))
                     ->count();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $checkCount = 0;
                 $checkCountMessage = " - error with " . $checkTable . " table";
                 $results->addErrorAndHint(
@@ -182,9 +173,9 @@ trait DatabaseLens
                     $latest = DB::table($checkTable)->latest($columnSorting)->first();
                     $results->add(
                         "LAST row in table",
-                        json_encode($latest)
+                        json_encode($latest, JSON_THROW_ON_ERROR)
                     );
-                } catch (QueryException $e) {
+                } catch (QueryException) {
                     $results->addErrorAndHint(
                         "Table Error",
                         "Failed query, table <" . $checkTable . "> column <" . $columnSorting . ">",
