@@ -87,7 +87,7 @@ class LaraLensServiceProvider extends ServiceProvider
         // Register the main class to use with the facade
         $this->app->singleton(
             'lara-lens',
-            fn() => new LaraLens()
+            fn () => new LaraLens()
         );
     }
 }
