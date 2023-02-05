@@ -37,6 +37,7 @@
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.5.10",
         "psalm/plugin-laravel": "^1.6.2",
+        "rector/rector": "^0.14.6",
         "vimeo/psalm": "^4.11"
     },
     "autoload": {
@@ -58,7 +59,16 @@
         "style-fix": "pint",
         "style-check": "pint --test",
         "phpstan": "phpstan analyse -c ./phpstan.neon --no-progress",
-        "test": "./vendor/bin/pest --order-by random"
+        "test": "./vendor/bin/pest --order-by random",
+        "rector": "rector process --dry-run"
+    },
+    "scripts-descriptions": {
+        "test": "Run all tests, via PespPHP",
+        "style-fix": "Fix the code style with PSR12",
+        "style-check": "Check the code style with PSR12",
+        "phpstan": "Run static code analysis via PHPStan",
+        "rector": "Suggest refactoring to be more PHP 8 compliant",
+        "all": "Execute tasks for fixing code style, static code analysis and tests"
     },
     "config": {
         "sort-packages": true,

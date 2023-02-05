@@ -37,12 +37,12 @@ trait FilesystemLens
         );
         try {
             $langArray = scandir(App::langPath());
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $langArray = false;
         }
         $languages = "";
         if ($langArray) {
-            $languages = implode(",", array_diff($langArray, array('..', '.', 'vendor')));
+            $languages = implode(",", array_diff($langArray, ['..', '.', 'vendor']));
         } else {
             $languages = "No language found";
             $this->checksBag->addWarningAndHint(
