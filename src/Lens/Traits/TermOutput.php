@@ -26,4 +26,8 @@ trait TermOutput
             ])
         );
     }
+    public function title(string $title): void
+    {
+        render("<div class='w-full mx-1 py-1 mt-1 text-center font-bold  bg-orange text-white'>$title</div>");
+    }
 }

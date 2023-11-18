@@ -162,7 +162,8 @@ class LaraLensCommand extends Command
         if (is_null($this->urlPath)) {
             $this->urlPath = self::DEFAULT_PATH;
         }
-
+        $version = \Composer\InstalledVersions::getPrettyVersion('hi-folks/lara-lens');
+        $this->title("Laralens (" . $version . ")");
         match ($op) {
             'overview' => $this->overview($checkTable, $columnSorting, $show),
             'allconfigs' => $this->allConfigs(),
