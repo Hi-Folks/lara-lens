@@ -98,7 +98,7 @@ trait DatabaseLens
             );
         }
 
-        if (! $pdoIsOk) {
+        if (!$pdoIsOk) {
             if ($driverName === "mongodb") {
                 $this->checksBag->addInfoAndHint(
                     "Connection and PDO driver",

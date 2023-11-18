@@ -167,7 +167,7 @@ trait RuntimeLens
             ]
 
         ];
-        if (! key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
+        if (!key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
             $laravelMajorVersion = "8";
         }
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];

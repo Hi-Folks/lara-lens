@@ -57,14 +57,14 @@ trait FilesystemLens
         );
 
         foreach ($this->links() as $link => $dir) {
-            if (! file_exists($link)) {
+            if (!file_exists($link)) {
                 $this->checksBag->addWarningAndHint(
                     "Check storage link",
                     $this->stripPrefixDir($link) . " it doesn't exist.",
                     "Check config/filesystem.php 'links' parameter, and execute 'php artisan storage:link'"
                 );
             }
-            if (! file_exists($dir)) {
+            if (!file_exists($dir)) {
                 $this->checksBag->addWarningAndHint(
                     "Check storage target link",
                     $this->stripPrefixDir($dir) . " it doesn't exist.",
