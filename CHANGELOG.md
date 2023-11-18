@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1 - 2023-11-18
+- Testing with PHP 8.3
+- Adding title helper in the TermOutput
+- Adding RectorPHP in the code quality tools
+
 ## 0.4.0 - 2023-02-04
 - Support for Laravel 10
 - Add requirements check for Laravel 10
@@ -8,7 +13,7 @@
 - Using PestPHP for testing
 - Removing Makefile and using composer scripts to launching code quality tools
 - migrating tests from PHPUnit to PestPHP, thanks to @dansysanalyst
-- Fix skip-database option, now with works with all "show" options. Before the fix it worked only with "show all" option. 
+- Fix skip-database option, now with works with all "show" options. Before the fix it worked only with "show all" option.
 
 ## 0.3.1- 2022-07-17
 - Fine tuning dependencies for PHP 8.1, and Symfony / Doctrine packages
