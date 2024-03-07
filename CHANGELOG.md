@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 0.5.1 - 2024-03-07
+- Detect dependencies for Laravel 11
+
 ## 0.5.0 - 2024-03-07
 - Support for Laravel 11
 
