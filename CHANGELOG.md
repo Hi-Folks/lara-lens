@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0 - 2024-03-07
+- Support for Laravel 11
+
 ## 0.4.1 - 2023-11-18
 - Testing with PHP 8.3
 - Adding title helper in the TermOutput
