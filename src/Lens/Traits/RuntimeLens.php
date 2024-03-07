@@ -164,11 +164,33 @@ trait RuntimeLens
                     "tokenizer",
                     "xml"
                 ]
+            ],
+            "11" => [
+                "phpversion" => "8.2.0",
+                "extensions" => [
+                    "ctype",
+                    "curl",
+                    "dom",
+                    "fileinfo",
+                    "filter",
+                    "json",
+                    "libxml",
+                    "mbstring",
+                    "openssl",
+                    "pcre",
+                    "phar",
+                    "reflection",
+                    "simplexml",
+                    "spl",
+                    "tokenizer",
+                    "xml",
+                    "xmlwriter"
+                ]
             ]
 
         ];
         if (!key_exists($laravelMajorVersion, $phpExtensionRequirements)) {
-            $laravelMajorVersion = "8";
+            $laravelMajorVersion = "11";
         }
         $phpVersionRequired = $phpExtensionRequirements[$laravelMajorVersion]["phpversion"];
         $results->add(
