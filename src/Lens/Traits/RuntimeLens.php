@@ -209,13 +209,23 @@ trait RuntimeLens
         $helpInstall = [
             "bcmath" => "BCMath Arbitrary Precision Mathematics: https://www.php.net/manual/en/bc.setup.php",
             "ctype" => "Character type checking: https://www.php.net/manual/en/book.ctype",
+            "curl" => "Client URL Library: https://www.php.net/manual/en/book.curl.php",
+            "dom" => "Document Object Model: https://www.php.net/manual/en/book.dom.php",
             "fileinfo" => "File Information: https://www.php.net/manual/en/book.fileinfo",
+            "filter" => "Data Filtering: https://www.php.net/manual/en/book.filter.php",
             "json" => "JavaScript Object Notation: https://www.php.net/manual/en/book.json",
+            "libxml" => "libxml: https://www.php.net/manual/en/book.libxml.php",
             "mbstring" => "Multibyte string: https://www.php.net/manual/en/book.mbstring.php",
             "openssl" => "OpenSSL: https://www.php.net/manual/en/book.openssl.php",
+            "pcre" => "Regular Expressions (Perl-Compatible): https://www.php.net/manual/en/book.pcre.php",
             "pdo" => "PHP Data Objects: https://www.php.net/manual/en/book.pdo.php",
+            "phar" => "Phar: https://www.php.net/manual/en/book.phar.php",
+            "reflection" => "Reflection: https://www.php.net/manual/en/book.reflection.php",
+            "simplexml" => "SimpleXML: https://www.php.net/manual/en/book.simplexml.php",
+            "spl" => "Standard PHP Library (SPL): https://www.php.net/manual/en/book.spl.php",
             "tokenizer" => "Tokenizer: https://www.php.net/manual/en/book.tokenizer.php",
-            "xml" => "XML Parser: https://www.php.net/manual/en/book.xml.php"
+            "xml" => "XML Parser: https://www.php.net/manual/en/book.xml.php",
+            "xmlwriter" => "XMLWriter: https://www.php.net/manual/en/book.xmlwriter.php"
         ];
         $modulesOk = [];
         $modulesNotok = [];
