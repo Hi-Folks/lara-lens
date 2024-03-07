@@ -48,7 +48,7 @@ trait FilesystemLens
             $this->checksBag->addWarningAndHint(
                 "List Languages directory",
                 "No languages found in " . App::langPath(),
-                "If your app needs translations, please fill " . App::langPath()
+                "If your app needs translations, please fill " . App::langPath() . " or run `php artisan lang:publish`"
             );
         }
         $results->add(
