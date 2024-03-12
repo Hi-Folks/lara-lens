@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.5.2 - 2024-03-12
+- Updating hints for missing lang directory
 
 ## 0.5.1 - 2024-03-07
 - Detect dependencies for Laravel 11
