@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
 
     - name: Validate composer.json and composer.lock
@@ -25,6 +25,6 @@ jobs:
       run: composer run-script test
 
     - name: PHP Syntax Checker (Lint)
-      uses: StephaneBour/actions-php-lint@8.0
+      uses: StephaneBour/actions-php-lint@8.2
       with:
         dir: './src'
