@@ -5,6 +5,7 @@ on:
       - develop
       - features/**
       - feature/**
+      - upgrade/**
   pull_request:
       branches: [ develop ]
 
