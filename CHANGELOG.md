@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.0 - 2024-03-13
+- upgrading packages
+
 ## 0.5.2 - 2024-03-12
 - Updating hints for missing lang directory
 
